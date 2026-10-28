@@ -301,7 +301,11 @@ function Home() {
               <div className="catalog-trust-proof">
                 <div className="customer-count"><strong>100<span>+</span></strong><span>customers served</span></div>
                 <div className="trust-point"><span className="trust-index">01</span><h4>Skilled people</h4><p>Get application-focused guidance from a capable team.</p></div>
-                <div className="trust-point"><span className="trust-index">02</span><h4>Support that continues</h4><p>Get help as you evaluate options and work with your equipment.</p></div>
+                <div className="trust-point"><span className="trust-index">02</span><h4>Delivery & support</h4><p>Support for customers from machine delivery through equipment questions.</p></div>
+              </div>
+              <div className="customer-care-note">
+                <span className="eyebrow">MACHINE DELIVERY / CUSTOMER SUPPORT</span>
+                <p>From machine delivery to questions about configuration or an existing machine, Astramark’s team is available to discuss the next steps. Every application is different, so we focus on understanding the work before recommending a machine option.</p>
               </div>
             </aside>
           </div>

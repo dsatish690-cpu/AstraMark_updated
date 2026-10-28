@@ -1023,12 +1023,30 @@ body { background:#e6f0f5; color:var(--ink); }
   font-size:10px;
   line-height:1.65;
 }
+.customer-care-note {
+  grid-column:1 / -1;
+  display:grid;
+  grid-template-columns:minmax(170px,.36fr) 1fr;
+  align-items:start;
+  gap:24px;
+  padding-top:20px;
+  border-top:1px solid rgba(226,239,246,.24);
+}
+.customer-care-note .eyebrow { color:var(--gold); }
+.customer-care-note p {
+  max-width:690px;
+  margin:0;
+  color:#d3e0e7;
+  font-size:11px;
+  line-height:1.75;
+}
 @media(max-width:767px) {
   .catalogue-sidecopy { max-width:none; margin:21px 0 0; }
   .visual-disclosure { margin-top:10px; }
   .catalog-trust { grid-template-columns:1fr; gap:22px; margin-top:27px; padding:25px 21px; }
   .catalog-trust-intro h3 { max-width:310px; font-size:30px; }
   .catalog-trust-proof { grid-template-columns:1fr; }
+  .customer-care-note { grid-template-columns:1fr; gap:10px; }
   .customer-count {
     flex-direction:row;
     justify-content:flex-start;
