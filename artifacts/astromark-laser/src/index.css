@@ -1094,51 +1094,10 @@ body { background:var(--paper); color:var(--ink); }
 .text-link { color:var(--blue-deep); }
 .hero-footnote { color:#5c707d; }
 .hero-art { height:390px; margin-left:28px; background:#e6eef2; box-shadow:0 8px 24px rgba(24,52,74,.10); }
-.hero-video { display:block; width:100%; height:100%; object-fit:cover; object-position:center; }
-.hero-video-control {
-  position:absolute;
-  z-index:5;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  display:inline-flex;
-  align-items:center;
-  gap:10px;
-  padding:10px 15px 10px 10px;
-  border:1px solid rgba(255,255,255,.56);
-  background:rgba(13,41,68,.92);
-  color:#f4f7f8;
-  box-shadow:0 8px 24px rgba(8,30,47,.3);
-  font:600 11px/1 var(--app-font-sans);
-  cursor:pointer;
-  transition:background .2s ease,color .2s ease,transform .2s ease;
-}
-.hero-video-control:hover { background:#e6b52c; color:#102f4e; transform:translate(-50%,-50%) scale(1.03); }
-.hero-video-control:focus-visible { outline:2px solid #e6b52c; outline-offset:4px; }
-.hero-video-control-icon {
-  display:grid;
-  width:30px;
-  height:30px;
-  place-items:center;
-  border-radius:50%;
-  background:#e6b52c;
-  color:#102f4e;
-}
-.hero-video-control:hover .hero-video-control-icon { background:#102f4e; color:#fff; }
-.hero-video-error {
-  position:absolute;
-  z-index:6;
-  left:50%;
-  bottom:42px;
-  transform:translateX(-50%);
-  padding:6px 9px;
-  background:rgba(13,41,68,.9);
-  color:#fff;
-  font:10px/1.4 var(--app-font-sans);
-  text-align:center;
-}
+.hero-art .hero-image { display:block; width:100%; height:100%; object-fit:cover; object-position:center; }
 .hero-art::after { background:linear-gradient(180deg,rgba(24,52,74,.02),transparent 56%,rgba(24,52,74,.42)); }
 .art-label { color:#fff; text-shadow:0 1px 5px rgba(0,0,0,.45); font-size:8px; }
+.art-label span { color:var(--ink); background:rgba(247,250,251,.94); padding:6px 8px; text-shadow:none; }
 .art-caption { font-size:11px; }
 .art-index span { color:var(--gold); }
 .hero-side-note { color:#607582; }
@@ -1276,7 +1235,6 @@ body { background:var(--paper); color:var(--ink); }
 }
 @media(prefers-reduced-motion:reduce) {
   *,*::before,*::after { scroll-behavior:auto !important; animation:none !important; transition:none !important; }
-  .hero-art { background:#e6eef2 url('/images/fiber-sheet-cutting-astramark.jpeg') center/cover no-repeat; }
 }
 
 /* Restore the established blue-and-gold look without changing page content. */
@@ -1312,7 +1270,7 @@ body,.site-shell { background:var(--paper); }
 .text-link { color:#e4edf2; }
 .text-link:hover { color:#f1ca4e; }
 .hero-art { background:#dceaf1; box-shadow:16px 17px 0 rgba(230,181,44,.3); }
-.hero-video { object-fit:contain; background:#dceaf1; }
+.hero-art .hero-image { object-fit:cover; background:#dceaf1; }
 .hero-side-note { color:#b5cbd7; }
 .art-index span { color:#edc74f; }
 .approach-section { background:#103b61; color:#f1f6f8; }
@@ -1366,10 +1324,162 @@ body,.site-shell { background:var(--paper); }
 @media(max-width:767px) {
   .hero-art { box-shadow:10px 11px 0 rgba(230,181,44,.3); }
 }
-@media(prefers-reduced-motion:reduce) {
-  .hero-art { background:#dceaf1 url('/images/fiber-sheet-cutting-astramark.jpeg') center/contain no-repeat; }
+/* ASTRAMARK — quiet precision, warm metal, and workshop paper */
+:root {
+  --ink: #191813;
+  --gold: #b88420;
+  --paper: #f5f1e8;
+  --line: #d9d1c2;
 }
-
+html { scroll-padding-top: 82px; }
+body,.site-shell { background:var(--paper); color:var(--ink); }
+.site-header {
+  background:rgba(245,241,232,.96);
+  border-bottom-color:#dfd7c9;
+}
+.brand-mark img {
+  width:186px;
+  height:auto;
+  mix-blend-mode:multiply;
+}
+.desktop-nav a { color:#4e4a40; }
+.nav-link::after { background:#b88420; }
+.header-cta,.button-dark { background:#191813; color:#f8f4eb; border-radius:2px; }
+.header-cta:hover,.button-dark:hover { background:#a9791e; }
+.menu-toggle { color:#191813; }
+.hero { min-height:620px; }
+.hero::before {
+  background:linear-gradient(112deg,#211f19 0%,#171612 74%,#2c271d 100%);
+}
+.hero-title { color:#f5f1e8; }
+.hero-title em,.section-title em { color:#d2a63e; }
+.hero-kicker { color:#d3c7ab; }
+.kicker-dot,.footnote-rule { background:#c29535; }
+.hero-lede { color:#d4d0c6; }
+.hero-tagline { color:#e1bc61; }
+.hero-footnote { color:#bdb6a7; }
+.text-link { color:#e8e0d0; }
+.text-link:hover { color:#e5bc58; }
+.hero-art { background:#9d772b; box-shadow:16px 17px 0 rgba(184,132,32,.42); }
+.hero-art .hero-image { display:block; width:100%; height:100%; object-fit:cover; object-position:center; background:#e8e2d6; }
+.hero-art::after { background:linear-gradient(180deg,rgba(25,24,19,.05),transparent 54%,rgba(25,24,19,.52)); }
+.hero-art::before { border-color:rgba(255,249,232,.55); }
+.art-label { color:#fff8e8; }
+.art-label span { color:#191813; background:rgba(245,241,232,.95); padding:6px 8px; text-shadow:none; }
+.art-index span { color:#e3bb55; }
+.hero-side-note { color:#b9ae94; }
+.scroll-cue { color:#ddd4c0; }
+.scroll-cue i { border-color:rgba(210,166,62,.75); color:#e1b84c; }
+.scroll-cue:hover i { background:#d1a441; color:#191813; }
+.marquee-band { background:#c49a43; border:0; color:#1b1913; }
+.marquee-inner { min-height:54px; }
+.marquee-inner i { color:#f5f1e8; }
+.approach-section,.catalog-trust,.quote-section {
+  background:#201e18;
+  color:#f5f1e8;
+}
+.approach-section { border-top:4px solid #b88420; }
+.approach-section::before { border-color:rgba(210,166,62,.2); box-shadow:0 0 0 34px rgba(210,166,62,.035),0 0 0 70px rgba(210,166,62,.022); }
+.approach-section::after { border-color:rgba(210,166,62,.16); box-shadow:0 0 0 28px rgba(210,166,62,.03),0 0 0 58px rgba(210,166,62,.02); }
+.approach-heading h2 em,.quote-copy h2 em { color:#dfb750; }
+.light-eyebrow { color:#cbbd9a; }
+.approach-heading p,.quote-copy>p,.step-row p { color:#c8c2b5; }
+.step-row { border-color:rgba(246,239,222,.2); }
+.step-number,.step-mark { color:#d7ad4d; }
+.approach-coordinate { color:rgba(240,231,209,.38); }
+.work-section,.faq-section { background:#f1ece1; }
+.work-section .section-index,.faq-section .section-index { color:#8d651c; }
+.work-section .section-title,.faq-section .section-title { color:#191813; }
+.work-section .section-title em,.faq-section .section-title em { color:#9c721f; }
+.work-section .section-intro { color:#5f5a4e; }
+.visual-disclosure { color:#6a6251; border-color:#b88420; }
+.product-toolbar { border-color:#d5cbbc; }
+.filter-chip { background:#f8f5ee; border-color:#c9bfac; color:#504b40; }
+.filter-chip:hover,.filter-chip.active { background:#1d1b16; border-color:#1d1b16; color:#f8f4eb; }
+.search-box { background:#fbf9f4; border-color:#c9bfac; color:#6f6657; }
+.search-box input { color:#211f19; }
+.product-card { background:#faf8f2; border-color:#d7cebf; box-shadow:0 3px 0 rgba(42,36,25,.035); }
+.product-card:hover { box-shadow:0 15px 32px rgba(42,36,25,.12); }
+.product-photo { background:#e8e2d6; border-color:#d7cebf; }
+.product-number { background:#c1973c; color:#1b1913; }
+.product-category { color:#89641d; }
+.product-content h3 { color:#201e18; }
+.spec-list li { border-color:#e8e1d5; }
+.spec-list strong { color:#777061; }
+.spec-list span { color:#302d25; }
+.product-actions { border-color:#dfd7c9; }
+.details-toggle,.enquire-link { color:#87601b; }
+.enquire-link { color:#201e18; }
+.empty-results { border-color:#c9bfac; color:#625d52; }
+.empty-results h3 { color:#201e18; }
+.catalog-trust { border-top-color:#c1973c; }
+.catalog-trust-intro .eyebrow,.trust-index { color:#d8b04f; }
+.catalog-trust-intro h3,.trust-point h4 { color:#f4efe4; }
+.catalog-trust-intro p,.trust-point p,.customer-count>span { color:#c7c1b3; }
+.customer-count,.trust-point+.trust-point { border-color:rgba(245,239,225,.22); }
+.customer-count strong { color:#ddb752; }
+.materials-section { background:#e8e0d0; }
+.materials-intro p,.material-copy p { color:#625c50; }
+.materials-browser,.material-tab { border-color:#cec3af; }
+.material-tab { color:#5c564b; }
+.material-tab:hover,.material-tab.selected { color:#201e18; }
+.material-tab svg,.material-copy a { color:#997122; }
+.material-number,.material-copy .eyebrow { color:#8d651c; }
+.material-copy h3 { color:#201e18; }
+.material-swatch { background:#b88420; }
+.swatch-1 { background:#c99d48; }.swatch-2 { background:#292720; }.swatch-3 { background:#d8c8a7; }
+.quote-section { border-top:4px solid #b88420; }
+.quote-copy h2 { color:#f5f1e8; }
+.quote-copy>p,.quote-aside { color:#d2cbbb; }
+.quote-aside { border-color:rgba(245,239,225,.24); }
+.quote-aside-mark { color:#d8b04f; }
+.quote-form-wrap { background:#f8f4eb; color:#201e18; border-color:#d9cfbd; box-shadow:10px 12px 0 rgba(184,132,32,.2); }
+.quote-form label { color:#4e493e; }
+.quote-form input,.quote-form textarea,.quote-form select { color:#201e18; border-color:#cfc4b0; }
+.quote-form input:focus,.quote-form textarea:focus,.quote-form select:focus { border-color:#a87a20; box-shadow:0 1px #a87a20; }
+.quote-form input::placeholder,.quote-form textarea::placeholder { color:#928a7a; }
+.button-orange { background:#c49a43; color:#1c1a14; }
+.button-orange:hover { background:#d2ac5a; }
+.form-note,.brief-confirmation>p { color:#686153; }
+.confirm-icon { color:#92691c; border-color:#cfc4b0; }
+.brief-confirmation .eyebrow { color:#87601b; }
+.brief-confirmation h3 { color:#201e18; }
+.brief-confirmation pre { background:#eee8dc; color:#514b3e; }
+.faq-list,.faq-item { border-color:#d3c9b8; }
+.faq-question { color:#211f19; }
+.faq-question i,.faq-question>svg { color:#997122; }
+.faq-answer,.faq-subtitle { color:#625d52; }
+.contact-section { background:#f7f3ea; }
+.contact-copy .section-index { color:#8d651c; }
+.contact-copy .section-title { color:#211f19; }
+.contact-copy>p { color:#5f5a4e; }
+.contact-card { background:#f0eadd; border-color:#d9cfbd; }
+.contact-card .eyebrow { color:#8d651c; }
+.contact-card a { color:#211f19; }
+.contact-card a:hover { color:#997122; }
+.contact-card address { color:#514b40; }
+.site-footer { background:#171612; color:#f3ede0; border-top:4px solid #b88420; }
+.site-footer .brand-mark { width:fit-content; padding:5px 8px; background:#f7f3ea; }
+.site-footer .brand-mark img { width:177px; background:transparent; }
+.footer-main>div:first-child p { color:#c5beaf; }
+.footer-nav .eyebrow { color:#d4ad51; }
+.footer-nav a,.footer-enquiry-link { color:#dfd8ca; }
+.footer-nav a:hover,.footer-enquiry-link:hover { color:#e4bc56; }
+.back-top { color:#f5f1e8; border-color:rgba(245,241,232,.38); }
+.back-top:hover { background:#b88420; }
+.footer-bottom { border-color:rgba(245,241,232,.2); color:#b9b1a1; }
+.mobile-nav { background:#f5f1e8; border-color:#d9d1c2; }
+.mobile-nav a { color:#211f19; border-color:#e2dacb; }
+.mobile-nav a:last-child { color:#89641d; }
+.quick-enquiry-dialog { background:#f5f1e8 !important; border-color:#d5c9b4 !important; border-top-color:#b88420 !important; color:#211f19 !important; box-shadow:0 28px 90px rgba(25,24,19,.34) !important; }
+.quick-enquiry-dialog > button { border-color:#d2c7b5; color:#211f19; }
+.quick-enquiry-dialog > button:hover { background:#eee6d7 !important; }
+.quick-enquiry-heading > .eyebrow { color:#8d651c; }
+.quick-enquiry-heading [data-radix-dialog-title] { color:#211f19; }
+.quick-enquiry-heading [data-radix-dialog-title] em { color:#9c721f; }
+.quick-enquiry-heading [data-radix-dialog-description] { color:#625d52; }
+.quick-enquiry-body { border-color:#d8cebf; }
+.mobile-menu { box-shadow:0 15px 24px rgba(25,24,19,.12); }
 .illustrative-label {
   position:absolute;
   z-index:2;

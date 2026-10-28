@@ -1,25 +1,25 @@
-import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
-import { ArrowDown, ArrowRight, Check, ChevronDown, CircleHelp, Menu, Pause, Play, Search, X } from 'lucide-react';
+import { useEffect, useMemo, useState, type FormEvent } from 'react';
+import { ArrowDown, ArrowRight, Check, ChevronDown, CircleHelp, Menu, Search, X } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 type Product = { name: string; category: string; image: string; highlights: [string, string][]; details: string };
 
 const products: Product[] = [
-  { name: 'Fiber laser marking', category: 'Marking', image: '/images/fiber-marking-astramark.jpeg', highlights: [['Marking area', '100×100 to 300×300 mm'], ['Power options', '30, 50, 60, 100, 200 W'], ['Laser types', 'Fiber, CO₂ and UV']], details: 'Available in 100×100, 175×175, 220×220 and 300×300 mm fields, or customized. Confirm laser source and configuration for the intended material.' },
-  { name: 'Customized fiber marking', category: 'Marking', image: '/images/custom-fiber-marking-astramark.jpeg', highlights: [['Working area', '600×600 to 1500×3000 mm'], ['Power options', '30, 50, 100, 200 W'], ['Continuous marking', 'Encoder-synced for large graphics']], details: 'Brochure ranges also list 900×900, 1200×1200 and 1300×2500 mm fields. Pulse repetition 1–1000 kHz, pulse width 2–500 ns, air cooling.' },
-  { name: 'Fiber sheet cutting', category: 'Cutting', image: '/images/fiber-sheet-cutting-astramark.jpeg', highlights: [['Working area', '1500×3000 to 2500×13000 mm'], ['Power options', '1500–20000 W'], ['Motion', 'Up to 120 m/min travel']], details: 'Listed formats include 1500×3000, 1500×4000, 2500×6500 and 2500×13000 mm, plus customized sizes. Autofocus cutting head.' },
-  { name: 'Pipe cutting', category: 'Cutting', image: '/images/pipe-cutting-astramark.jpeg', highlights: [['Machine size', '6000×200 mm length × width'], ['Chuck', '220 mm; 110 / 350 mm optional'], ['Position accuracy', '0.03 mm/m']], details: 'For round, rectangular, square, I-channel and C-channel tubes. Ask Astramark to confirm suitable chuck and tube profile.' },
-  { name: 'Sheet + pipe cutting', category: 'Cutting', image: '/images/sheet-pipe-cutting-astramark.jpeg', highlights: [['Sheet area', '1500×3000 to 2500×6500 mm'], ['Pipe diameter', '20–220 mm chuck'], ['Travel speed', 'Up to 120 m/min']], details: 'Sheet formats listed: 1500×3000, 2000×4000, 2000×6000, 2500×6500 mm or customized. Position accuracy 0.03 mm/m; repeat positioning accuracy 0.02 mm/m. Listed powers 1500–20000 W.' },
-  { name: 'Fiber welding', category: 'Welding', image: '/images/fiber-welding-astramark.jpeg', highlights: [['Power options', '1500, 2000, 3000, 6000 W'], ['Material thickness', '0.5–10 mm'], ['Cooling', 'Water-cooled']], details: 'Wobble width 0.5–5 mm; 10 mm optional. Suitability depends on material and joint requirements.' },
-  { name: 'Battery welding', category: 'Welding', image: '/images/battery-welding-astramark.jpeg', highlights: [['Power options', '3000 / 6000 W'], ['Working field', '600×600 to 1200×1200 mm'], ['Scan speed', 'Up to 8 m/s']], details: 'Brochure lists 600×600, 900×900 and 1200×1200 mm fields or customized. Water-cooled.' },
-  { name: 'Online marking', category: 'Marking', image: '/images/online-marking-astramark.jpeg', highlights: [['Laser options', 'Fiber, CO₂ or UV'], ['Standard power', '30 W; higher options'], ['Power supply', '220–230 V single-phase']], details: 'Inline marking configurations depend on production line speed, material and integration needs. Higher-power configurations are optional.' },
-  { name: 'CO₂ cutting & engraving', category: 'Cutting', image: '/images/co2-cutting-astramark.jpeg', highlights: [['Working area', '600×900 to 1300×2500 mm'], ['Power options', '80–200 W'], ['Cooling', 'Water-cooled']], details: 'Multiple bed sizes are listed from 600×900 mm through 1300×2500 mm, with customized sizes available.' },
-  { name: 'CO₂ engraving', category: 'Marking', image: '/images/co2-engraving-astramark.jpeg', highlights: [['Working area', '150×150 or 300×300 mm'], ['Power options', '30 / 60 / 100 W'], ['Cooling', 'Air-cooled metal tube']], details: 'Custom marking field options are listed. Verify the appropriate laser tube and configuration with Astramark.' },
-  { name: 'UV marking', category: 'Marking', image: '/images/uv-marking-astramark.jpeg', highlights: [['Power options', '5 / 10 / 15 W'], ['Field options', '100×100, 175×175, 300×300 mm'], ['Field', 'Custom configurations listed']], details: 'UV marking field options include 100×100, 175×175 and 300×300 mm or customized.' },
-  { name: '3D engraving', category: 'Marking', image: '/images/3d-engraving-astramark.jpeg', highlights: [['Laser source', 'Fiber'], ['Power', '60 W; 80 / 100 W options'], ['Working field', '100×100 mm']], details: 'Brochure-listed 3D engraving configuration. Confirm workpiece dimensions and required 3D depth before selection.' },
-  { name: 'Die mould welding', category: 'Welding', image: '/images/die-mould-welding-astramark.jpeg', highlights: [['Power', '400 W'], ['Wavelength', '1064 nm'], ['Power adjustment', '1–200 A']], details: 'Table size 600×600 mm or customized. Confirm the working envelope and application fit.' },
-  { name: 'Jewellery cutting', category: 'Jewellery', image: '/images/jewellery-cutting-astramark.jpeg', highlights: [['Laser source', 'German laser source listed'], ['Cutting size', '100×100 mm / custom'], ['Cutting depth', '0.01 micron–1.5 mm listed']], details: 'The cutting depth range is transcribed from the supplied brochure; confirm the required material and specification with Astramark.' },
-  { name: 'Jewellery soldering', category: 'Jewellery', image: '/images/jewellery-soldering-astramark.jpeg', highlights: [['Laser source', 'ND:YAG pump lamp'], ['Power options', '200 W; 100 / 400 W options'], ['Solder joint', '0.2–2 mm']], details: 'Confirm the appropriate power configuration and joint size for the intended jewellery work.' },
+  { name: 'Fiber laser marking', category: 'Marking', image: '/images/fiber-marking-clean.jpeg', highlights: [['Marking area', '100×100 to 300×300 mm'], ['Power options', '30, 50, 60, 100, 200 W'], ['Laser types', 'Fiber, CO₂ and UV']], details: 'Available in 100×100, 175×175, 220×220 and 300×300 mm fields, or customized. Confirm laser source and configuration for the intended material.' },
+  { name: 'Customized fiber marking', category: 'Marking', image: '/images/custom-fiber-marking-clean.jpeg', highlights: [['Working area', '600×600 to 1500×3000 mm'], ['Power options', '30, 50, 100, 200 W'], ['Continuous marking', 'Encoder-synced for large graphics']], details: 'Brochure ranges also list 900×900, 1200×1200 and 1300×2500 mm fields. Pulse repetition 1–1000 kHz, pulse width 2–500 ns, air cooling.' },
+  { name: 'Fiber sheet cutting', category: 'Cutting', image: '/images/fiber-sheet-cutting-clean.jpeg', highlights: [['Working area', '1500×3000 to 2500×13000 mm'], ['Power options', '1500–20000 W'], ['Motion', 'Up to 120 m/min travel']], details: 'Listed formats include 1500×3000, 1500×4000, 2500×6500 and 2500×13000 mm, plus customized sizes. Autofocus cutting head.' },
+  { name: 'Pipe cutting', category: 'Cutting', image: '/images/pipe-cutting-clean.jpeg', highlights: [['Machine size', '6000×200 mm length × width'], ['Chuck', '220 mm; 110 / 350 mm optional'], ['Position accuracy', '0.03 mm/m']], details: 'For round, rectangular, square, I-channel and C-channel tubes. Ask Astramark to confirm suitable chuck and tube profile.' },
+  { name: 'Sheet + pipe cutting', category: 'Cutting', image: '/images/sheet-pipe-cutting-clean.jpeg', highlights: [['Sheet area', '1500×3000 to 2500×6500 mm'], ['Pipe diameter', '20–220 mm chuck'], ['Travel speed', 'Up to 120 m/min']], details: 'Sheet formats listed: 1500×3000, 2000×4000, 2000×6000, 2500×6500 mm or customized. Position accuracy 0.03 mm/m; repeat positioning accuracy 0.02 mm/m. Listed powers 1500–20000 W.' },
+  { name: 'Fiber welding', category: 'Welding', image: '/images/fiber-welding-clean.jpeg', highlights: [['Power options', '1500, 2000, 3000, 6000 W'], ['Material thickness', '0.5–10 mm'], ['Cooling', 'Water-cooled']], details: 'Wobble width 0.5–5 mm; 10 mm optional. Suitability depends on material and joint requirements.' },
+  { name: 'Battery welding', category: 'Welding', image: '/images/battery-welding-clean.jpeg', highlights: [['Power options', '3000 / 6000 W'], ['Working field', '600×600 to 1200×1200 mm'], ['Scan speed', 'Up to 8 m/s']], details: 'Brochure lists 600×600, 900×900 and 1200×1200 mm fields or customized. Water-cooled.' },
+  { name: 'Online marking', category: 'Marking', image: '/images/online-marking-clean.jpeg', highlights: [['Laser options', 'Fiber, CO₂ or UV'], ['Standard power', '30 W; higher options'], ['Power supply', '220–230 V single-phase']], details: 'Inline marking configurations depend on production line speed, material and integration needs. Higher-power configurations are optional.' },
+  { name: 'CO₂ cutting & engraving', category: 'Cutting', image: '/images/co2-cutting-clean.jpeg', highlights: [['Working area', '600×900 to 1300×2500 mm'], ['Power options', '80–200 W'], ['Cooling', 'Water-cooled']], details: 'Multiple bed sizes are listed from 600×900 mm through 1300×2500 mm, with customized sizes available.' },
+  { name: 'CO₂ engraving', category: 'Marking', image: '/images/co2-engraving-clean.jpeg', highlights: [['Working area', '150×150 or 300×300 mm'], ['Power options', '30 / 60 / 100 W'], ['Cooling', 'Air-cooled metal tube']], details: 'Custom marking field options are listed. Verify the appropriate laser tube and configuration with Astramark.' },
+  { name: 'UV marking', category: 'Marking', image: '/images/uv-marking-clean.jpeg', highlights: [['Power options', '5 / 10 / 15 W'], ['Field options', '100×100, 175×175, 300×300 mm'], ['Field', 'Custom configurations listed']], details: 'UV marking field options include 100×100, 175×175 and 300×300 mm or customized.' },
+  { name: '3D engraving', category: 'Marking', image: '/images/3d-engraving-clean.jpeg', highlights: [['Laser source', 'Fiber'], ['Power', '60 W; 80 / 100 W options'], ['Working field', '100×100 mm']], details: 'Brochure-listed 3D engraving configuration. Confirm workpiece dimensions and required 3D depth before selection.' },
+  { name: 'Die mould welding', category: 'Welding', image: '/images/die-mould-welding-clean.jpeg', highlights: [['Power', '400 W'], ['Wavelength', '1064 nm'], ['Power adjustment', '1–200 A']], details: 'Table size 600×600 mm or customized. Confirm the working envelope and application fit.' },
+  { name: 'Jewellery cutting', category: 'Jewellery', image: '/images/jewellery-cutting-clean.jpeg', highlights: [['Laser source', 'German laser source listed'], ['Cutting size', '100×100 mm / custom'], ['Cutting depth', '0.01 micron–1.5 mm listed']], details: 'The cutting depth range is transcribed from the supplied brochure; confirm the required material and specification with Astramark.' },
+  { name: 'Jewellery soldering', category: 'Jewellery', image: '/images/jewellery-soldering-clean.jpeg', highlights: [['Laser source', 'ND:YAG pump lamp'], ['Power options', '200 W; 100 / 400 W options'], ['Solder joint', '0.2–2 mm']], details: 'Confirm the appropriate power configuration and joint size for the intended jewellery work.' },
 ];
 
 const categories = ['All machines', 'Marking', 'Cutting', 'Welding', 'Jewellery'];
@@ -37,12 +37,6 @@ function BrandLogo() {
 }
 
 function Home() {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() =>
-    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-  );
-  const heroVideoRef = useRef<HTMLVideoElement>(null);
-  const [heroVideoPlaying, setHeroVideoPlaying] = useState(false);
-  const [heroVideoError, setHeroVideoError] = useState(false);
   useEffect(() => {
     const targets = document.querySelectorAll('.hero-copy, .hero-art, .section-heading, .product-toolbar, .product-card, .catalog-trust, .approach-heading, .step-row, .materials-intro, .materials-browser, .material-tab, .quote-copy, .quote-form-wrap, .contact-copy, .contact-card, .faq-list, .faq-item');
     if (!('IntersectionObserver' in window)) {
@@ -60,15 +54,6 @@ function Home() {
     targets.forEach((target) => observer.observe(target));
     return () => observer.disconnect();
   }, []);
-  useEffect(() => {
-    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const updatePreference = () => setPrefersReducedMotion(motionPreference.matches);
-    motionPreference.addEventListener('change', updatePreference);
-    return () => motionPreference.removeEventListener('change', updatePreference);
-  }, []);
-  useEffect(() => {
-    if (prefersReducedMotion) heroVideoRef.current?.pause();
-  }, [prefersReducedMotion]);
   const [menuOpen, setMenuOpen] = useState(false);
   const [filter, setFilter] = useState('All machines');
   const [search, setSearch] = useState('');
@@ -136,23 +121,6 @@ function Home() {
     setSubmission({ state: 'idle' });
     setEnquiryOpen(true);
   };
-  const toggleHeroVideo = async () => {
-    const video = heroVideoRef.current;
-    if (!video) return;
-    setHeroVideoError(false);
-    if (!video.paused) {
-      video.pause();
-      return;
-    }
-    video.muted = true;
-    try {
-      await video.play();
-    } catch {
-      setHeroVideoError(true);
-      setHeroVideoPlaying(false);
-    }
-  };
-
   const navItems = [
     { href: '#top', label: 'Overview' },
     { href: '#support', label: 'Why ASTRAMARK' },
@@ -243,37 +211,10 @@ function Home() {
             <a className="scroll-cue" href="#support" aria-label="Scroll to learn why manufacturers choose Astramark"><span>SCROLL TO EXPLORE</span><i><ArrowDown size={15} /></i></a>
           </div>
           <div className="hero-art">
-            <video
-              ref={heroVideoRef}
-              className="hero-video"
-              autoPlay={!prefersReducedMotion}
-              muted
-              loop
-              playsInline
-              preload="auto"
-              poster="/images/fiber-sheet-cutting-astramark.jpeg"
-              aria-label="Illustrative laser cutting concept video"
-              onPlay={() => { setHeroVideoPlaying(true); setHeroVideoError(false); }}
-              onPause={() => setHeroVideoPlaying(false)}
-              onError={() => { setHeroVideoPlaying(false); setHeroVideoError(true); }}
-            >
-              <source src="/videos/astramark-laser-hero.webm" type="video/webm" />
-              <source src="/videos/astramark-laser-hero.mp4" type="video/mp4" />
-            </video>
-            <button
-              className="hero-video-control"
-              type="button"
-              onClick={toggleHeroVideo}
-              aria-label={heroVideoPlaying ? 'Pause laser motion video' : 'Play laser motion video'}
-              aria-pressed={heroVideoPlaying}
-            >
-              <span className="hero-video-control-icon">{heroVideoPlaying ? <Pause size={16} /> : <Play size={16} fill="currentColor" />}</span>
-              <span>{heroVideoPlaying ? 'Pause video' : 'Play laser video'}</span>
-            </button>
-            {heroVideoError && <span className="hero-video-error" role="status">Video could not start. Tap to try again.</span>}
-            <div className="art-label"><span>ILLUSTRATIVE LASER MOTION · CONCEPT</span><span>LASER SYSTEMS</span></div>
+            <img className="hero-image" src="/images/fiber-sheet-cutting-clean.jpeg" alt="Illustrative supplier-reference image of a fiber sheet cutting machine" />
+            <div className="art-label"><span>SUPPLIER REFERENCE · ILLUSTRATIVE</span><span>LASER SYSTEMS</span></div>
             <div className="art-index">01<span> / </span>15</div>
-            <div className="art-caption">Laser processing concept.<br />Final configuration may vary.</div>
+            <div className="art-caption">Reference image only.<br />Appearance and configuration vary.</div>
           </div>
           <div className="hero-side-note eyebrow">MACHINE SELECTION<br />SALES / SUPPORT</div>
         </section>
@@ -306,7 +247,7 @@ function Home() {
               <div><div className="eyebrow section-index">03 — MACHINE CATALOGUE</div><h2 className="display section-title" id="catalogue-heading">Find your process.<br /><em>Then the machine.</em></h2></div>
               <div className="catalogue-sidecopy">
                 <p className="section-intro">Browse machine families and scan the brochure highlights. Each configuration is application-specific, so use the enquiry path to confirm what fits.</p>
-                <p className="visual-disclosure">Machine visuals are illustrative; confirm final appearance and configuration with our team.</p>
+                <p className="visual-disclosure">Catalogue images are unbranded supplier references for illustration—not photos of Astramark machines. Confirm the delivered model, appearance and configuration with our team.</p>
               </div>
             </div>
             <div className="product-toolbar">
@@ -426,7 +367,7 @@ function Home() {
           <div className="footer-nav"><span className="eyebrow">NEXT STEP</span><button type="button" className="footer-enquiry-link" onClick={() => startEnquiry()}>Machine enquiry <ArrowRight size={14} /></button><a href="#support">Sales & customer support</a><a href="#faq">Frequently asked questions</a></div>
           <a className="back-top" href="#top" aria-label="Back to top"><ArrowDown size={16} /></a>
         </div>
-          <div className="page-width footer-bottom"><span>© Astramark Laser Machine Pvt. Ltd.</span><span>Machine images are supplier-reference visuals for illustration; confirm model and configuration with our team.</span><span>SALES / SUPPORT / LASER SYSTEMS</span></div>
+          <div className="page-width footer-bottom"><span>© Astramark Laser Machine Pvt. Ltd.</span><span>Machine visuals are unbranded supplier references for illustration, not photos of Astramark machines. Confirm model and configuration with our team.</span><span>SALES / SUPPORT / LASER SYSTEMS</span></div>
       </footer>
     </div>
   );
