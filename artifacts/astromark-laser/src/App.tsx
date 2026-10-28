@@ -304,8 +304,8 @@ function Home() {
                 <div className="trust-point"><span className="trust-index">02</span><h4>Delivery & support</h4><p>Support for customers from machine delivery through equipment questions.</p></div>
               </div>
               <div className="customer-care-note">
-                <span className="eyebrow">MACHINE DELIVERY / CUSTOMER SUPPORT</span>
-                <p>From machine delivery to questions about configuration or an existing machine, Astramark’s team is available to discuss the next steps. Every application is different, so we focus on understanding the work before recommending a machine option.</p>
+                <span className="eyebrow">CUSTOMER SUPPORT / WHAT TO EXPECT</span>
+                <p>Across 100+ customers served, Astramark helps manufacturers discuss material, process, and output needs when selecting a machine. After delivery, the team can help with configuration and equipment questions. Recommendations depend on the application and are confirmed case by case.</p>
               </div>
             </aside>
           </div>
