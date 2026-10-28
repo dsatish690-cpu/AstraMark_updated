@@ -93,7 +93,7 @@ function Home() {
 
   const navItems = [
     { href: '#catalogue', label: 'Machines' },
-    { href: '#support', label: 'Sales & support' },
+    { href: '#support', label: 'Why ASTRAMARK' },
     { href: '#enquiry', label: 'Enquire' },
     { href: '#contact', label: 'Contact' },
     { href: '#faq', label: 'FAQs' },
@@ -118,14 +118,16 @@ function Home() {
       <main>
         <section className="hero page-width" aria-labelledby="hero-heading">
           <div className="hero-copy">
-            <div className="eyebrow hero-kicker"><span className="kicker-dot" /> Industrial laser machines · Sales & support</div>
-            <h1 id="hero-heading" className="display hero-title">The right laser<br /><em>for your process.</em></h1>
-            <p className="hero-lede">Explore marking, cutting, welding and jewellery systems, with practical guidance to help you assess the right machine configuration.</p>
+            <div className="eyebrow hero-kicker"><span className="kicker-dot" /> Precision. Innovation. Trust.</div>
+            <h1 id="hero-heading" className="display hero-title hero-title-long">Empowering<br />Industries with<br /><em>Advanced Laser</em><br /><em>Technology</em></h1>
+            <p className="hero-lede">At ASTRAMARK, we bring precision, innovation, and performance together to deliver smart laser solutions for modern industries.</p>
+            <p className="hero-lede">From laser marking and cutting to welding and engraving, our machines are designed to support accuracy, productivity, and consistent results across a wide range of applications.</p>
+            <p className="hero-tagline"><strong>Your Vision. Our Technology. Better Possibilities.</strong></p>
             <div className="hero-actions">
-              <a className="button button-dark button-arrow" href="#catalogue">Explore the catalogue <ArrowRight size={16} /></a>
-              <a className="text-link" href="#support">Sales & support <ArrowDown size={14} /></a>
+              <a className="button button-dark button-arrow" href="#catalogue">Explore Our Products <ArrowRight size={16} /></a>
+              <a className="text-link" href="#enquiry">Request a Quote <ArrowRight size={14} /></a>
             </div>
-            <div className="hero-footnote"><span className="footnote-rule" /> Machine enquiries, configuration questions and support requests</div>
+            <div className="hero-footnote"><span className="footnote-rule" /> Machine sales, application guidance, and reliable support</div>
           </div>
           <div className="hero-art">
             <img src="/images/fiber-sheet-cutting-astramark.jpeg" alt="Industrial fiber laser sheet cutting machine" />
@@ -176,15 +178,17 @@ function Home() {
         <section className="approach-section" id="support">
           <div className="page-width approach-layout">
             <div className="approach-heading">
-              <div className="eyebrow light-eyebrow">02 — SALES & CUSTOMER SUPPORT</div>
-              <h2 className="display">From first choice<br />to <em>next steps.</em></h2>
-              <p>Get a clear conversation around the application, technical questions or an existing machine. Share what you know; we can help clarify the details to discuss.</p>
-              <button type="button" className="button button-light button-arrow" onClick={() => startEnquiry()}>Start an enquiry <ArrowRight size={16} /></button>
+              <div className="eyebrow light-eyebrow">02 — WHY CHOOSE ASTRAMARK</div>
+              <h2 className="display">Why choose<br /><em>ASTRAMARK?</em></h2>
+              <p>We believe that the right technology can transform the way businesses work. That is why we focus on understanding your requirements and helping you find the right laser solution for your application.</p>
+              <button type="button" className="button button-light button-arrow" onClick={() => startEnquiry()}>Request a Quote <ArrowRight size={16} /></button>
             </div>
-            <div className="steps-list">
-              <div className="step-row"><span className="step-number">01</span><div><h3>Describe the application</h3><p>Tell us your material, process, dimensions and what the machine needs to achieve.</p></div><span className="step-mark">↗</span></div>
-              <div className="step-row"><span className="step-number">02</span><div><h3>Discuss the configuration</h3><p>Power, working area, source and integration all matter. Confirm the exact model and options before deciding.</p></div><span className="step-mark">↗</span></div>
-              <div className="step-row"><span className="step-number">03</span><div><h3>Request customer support</h3><p>For an existing machine, include its model and a concise description of the technical issue.</p></div><span className="step-mark">↗</span></div>
+            <div className="steps-list why-list">
+              <div className="step-row"><span className="step-number">01</span><div><h3>Precision Engineering</h3><p>Designed for accurate, consistent results.</p></div><span className="step-mark">↗</span></div>
+              <div className="step-row"><span className="step-number">02</span><div><h3>Smart Technology</h3><p>Modern laser solutions for evolving industrial needs.</p></div><span className="step-mark">↗</span></div>
+              <div className="step-row"><span className="step-number">03</span><div><h3>Application-Focused Solutions</h3><p>Machine options suited to different materials and applications.</p></div><span className="step-mark">↗</span></div>
+              <div className="step-row"><span className="step-number">04</span><div><h3>Customer-Centric Approach</h3><p>We listen, understand, and recommend solutions based on your requirements.</p></div><span className="step-mark">↗</span></div>
+              <div className="step-row"><span className="step-number">05</span><div><h3>Reliable Support</h3><p>Assistance to help you make informed decisions and get the most from your investment.</p></div><span className="step-mark">↗</span></div>
             </div>
           </div>
           <div className="approach-coordinate eyebrow">ASTROMARK / MACHINE SALES / CUSTOMER SUPPORT</div>
@@ -286,7 +290,7 @@ function Home() {
 
       <footer className="site-footer">
         <div className="page-width footer-main">
-          <div><BrandLogo /><p>Laser machine sales and customer support.</p></div>
+          <div><BrandLogo /><p>ASTRAMARK — Bringing Precision to Every Possibility.</p></div>
           <div className="footer-nav"><span className="eyebrow">CATALOGUE</span><a href="#catalogue">Browse all machines</a><a href="#catalogue">Marking & cutting</a><a href="#catalogue">Welding & jewellery</a></div>
           <div className="footer-nav"><span className="eyebrow">CONTACT</span><a href="tel:9177709681">9177709681</a><a href="mailto:info@astramarklaser.com">info@astramarklaser.com</a><a href="mailto:support@astramarklaser.com">support@astramarklaser.com</a><a href="#contact">Address & website</a></div>
           <div className="footer-nav"><span className="eyebrow">NEXT STEP</span><a href="#enquiry">Machine enquiry <ArrowRight size={14} /></a><a href="#support">Sales & customer support</a><a href="#faq">Frequently asked questions</a></div>
