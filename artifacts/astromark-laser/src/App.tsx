@@ -169,7 +169,7 @@ function Home() {
                 </article>
               )) : <div className="empty-results"><h3>No machines match that search.</h3><p>Try another machine name or choose a different category.</p><button type="button" className="details-toggle" onClick={() => { setSearch(''); setFilter('All machines'); }}>Clear filters <ArrowRight size={14} /></button></div>}
             </div>
-            <div className="catalog-note"><CircleHelp size={17} aria-hidden="true" /><div><strong>About these machine details.</strong> The machine imagery and specification highlights are shown for reference. Confirm the exact model, options and configuration with Astramark before purchase.</div></div>
+            <div className="catalog-note"><CircleHelp size={17} aria-hidden="true" /><div><strong>Illustrative Astramark concept images.</strong> These branded visuals are based on supplier catalogue references; final machine appearance and configuration may vary. Confirm model options and specifications with our team.</div></div>
           </div>
         </section>
 
@@ -292,7 +292,7 @@ function Home() {
           <div className="footer-nav"><span className="eyebrow">NEXT STEP</span><a href="#enquiry">Machine enquiry <ArrowRight size={14} /></a><a href="#support">Sales & customer support</a><a href="#faq">Frequently asked questions</a></div>
           <a className="back-top" href="#top" aria-label="Back to top"><ArrowDown size={16} /></a>
         </div>
-        <div className="page-width footer-bottom"><span>© Astramark Laser Machine Pvt. Ltd.</span><span>Machine details are for reference; confirm final specifications with our team.</span><span>SALES / SUPPORT / LASER SYSTEMS</span></div>
+        <div className="page-width footer-bottom"><span>© Astramark Laser Machine Pvt. Ltd.</span><span>Illustrative Astramark concept visuals; confirm final specifications with our team.</span><span>SALES / SUPPORT / LASER SYSTEMS</span></div>
       </footer>
     </div>
   );
