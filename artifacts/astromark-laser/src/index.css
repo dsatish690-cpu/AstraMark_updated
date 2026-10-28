@@ -608,6 +608,161 @@ body { background: var(--paper); color: var(--ink); }
 }
 @media(max-width:390px) { .form-row-three { grid-template-columns:1fr; } .hero-title { font-size:52px; } .hero-title-long { font-size:clamp(36px,11.1vw,43px); } }
 
+/* Quick enquiry: keep the next step close to the machine that inspired it. */
+.quick-enquiry-dialog {
+  width: min(760px, calc(100vw - 40px));
+  max-width: none !important;
+  max-height: min(90dvh, 850px);
+  overflow-y: auto;
+  gap: 0 !important;
+  padding: 34px 38px 32px !important;
+  border: 1px solid #b7cbd7 !important;
+  border-top: 5px solid var(--gold) !important;
+  border-radius: 4px !important;
+  background: #f4f8fa !important;
+  color: var(--ink) !important;
+  box-shadow: 0 28px 90px rgba(4, 22, 38, .32) !important;
+}
+.quick-enquiry-dialog > button {
+  top: 17px !important;
+  right: 17px !important;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #c4d5de;
+  border-radius: 50%;
+  color: var(--ink);
+  opacity: 1 !important;
+}
+.quick-enquiry-dialog > button:hover { background: #e1edf3 !important; }
+.quick-enquiry-heading { padding-right: 48px; gap: 11px !important; text-align: left !important; }
+.quick-enquiry-heading > .eyebrow { color: var(--blue-deep); }
+.quick-enquiry-heading [data-radix-dialog-title] {
+  color: var(--ink);
+  font-size: clamp(30px, 5vw, 44px);
+  line-height: 1.02;
+  letter-spacing: -.055em;
+  font-weight: 600;
+}
+.quick-enquiry-heading [data-radix-dialog-title] em { color: var(--blue-deep); font-style: normal; }
+.quick-enquiry-heading [data-radix-dialog-description] {
+  max-width: 530px;
+  color: #5d7280;
+  font: 12px/1.7 var(--app-font-sans);
+}
+.quick-enquiry-body { margin-top: 22px; border-top: 1px solid #cedde4; padding-top: 20px; }
+.quick-enquiry-body .quote-form { gap: 17px; }
+.quick-enquiry-body .form-submit { margin-top: 2px; }
+.text-link-button {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  font: 600 11px var(--app-font-sans);
+}
+.scroll-cue {
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 31px;
+  color: #d2e2eb;
+  text-decoration: none;
+  font: 9px var(--app-font-mono);
+  letter-spacing: .12em;
+}
+.scroll-cue i {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(230, 181, 44, .7);
+  border-radius: 50%;
+  color: var(--gold);
+  font-style: normal;
+  animation: cue-nudge 2.4s ease-in-out infinite;
+}
+.scroll-cue:hover i { background: var(--gold); color: var(--ink); }
+@keyframes cue-nudge {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+.footer-enquiry-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #d5e1e6;
+  font: 11px var(--app-font-sans);
+  cursor: pointer;
+}
+.footer-enquiry-link:hover { color: var(--gold); }
+.header-cta { border: 0; cursor: pointer; font-family: var(--app-font-sans); }
+.product-toolbar.is-visible,.catalog-note.is-visible,.materials-browser.is-visible,.faq-list.is-visible {
+  animation: rise-in .66s cubic-bezier(.2,.75,.25,1) both;
+}
+.product-toolbar:not(.is-visible),.catalog-note:not(.is-visible),.materials-browser:not(.is-visible),.faq-list:not(.is-visible) {
+  opacity: 0;
+  transform: translateY(16px);
+}
+.product-card.is-visible { animation: card-arrive .66s cubic-bezier(.2,.75,.25,1) both; }
+.product-card.is-visible:nth-child(3n + 2) { animation-delay: .08s; }
+.product-card.is-visible:nth-child(3n) { animation-delay: .15s; }
+.step-row.is-visible { animation: row-arrive .58s cubic-bezier(.2,.75,.25,1) both; }
+.step-row.is-visible:nth-child(even) { animation-delay: .08s; }
+.contact-card.is-visible { animation: card-arrive .58s cubic-bezier(.2,.75,.25,1) both; }
+.contact-card.is-visible:nth-child(even) { animation-delay: .1s; }
+@keyframes card-arrive {
+  from { opacity: 0; transform: translateY(22px) scale(.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes row-arrive {
+  from { opacity: 0; transform: translateX(16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.product-card { transform-origin: center bottom; }
+.product-card:hover { transform: translateY(-5px); }
+.product-photo img { transition: transform .5s cubic-bezier(.2,.75,.25,1); }
+.product-card:hover .product-photo img { transform: scale(1.045); }
+.faq-question { transition: color .2s ease, padding .2s ease; }
+.faq-question:hover { padding-left: 5px; }
+.approach-section::after {
+  content: "";
+  position: absolute;
+  left: -90px;
+  bottom: -180px;
+  width: 350px;
+  height: 350px;
+  border: 1px solid rgba(143, 197, 226, .18);
+  border-radius: 50%;
+  box-shadow: 0 0 0 28px rgba(143, 197, 226, .035), 0 0 0 58px rgba(143, 197, 226, .025);
+  pointer-events: none;
+}
+@media(max-width:767px) {
+  .quick-enquiry-dialog {
+    width: calc(100vw - 20px);
+    max-height: calc(100dvh - 20px);
+    padding: 26px 19px 22px !important;
+  }
+  .quick-enquiry-dialog > button { top: 12px !important; right: 12px !important; }
+  .quick-enquiry-heading { padding-right: 37px; }
+  .quick-enquiry-heading [data-radix-dialog-title] { font-size: clamp(27px, 8vw, 36px); }
+  .quick-enquiry-body { margin-top: 17px; padding-top: 17px; }
+  .quick-enquiry-body .form-row { grid-template-columns: 1fr; gap: 15px; }
+  .quick-enquiry-body .confirm-actions { align-items: stretch; flex-direction: column; gap: 10px; width: 100%; }
+  .quick-enquiry-body .confirm-actions .button { justify-content: space-between; width: 100%; }
+  .scroll-cue { margin-top: 23px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .scroll-cue i { animation: none; }
+  .product-card.is-visible,.step-row.is-visible,.contact-card.is-visible { animation: none; }
+  .product-toolbar:not(.is-visible),.catalog-note:not(.is-visible),.materials-browser:not(.is-visible),.faq-list:not(.is-visible) { opacity: 1; transform: none; }
+  .product-toolbar.is-visible,.catalog-note.is-visible,.materials-browser.is-visible,.faq-list.is-visible { animation: none; }
+}
+
 /* ASTRAMARK / precision editorial — cobalt, warm alloy, and field-note paper */
 :root {
   --ink: #102c48;

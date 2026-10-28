@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { ArrowDown, ArrowRight, Check, ChevronDown, CircleHelp, Menu, Search, X } from 'lucide-react';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 type Product = { name: string; category: string; image: string; highlights: [string, string][]; details: string };
 
@@ -35,7 +36,7 @@ function BrandLogo() {
 
 function Home() {
   useEffect(() => {
-    const targets = document.querySelectorAll('.hero-copy, .hero-art, .section-heading, .product-card, .approach-heading, .step-row, .materials-intro, .material-tab, .quote-copy, .quote-form-wrap, .contact-copy, .contact-card, .faq-item');
+    const targets = document.querySelectorAll('.hero-copy, .hero-art, .section-heading, .product-toolbar, .product-card, .catalog-note, .approach-heading, .step-row, .materials-intro, .materials-browser, .material-tab, .quote-copy, .quote-form-wrap, .contact-copy, .contact-card, .faq-list, .faq-item');
     if (!('IntersectionObserver' in window)) {
       targets.forEach((target) => target.classList.add('is-visible'));
       return;
@@ -58,12 +59,31 @@ function Home() {
   const [openQuestion, setOpenQuestion] = useState<number | null>(0);
   const [briefReady, setBriefReady] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [enquiryOpen, setEnquiryOpen] = useState(false);
   const [form, setForm] = useState({ name: '', email: '', requestType: 'Machine enquiry', machine: '', details: '' });
 
   const visibleProducts = useMemo(() => products.filter((product) =>
     (filter === 'All machines' || product.category === filter)
     && `${product.name} ${product.category} ${product.highlights.map((item) => item.join(' ')).join(' ')}`.toLowerCase().includes(search.toLowerCase()),
   ), [filter, search]);
+
+  useEffect(() => {
+    const cards = document.querySelectorAll('.product-card:not(.is-visible)');
+    if (!('IntersectionObserver' in window)) {
+      cards.forEach((card) => card.classList.add('is-visible'));
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+    cards.forEach((card) => observer.observe(card));
+    return () => observer.disconnect();
+  }, [visibleProducts]);
 
   const updateForm = (field: keyof typeof form, value: string) => {
     setForm((previous) => ({ ...previous, [field]: value }));
@@ -104,8 +124,8 @@ function Home() {
   const startEnquiry = (product?: string) => {
     setForm((previous) => ({ ...previous, requestType: 'Machine enquiry', machine: product ?? previous.machine }));
     setBriefReady(false);
-    document.getElementById('enquiry')?.scrollIntoView({ behavior: 'smooth' });
-    window.setTimeout(() => document.getElementById('enquiry-name')?.focus(), 450);
+    setCopied(false);
+    setEnquiryOpen(true);
   };
 
   const navItems = [
@@ -117,21 +137,61 @@ function Home() {
     { href: '#faq', label: 'FAQs' },
   ];
 
+  const renderEnquiryForm = (prefix: string) => !briefReady ? (
+    <form className="quote-form" onSubmit={(event) => { event.preventDefault(); setBriefReady(true); }} data-testid={prefix === 'page' ? 'form-machine-enquiry' : 'form-quick-machine-enquiry'}>
+      <div className="form-row">
+        <label>Your name<input id={prefix === 'page' ? 'enquiry-name' : 'quick-enquiry-name'} required value={form.name} onChange={(event) => updateForm('name', event.target.value)} placeholder="Name" autoComplete="name" data-testid={prefix === 'page' ? 'input-name' : 'input-quick-name'} /></label>
+        <label>Email address<input required type="email" value={form.email} onChange={(event) => updateForm('email', event.target.value)} placeholder="name@example.com" autoComplete="email" data-testid={prefix === 'page' ? 'input-email' : 'input-quick-email'} /></label>
+      </div>
+      <div className="form-row">
+        <label>What do you need?<select value={form.requestType} onChange={(event) => updateForm('requestType', event.target.value)}><option>Machine enquiry</option><option>Service or technical support</option><option>Configuration question</option></select></label>
+        <label>Machine / model <span className="optional">optional</span><input value={form.machine} onChange={(event) => updateForm('machine', event.target.value)} placeholder="Machine or model" /></label>
+      </div>
+      <label>Application or support details<textarea required rows={4} value={form.details} onChange={(event) => updateForm('details', event.target.value)} placeholder="Material, dimensions, process, or the issue you need help with…" data-testid={prefix === 'page' ? 'input-details' : 'input-quick-details'} /></label>
+      <button type="submit" className="button button-orange button-arrow form-submit" data-testid={prefix === 'page' ? 'button-prepare-enquiry' : 'button-prepare-quick-enquiry'}>Prepare copyable enquiry <ArrowRight size={16} /></button>
+      <p className="form-note">Your email app opens with the enquiry ready for you to review. This website does not store submissions.</p>
+    </form>
+  ) : (
+    <div className="brief-confirmation" data-testid="status-enquiry-ready">
+      <div className="confirm-icon"><Check size={20} /></div>
+      <div className="eyebrow">ENQUIRY PREPARED</div>
+      <h3>Ready for you to share.</h3>
+      <p>Review the details, then open the email draft to send your enquiry. Nothing is stored by this website.</p>
+      <pre>{briefText}</pre>
+      <div className="confirm-actions">
+        <a className="button button-orange button-arrow" href={emailEnquiryHref} data-testid="link-email-enquiry">Open email draft <ArrowRight size={15} /></a>
+        <button className="button button-orange button-arrow" type="button" onClick={copyBrief} data-testid="button-copy-enquiry">{copied ? 'Copied to clipboard' : 'Copy enquiry'} {copied ? <Check size={15} /> : <ArrowRight size={15} />}</button>
+        <button className="edit-brief" type="button" onClick={() => { setBriefReady(false); setCopied(false); }}>Edit details</button>
+      </div>
+    </div>
+  );
+
   return (
     <div className="site-shell" id="top">
       <header className="site-header">
         <div className="page-width header-inner">
           <BrandLogo />
           <nav className="desktop-nav" aria-label="Main navigation">
-            {navItems.map((item) => <a className="nav-link" href={item.href} key={item.href}>{item.label}</a>)}
+            {navItems.map((item) => <a className="nav-link" href={item.href} key={item.href} onClick={(event) => { if (item.label === 'Enquire') { event.preventDefault(); startEnquiry(); } }}>{item.label}</a>)}
           </nav>
-          <a className="header-cta" href="#enquiry">Talk to our team <ArrowRight size={15} /></a>
+          <button className="header-cta" type="button" onClick={() => startEnquiry()}>Talk to our team <ArrowRight size={15} /></button>
           <button className="menu-toggle" type="button" onClick={() => setMenuOpen((open) => !open)} aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={menuOpen}>
             {menuOpen ? <X size={21} /> : <Menu size={21} />}
           </button>
         </div>
-        {menuOpen && <nav className="mobile-nav mobile-menu" aria-label="Mobile navigation">{navItems.map((item) => <a href={item.href} key={item.href} onClick={() => setMenuOpen(false)}>{item.label}<ArrowRight size={15} /></a>)}</nav>}
+        {menuOpen && <nav className="mobile-nav mobile-menu" aria-label="Mobile navigation">{navItems.map((item) => <a href={item.href} key={item.href} onClick={(event) => { setMenuOpen(false); if (item.label === 'Enquire') { event.preventDefault(); startEnquiry(); } }}>{item.label}<ArrowRight size={15} /></a>)}</nav>}
       </header>
+
+      <Dialog open={enquiryOpen} onOpenChange={setEnquiryOpen}>
+        <DialogContent className="quick-enquiry-dialog" aria-describedby="quick-enquiry-description" onOpenAutoFocus={(event) => { event.preventDefault(); document.getElementById('quick-enquiry-name')?.focus(); }}>
+          <DialogHeader className="quick-enquiry-heading">
+            <div className="eyebrow">SALES / SUPPORT — ASTRAMARK</div>
+            <DialogTitle className="display">Let’s talk <em>machine details.</em></DialogTitle>
+            <DialogDescription id="quick-enquiry-description">Tell us what you are working on. Your details stay in this browser until you choose to prepare an email draft.</DialogDescription>
+          </DialogHeader>
+          <div className="quick-enquiry-body">{renderEnquiryForm('quick')}</div>
+        </DialogContent>
+      </Dialog>
 
       <main className="main-story">
         <section className="hero page-width" aria-labelledby="hero-heading">
@@ -143,9 +203,10 @@ function Home() {
             <p className="hero-tagline"><strong>Your Vision. Our Technology. Better Possibilities.</strong></p>
             <div className="hero-actions">
               <a className="button button-dark button-arrow" href="#catalogue">Explore Our Products <ArrowRight size={16} /></a>
-              <a className="text-link" href="#enquiry">Request a Quote <ArrowRight size={14} /></a>
+              <button className="text-link text-link-button" type="button" onClick={() => startEnquiry()}>Request a Quote <ArrowRight size={14} /></button>
             </div>
             <div className="hero-footnote"><span className="footnote-rule" /> Machine sales, application guidance, and reliable support</div>
+            <a className="scroll-cue" href="#support" aria-label="Scroll to learn why manufacturers choose Astramark"><span>SCROLL TO EXPLORE</span><i><ArrowDown size={15} /></i></a>
           </div>
           <div className="hero-art">
             <img src="/images/fiber-sheet-cutting-astramark.jpeg" alt="Industrial fiber laser sheet cutting machine" />
@@ -230,34 +291,7 @@ function Home() {
               <div className="quote-aside"><span className="quote-aside-mark"><Check size={20} /></span><span>The form opens a draft for you to review and send.<br />This website does not store your information.</span></div>
             </div>
             <div className="quote-form-wrap">
-              {!briefReady ? (
-                <form className="quote-form" onSubmit={(event) => { event.preventDefault(); setBriefReady(true); }} data-testid="form-machine-enquiry">
-                  <div className="form-row">
-                    <label>Your name<input id="enquiry-name" required value={form.name} onChange={(event) => updateForm('name', event.target.value)} placeholder="Name" autoComplete="name" data-testid="input-name" /></label>
-                    <label>Email address<input required type="email" value={form.email} onChange={(event) => updateForm('email', event.target.value)} placeholder="name@example.com" autoComplete="email" data-testid="input-email" /></label>
-                  </div>
-                  <div className="form-row">
-                    <label>What do you need?<select value={form.requestType} onChange={(event) => updateForm('requestType', event.target.value)}><option>Machine enquiry</option><option>Service or technical support</option><option>Configuration question</option></select></label>
-                    <label>Machine / model <span className="optional">optional</span><input value={form.machine} onChange={(event) => updateForm('machine', event.target.value)} placeholder="Machine or model" /></label>
-                  </div>
-                  <label>Application or support details<textarea required rows={4} value={form.details} onChange={(event) => updateForm('details', event.target.value)} placeholder="Material, dimensions, process, or the issue you need help with…" data-testid="input-details" /></label>
-                  <button type="submit" className="button button-orange button-arrow form-submit" data-testid="button-prepare-enquiry">Prepare copyable enquiry <ArrowRight size={16} /></button>
-                  <p className="form-note">Your email app opens with the enquiry ready for you to review. This website does not store submissions.</p>
-                </form>
-              ) : (
-                <div className="brief-confirmation" data-testid="status-enquiry-ready">
-                  <div className="confirm-icon"><Check size={20} /></div>
-                  <div className="eyebrow">ENQUIRY PREPARED</div>
-                  <h3>Ready for you to share.</h3>
-                  <p>Review the details, then open the email draft to send your enquiry. Nothing is stored by this website.</p>
-                  <pre>{briefText}</pre>
-                  <div className="confirm-actions">
-                    <a className="button button-orange button-arrow" href={emailEnquiryHref} data-testid="link-email-enquiry">Open email draft <ArrowRight size={15} /></a>
-                    <button className="button button-orange button-arrow" type="button" onClick={copyBrief} data-testid="button-copy-enquiry">{copied ? 'Copied to clipboard' : 'Copy enquiry'} {copied ? <Check size={15} /> : <ArrowRight size={15} />}</button>
-                    <button className="edit-brief" type="button" onClick={() => { setBriefReady(false); setCopied(false); }}>Edit details</button>
-                  </div>
-                </div>
-              )}
+              {renderEnquiryForm('page')}
             </div>
           </div>
         </section>
@@ -268,7 +302,7 @@ function Home() {
               <div className="eyebrow section-index">06 — CONTACT ASTRAMARK</div>
               <h2 className="display section-title" id="contact-heading">Laser machines.<br /><em>Sales & support.</em></h2>
               <p>Astramark Laser Machine Pvt. Ltd. sells laser machines and provides customer support. Contact our team in Visakhapatnam for machine enquiries and assistance.</p>
-              <a className="button button-dark button-arrow" href="mailto:info@astramarklaser.com">Email our team <ArrowRight size={16} /></a>
+              <button className="button button-dark button-arrow" type="button" onClick={() => startEnquiry()}>Email our team <ArrowRight size={16} /></button>
             </div>
             <div className="contact-grid">
               <div className="contact-card">
@@ -311,7 +345,7 @@ function Home() {
           <div><BrandLogo /><p>ASTRAMARK — Bringing Precision to Every Possibility.</p></div>
           <div className="footer-nav"><span className="eyebrow">CATALOGUE</span><a href="#catalogue">Browse all machines</a><a href="#catalogue">Marking & cutting</a><a href="#catalogue">Welding & jewellery</a></div>
           <div className="footer-nav"><span className="eyebrow">CONTACT</span><a href="tel:9177709681">9177709681</a><a href="mailto:info@astramarklaser.com">info@astramarklaser.com</a><a href="mailto:support@astramarklaser.com">support@astramarklaser.com</a><a href="#contact">Address & website</a></div>
-          <div className="footer-nav"><span className="eyebrow">NEXT STEP</span><a href="#enquiry">Machine enquiry <ArrowRight size={14} /></a><a href="#support">Sales & customer support</a><a href="#faq">Frequently asked questions</a></div>
+          <div className="footer-nav"><span className="eyebrow">NEXT STEP</span><button type="button" className="footer-enquiry-link" onClick={() => startEnquiry()}>Machine enquiry <ArrowRight size={14} /></button><a href="#support">Sales & customer support</a><a href="#faq">Frequently asked questions</a></div>
           <a className="back-top" href="#top" aria-label="Back to top"><ArrowDown size={16} /></a>
         </div>
         <div className="page-width footer-bottom"><span>© Astramark Laser Machine Pvt. Ltd.</span><span>Illustrative Astramark concept visuals; confirm final specifications with our team.</span><span>SALES / SUPPORT / LASER SYSTEMS</span></div>
