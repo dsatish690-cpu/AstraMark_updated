@@ -440,8 +440,8 @@ function Home() {
             <div className="contact-grid">
               <div className="contact-card">
                 <span className="eyebrow">PHONE</span>
-                <a href="tel:9177709681">9177709681</a>
-                <a href="tel:9177709682">9177709682</a>
+                <a href="tel:+919177709681">+91 9177709681</a>
+                <a href="tel:+919177709682">+91 9177709682</a>
               </div>
               <div className="contact-card">
                 <span className="eyebrow">EMAIL</span>
@@ -450,7 +450,7 @@ function Home() {
               </div>
               <div className="contact-card">
                 <span className="eyebrow">WEBSITE</span>
-                <a href="https://astramarklaser.com" target="_blank" rel="noreferrer">astramarklaser.com</a>
+                <a href="https://www.astramarklaser.com" target="_blank" rel="noreferrer">www.astramarklaser.com</a>
               </div>
               <div className="contact-card contact-address">
                 <span className="eyebrow">ADDRESS</span>
@@ -477,7 +477,7 @@ function Home() {
         <div className="page-width footer-main">
           <div><BrandLogo /><p>ASTRAMARK — Bringing Precision to Every Possibility.</p></div>
           <div className="footer-nav"><span className="eyebrow">CATALOGUE</span><a href="#catalogue">Browse all machines</a><a href="#catalogue">Marking & cutting</a><a href="#catalogue">Welding & jewellery</a></div>
-          <div className="footer-nav"><span className="eyebrow">CONTACT</span><a href="tel:9177709681">9177709681</a><a href="mailto:info@astramarklaser.com">info@astramarklaser.com</a><a href="mailto:support@astramarklaser.com">support@astramarklaser.com</a><a href="#contact">Address & website</a></div>
+          <div className="footer-nav"><span className="eyebrow">CONTACT</span><a href="tel:+919177709681">+91 9177709681</a><a href="mailto:info@astramarklaser.com">info@astramarklaser.com</a><a href="mailto:support@astramarklaser.com">support@astramarklaser.com</a><a href="#contact">Address & website</a></div>
           <div className="footer-nav"><span className="eyebrow">NEXT STEP</span><button type="button" className="footer-enquiry-link" onClick={() => startEnquiry()}>Machine enquiry <ArrowRight size={14} /></button><a href="#support">Sales & customer support</a><a href="#faq">Frequently asked questions</a></div>
           <a className="back-top" href="#top" aria-label="Back to top"><ArrowDown size={16} /></a>
         </div>
