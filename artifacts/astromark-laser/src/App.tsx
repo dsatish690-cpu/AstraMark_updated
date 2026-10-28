@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState, type FormEvent } from 'react';
-import { ArrowDown, ArrowRight, Check, ChevronDown, CircleHelp, Menu, Search, X } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
+import { ArrowDown, ArrowRight, Check, ChevronDown, CircleHelp, Menu, Pause, Play, Search, X } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 type Product = { name: string; category: string; image: string; highlights: [string, string][]; details: string };
@@ -38,6 +38,9 @@ function Home() {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(() =>
     typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
   );
+  const heroVideoRef = useRef<HTMLVideoElement>(null);
+  const [heroVideoPlaying, setHeroVideoPlaying] = useState(false);
+  const [heroVideoError, setHeroVideoError] = useState(false);
   useEffect(() => {
     const targets = document.querySelectorAll('.hero-copy, .hero-art, .section-heading, .product-toolbar, .product-card, .catalog-trust, .approach-heading, .step-row, .materials-intro, .materials-browser, .material-tab, .quote-copy, .quote-form-wrap, .contact-copy, .contact-card, .faq-list, .faq-item');
     if (!('IntersectionObserver' in window)) {
@@ -61,6 +64,9 @@ function Home() {
     motionPreference.addEventListener('change', updatePreference);
     return () => motionPreference.removeEventListener('change', updatePreference);
   }, []);
+  useEffect(() => {
+    if (prefersReducedMotion) heroVideoRef.current?.pause();
+  }, [prefersReducedMotion]);
   const [menuOpen, setMenuOpen] = useState(false);
   const [filter, setFilter] = useState('All machines');
   const [search, setSearch] = useState('');
@@ -127,6 +133,22 @@ function Home() {
     setForm((previous) => ({ ...previous, requestType: 'Machine enquiry', machine: product ?? previous.machine }));
     setSubmission({ state: 'idle' });
     setEnquiryOpen(true);
+  };
+  const toggleHeroVideo = async () => {
+    const video = heroVideoRef.current;
+    if (!video) return;
+    setHeroVideoError(false);
+    if (!video.paused) {
+      video.pause();
+      return;
+    }
+    video.muted = true;
+    try {
+      await video.play();
+    } catch {
+      setHeroVideoError(true);
+      setHeroVideoPlaying(false);
+    }
   };
 
   const navItems = [
@@ -220,17 +242,32 @@ function Home() {
           </div>
           <div className="hero-art">
             <video
+              ref={heroVideoRef}
               className="hero-video"
               autoPlay={!prefersReducedMotion}
               muted
               loop
               playsInline
-              preload="metadata"
+              preload="auto"
               poster="/images/fiber-sheet-cutting-astramark.jpeg"
               aria-label="Illustrative laser cutting concept video"
+              onPlay={() => { setHeroVideoPlaying(true); setHeroVideoError(false); }}
+              onPause={() => setHeroVideoPlaying(false)}
+              onError={() => { setHeroVideoPlaying(false); setHeroVideoError(true); }}
             >
               <source src="/videos/astramark-laser-hero.mp4" type="video/mp4" />
             </video>
+            <button
+              className="hero-video-control"
+              type="button"
+              onClick={toggleHeroVideo}
+              aria-label={heroVideoPlaying ? 'Pause laser motion video' : 'Play laser motion video'}
+              aria-pressed={heroVideoPlaying}
+            >
+              <span className="hero-video-control-icon">{heroVideoPlaying ? <Pause size={16} /> : <Play size={16} fill="currentColor" />}</span>
+              <span>{heroVideoPlaying ? 'Pause video' : 'Play laser video'}</span>
+            </button>
+            {heroVideoError && <span className="hero-video-error" role="status">Video could not start. Tap to try again.</span>}
             <div className="art-label"><span>ILLUSTRATIVE LASER MOTION · CONCEPT</span><span>LASER SYSTEMS</span></div>
             <div className="art-index">01<span> / </span>15</div>
             <div className="art-caption">Laser processing concept.<br />Final configuration may vary.</div>

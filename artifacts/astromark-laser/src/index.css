@@ -1095,6 +1095,48 @@ body { background:var(--paper); color:var(--ink); }
 .hero-footnote { color:#5c707d; }
 .hero-art { height:390px; margin-left:28px; background:#e6eef2; box-shadow:0 8px 24px rgba(24,52,74,.10); }
 .hero-video { display:block; width:100%; height:100%; object-fit:cover; object-position:center; }
+.hero-video-control {
+  position:absolute;
+  z-index:5;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 15px 10px 10px;
+  border:1px solid rgba(255,255,255,.56);
+  background:rgba(13,41,68,.92);
+  color:#f4f7f8;
+  box-shadow:0 8px 24px rgba(8,30,47,.3);
+  font:600 11px/1 var(--app-font-sans);
+  cursor:pointer;
+  transition:background .2s ease,color .2s ease,transform .2s ease;
+}
+.hero-video-control:hover { background:#e6b52c; color:#102f4e; transform:translate(-50%,-50%) scale(1.03); }
+.hero-video-control:focus-visible { outline:2px solid #e6b52c; outline-offset:4px; }
+.hero-video-control-icon {
+  display:grid;
+  width:30px;
+  height:30px;
+  place-items:center;
+  border-radius:50%;
+  background:#e6b52c;
+  color:#102f4e;
+}
+.hero-video-control:hover .hero-video-control-icon { background:#102f4e; color:#fff; }
+.hero-video-error {
+  position:absolute;
+  z-index:6;
+  left:50%;
+  bottom:42px;
+  transform:translateX(-50%);
+  padding:6px 9px;
+  background:rgba(13,41,68,.9);
+  color:#fff;
+  font:10px/1.4 var(--app-font-sans);
+  text-align:center;
+}
 .hero-art::after { background:linear-gradient(180deg,rgba(24,52,74,.02),transparent 56%,rgba(24,52,74,.42)); }
 .art-label { color:#fff; text-shadow:0 1px 5px rgba(0,0,0,.45); font-size:8px; }
 .art-caption { font-size:11px; }
@@ -1235,7 +1277,6 @@ body { background:var(--paper); color:var(--ink); }
 @media(prefers-reduced-motion:reduce) {
   *,*::before,*::after { scroll-behavior:auto !important; animation:none !important; transition:none !important; }
   .hero-art { background:#e6eef2 url('/images/fiber-sheet-cutting-astramark.jpeg') center/cover no-repeat; }
-  .hero-video { display:none; }
 }
 
 /* Restore the established blue-and-gold look without changing page content. */
@@ -1327,7 +1368,6 @@ body,.site-shell { background:var(--paper); }
 }
 @media(prefers-reduced-motion:reduce) {
   .hero-art { background:#dceaf1 url('/images/fiber-sheet-cutting-astramark.jpeg') center/contain no-repeat; }
-  .hero-video { display:none; }
 }
 
 .illustrative-label {
