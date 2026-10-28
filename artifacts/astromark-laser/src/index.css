@@ -431,7 +431,7 @@ body { background: var(--paper); color: var(--ink); }
 .site-header { height:80px; position:sticky; top:0; z-index:20; background:rgba(247,250,251,.94); border-bottom:1px solid var(--line); backdrop-filter:blur(16px); }
 .header-inner { gap:32px; }
 .brand-mark { gap:12px; color:var(--ink); }
-.brand-mark img { width:179px; height:auto; display:block; mix-blend-mode:multiply; }
+.brand-mark img { width:179px; height:auto; display:block; }
 .brand-type { display:none; }
 .desktop-nav { margin:0 auto; gap:30px; }
 .desktop-nav a { color:#4a5b66; font-size:12px; }
@@ -1334,13 +1334,13 @@ body,.site-shell { background:var(--paper); }
 html { scroll-padding-top: 82px; }
 body,.site-shell { background:var(--paper); color:var(--ink); }
 .site-header {
-  background:rgba(245,241,232,.96);
+  background:#f5f1e8;
   border-bottom-color:#dfd7c9;
 }
+.site-header .brand-mark { mix-blend-mode:darken; }
 .brand-mark img {
   width:186px;
   height:auto;
-  mix-blend-mode:multiply;
 }
 .desktop-nav a { color:#4e4a40; }
 .nav-link::after { background:#b88420; }
@@ -1511,12 +1511,40 @@ body,.site-shell { background:var(--paper); color:var(--ink); }
 .contact-section { background:#f7f3ea; }
 .contact-copy .section-index { color:#8d651c; }
 .contact-copy .section-title { color:#211f19; }
-.contact-copy>p { color:#5f5a4e; }
+.contact-copy>p {
+  color:#5f5a4e;
+  font-family:var(--app-font-sans);
+  font-size:clamp(16px,1.35vw,18px);
+  font-weight:400;
+  line-height:1.7;
+  letter-spacing:normal;
+}
 .contact-card { background:#f0eadd; border-color:#d9cfbd; }
 .contact-card .eyebrow { color:#8d651c; }
-.contact-card a { color:#211f19; }
+.contact-card a {
+  color:#211f19;
+  font-family:var(--app-font-sans);
+  font-size:14px;
+  font-weight:400;
+  line-height:1.6;
+  letter-spacing:normal;
+}
 .contact-card a:hover { color:#997122; }
-.contact-card address { color:#514b40; }
+.contact-card address {
+  color:#514b40;
+  font-family:var(--app-font-sans);
+  font-size:14px;
+  font-weight:400;
+  line-height:1.6;
+  letter-spacing:normal;
+}
+@media(max-width:1050px) {
+  .contact-layout { grid-template-columns:1fr; gap:28px; }
+  .contact-copy>p { max-width:640px; }
+}
+@media(max-width:520px) {
+  .contact-grid { grid-template-columns:1fr; }
+}
 .site-footer { background:#171612; color:#f3ede0; border-top:4px solid #b88420; }
 .site-footer .brand-mark { width:fit-content; padding:5px 8px; background:#f7f3ea; }
 .site-footer .brand-mark img { width:177px; background:transparent; }
