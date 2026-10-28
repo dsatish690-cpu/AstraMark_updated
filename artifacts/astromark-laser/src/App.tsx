@@ -31,7 +31,7 @@ const questions = [
 ];
 
 function BrandLogo() {
-  return <a href="#top" className="brand-mark" aria-label="Astramark Laser Machine, home"><img src="/images/astromark-logo.png" alt="Astramark Laser Machine Pvt. Ltd." /></a>;
+  return <a href="#top" className="brand-mark" aria-label="Astramark Laser Machine, home"><img src="/images/astramark-logo-new.png" alt="Astramark Laser Machine Pvt. Ltd." /></a>;
 }
 
 function Home() {
@@ -278,7 +278,7 @@ function Home() {
             <div className="product-grid" aria-live="polite">
               {visibleProducts.length ? visibleProducts.map((product, index) => (
                 <article className="product-card" key={product.name} data-testid={`card-product-${index}`}>
-                  <div className="product-photo"><span className="product-number">0{products.indexOf(product) + 1}</span><img src={product.image} alt={`${product.name} machine`} loading={index > 2 ? 'lazy' : 'eager'} /></div>
+                  <div className="product-photo"><span className="product-number">0{products.indexOf(product) + 1}</span><img src={product.image} alt={`Illustrative supplier reference image of a ${product.name} machine`} loading={index > 2 ? 'lazy' : 'eager'} /><span className="illustrative-label">ILLUSTRATIVE · SUPPLIER REFERENCE</span></div>
                   <div className="product-content">
                     <div className="product-category">{product.category} systems</div>
                     <h3>{product.name}</h3>
