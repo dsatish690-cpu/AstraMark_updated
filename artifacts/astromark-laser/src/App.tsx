@@ -178,7 +178,7 @@ function Home() {
     { href: '#top', label: 'Overview' },
     { href: '#support', label: 'Why ASTRAMARK' },
     { href: '#catalogue', label: 'Machines' },
-    { href: '#contact', label: 'Contact & Enquire' },
+    { href: '#contact', label: 'Contact' },
     { href: '#faq', label: 'FAQs' },
   ];
 
