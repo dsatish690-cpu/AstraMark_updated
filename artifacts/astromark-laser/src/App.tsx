@@ -36,7 +36,7 @@ function BrandLogo() {
 
 function Home() {
   useEffect(() => {
-    const targets = document.querySelectorAll('.hero-copy, .hero-art, .section-heading, .product-toolbar, .product-card, .catalog-note, .approach-heading, .step-row, .materials-intro, .materials-browser, .material-tab, .quote-copy, .quote-form-wrap, .contact-copy, .contact-card, .faq-list, .faq-item');
+    const targets = document.querySelectorAll('.hero-copy, .hero-art, .section-heading, .product-toolbar, .product-card, .catalog-trust, .approach-heading, .step-row, .materials-intro, .materials-browser, .material-tab, .quote-copy, .quote-form-wrap, .contact-copy, .contact-card, .faq-list, .faq-item');
     if (!('IntersectionObserver' in window)) {
       targets.forEach((target) => target.classList.add('is-visible'));
       return;
@@ -244,7 +244,10 @@ function Home() {
           <div className="page-width">
             <div className="section-heading">
               <div><div className="eyebrow section-index">03 — MACHINE CATALOGUE</div><h2 className="display section-title" id="catalogue-heading">Find your process.<br /><em>Then the machine.</em></h2></div>
-              <p className="section-intro">Browse machine families and scan the brochure highlights. Each configuration is application-specific, so use the enquiry path to confirm what fits.</p>
+              <div className="catalogue-sidecopy">
+                <p className="section-intro">Browse machine families and scan the brochure highlights. Each configuration is application-specific, so use the enquiry path to confirm what fits.</p>
+                <p className="visual-disclosure">Machine visuals are illustrative; confirm final appearance and configuration with our team.</p>
+              </div>
             </div>
             <div className="product-toolbar">
               <div className="filter-list" role="group" aria-label="Filter machines by category">
@@ -269,7 +272,18 @@ function Home() {
                 </article>
               )) : <div className="empty-results"><h3>No machines match that search.</h3><p>Try another machine name or choose a different category.</p><button type="button" className="details-toggle" onClick={() => { setSearch(''); setFilter('All machines'); }}>Clear filters <ArrowRight size={14} /></button></div>}
             </div>
-            <div className="catalog-note"><CircleHelp size={17} aria-hidden="true" /><div><strong>Illustrative Astramark concept images.</strong> These branded visuals are based on supplier catalogue references; final machine appearance and configuration may vary. Confirm model options and specifications with our team.</div></div>
+            <aside id="astramark-support" className="catalog-trust" aria-label="Astramark customer support">
+              <div className="catalog-trust-intro">
+                <div className="eyebrow">PEOPLE / EXPERTISE / SUPPORT</div>
+                <h3>More than a machine supplier.</h3>
+                <p>Our skilled team pairs machine options with practical guidance and responsive support, shaped around your process.</p>
+              </div>
+              <div className="catalog-trust-proof">
+                <div className="customer-count"><strong>100<span>+</span></strong><span>customers served</span></div>
+                <div className="trust-point"><span className="trust-index">01</span><h4>Skilled people</h4><p>Get application-focused guidance from a capable team.</p></div>
+                <div className="trust-point"><span className="trust-index">02</span><h4>Support that continues</h4><p>Get help as you evaluate options and work with your equipment.</p></div>
+              </div>
+            </aside>
           </div>
         </section>
 
