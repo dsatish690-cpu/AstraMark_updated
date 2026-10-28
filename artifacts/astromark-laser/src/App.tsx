@@ -178,8 +178,7 @@ function Home() {
     { href: '#top', label: 'Overview' },
     { href: '#support', label: 'Why ASTRAMARK' },
     { href: '#catalogue', label: 'Machines' },
-    { href: '#enquiry', label: 'Enquire' },
-    { href: '#contact', label: 'Contact' },
+    { href: '#contact', label: 'Contact & Enquire' },
     { href: '#faq', label: 'FAQs' },
   ];
 
@@ -227,14 +226,14 @@ function Home() {
         <div className="page-width header-inner">
           <BrandLogo />
           <nav className="desktop-nav" aria-label="Main navigation">
-            {navItems.map((item) => <a className="nav-link" href={item.href} key={item.href} onClick={(event) => { if (item.label === 'Enquire') { event.preventDefault(); startEnquiry(); } }}>{item.label}</a>)}
+            {navItems.map((item) => <a className="nav-link" href={item.href} key={item.href}>{item.label}</a>)}
           </nav>
           <button className="header-cta" type="button" onClick={() => startEnquiry()}>Talk to our team <ArrowRight size={15} /></button>
           <button className="menu-toggle" type="button" onClick={() => setMenuOpen((open) => !open)} aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={menuOpen}>
             {menuOpen ? <X size={21} /> : <Menu size={21} />}
           </button>
         </div>
-        {menuOpen && <nav className="mobile-nav mobile-menu" aria-label="Mobile navigation">{navItems.map((item) => <a href={item.href} key={item.href} onClick={(event) => { setMenuOpen(false); if (item.label === 'Enquire') { event.preventDefault(); startEnquiry(); } }}>{item.label}<ArrowRight size={15} /></a>)}</nav>}
+        {menuOpen && <nav className="mobile-nav mobile-menu" aria-label="Mobile navigation">{navItems.map((item) => <a href={item.href} key={item.href} onClick={() => setMenuOpen(false)}>{item.label}<ArrowRight size={15} /></a>)}</nav>}
       </header>
 
       <Dialog open={enquiryOpen} onOpenChange={setEnquiryOpen}>
