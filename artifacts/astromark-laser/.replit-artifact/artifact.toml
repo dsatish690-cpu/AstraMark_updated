@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Astromark Laser"
+description = "A polished website for Astromark Laser, showcasing precision laser engraving and cutting services and helping customers request a custom quote."
+version = "1.0.0"
+id = "artifacts/astromark-laser"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19403
+
+[services.development]
+run = "pnpm --filter @workspace/astromark-laser run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/astromark-laser", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/astromark-laser/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19403"
+BASE_PATH = "/"
