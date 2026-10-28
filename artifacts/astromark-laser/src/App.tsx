@@ -63,7 +63,7 @@ function Home() {
   const [heroVideoError, setHeroVideoError] = useState(false);
 
   useEffect(() => {
-    const targets = document.querySelectorAll('.hero-copy, .hero-art, .section-heading, .product-toolbar, .product-card, .catalog-trust, .approach-heading, .step-row, .why-intro, .why-card, .why-highlight, .promise-panel, .materials-intro, .materials-browser, .material-tab, .quote-copy, .quote-form-wrap, .contact-copy, .contact-card, .faq-list, .faq-item');
+    const targets = document.querySelectorAll('.hero-copy, .hero-art, .section-heading, .product-toolbar, .product-card, .catalog-trust, .approach-heading, .step-row, .why-intro, .why-card, .why-highlight, .promise-panel, .quote-copy, .quote-form-wrap, .contact-copy, .contact-card, .faq-list, .faq-item');
     if (!('IntersectionObserver' in window)) {
       targets.forEach((target) => target.classList.add('is-visible'));
       return;
@@ -406,19 +406,10 @@ function Home() {
           </div>
         </section>
 
-        <section className="materials-section section-pad" aria-labelledby="selection-heading">
-          <div className="page-width materials-layout">
-            <div className="materials-intro"><div className="eyebrow section-index">04 — MAKE A GOOD SHORTLIST</div><h2 className="display section-title" id="selection-heading">A process-first<br /><em>conversation.</em></h2><p>Machine selection starts with the work: material, part size, throughput and the result you need. Get these details together before comparing configurations.</p></div>
-            <div className="materials-browser">
-              {[['01', 'Material & process', 'What are you cutting, marking or welding? Include the material grade if known.'], ['02', 'Working envelope', 'Share the part dimensions, required bed size or marking field.'], ['03', 'Production needs', 'Note volume, shift pattern, line speed and any automation requirements.'], ['04', 'Support context', 'For existing equipment, include the machine model and describe the issue.']].map(([number, title, detail]) => <div className="material-tab" key={number}><span className="material-number">{number}</span><span>{title}</span><ArrowRight size={15} /></div>)}
-            </div>
-          </div>
-        </section>
-
         <section className="quote-section" id="enquiry">
           <div className="page-width quote-layout">
             <div className="quote-copy">
-              <div className="eyebrow light-eyebrow">05 — SALES OR SUPPORT ENQUIRY</div>
+              <div className="eyebrow light-eyebrow">04 — SALES OR SUPPORT ENQUIRY</div>
               <h2 className="display">Let’s talk<br /><em>machine details.</em></h2>
               <p>Tell us about a machine you are considering or an existing equipment support question. Your enquiry goes directly to the right Astramark team.</p>
               <div className="quote-aside"><span className="quote-aside-mark"><Check size={20} /></span><span>Machine and configuration enquiries go to sales.<br />Service requests go to customer support.</span></div>
@@ -432,7 +423,7 @@ function Home() {
         <section className="contact-section section-pad" id="contact" aria-labelledby="contact-heading">
           <div className="page-width contact-layout">
             <div className="contact-copy">
-              <div className="eyebrow section-index">06 — CONTACT ASTRAMARK</div>
+              <div className="eyebrow section-index">05 — CONTACT ASTRAMARK</div>
               <h2 className="display section-title" id="contact-heading">Laser machines.<br /><em>Sales & support.</em></h2>
               <p>Astramark Laser Machine Pvt. Ltd. sells laser machines and provides customer support. Contact our team in Visakhapatnam for machine enquiries and assistance.</p>
               <button className="button button-dark button-arrow" type="button" onClick={() => startEnquiry()}>Talk to our team <ArrowRight size={16} /></button>
@@ -462,7 +453,7 @@ function Home() {
 
         <section className="faq-section section-pad" id="faq">
           <div className="page-width faq-layout">
-            <div><div className="eyebrow section-index">07 — GOOD TO KNOW</div><h2 className="display section-title">Before you<br /><em>get in touch.</em></h2><p className="faq-subtitle">Need to compare machine options? Start an enquiry with your process details.</p></div>
+            <div><div className="eyebrow section-index">06 — GOOD TO KNOW</div><h2 className="display section-title">Before you<br /><em>get in touch.</em></h2><p className="faq-subtitle">Need to compare machine options? Start an enquiry with your process details.</p></div>
             <div className="faq-list">
               {questions.map((item, index) => <div className={`faq-item ${openQuestion === index ? 'faq-open' : ''}`} key={item.q}>
                 <button type="button" className="faq-question" aria-expanded={openQuestion === index} onClick={() => setOpenQuestion(openQuestion === index ? null : index)}><span><i>0{index + 1}</i>{item.q}</span><ChevronDown size={18} /></button>
