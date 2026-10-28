@@ -255,6 +255,7 @@ function Home() {
               onPause={() => setHeroVideoPlaying(false)}
               onError={() => { setHeroVideoPlaying(false); setHeroVideoError(true); }}
             >
+              <source src="/videos/astramark-laser-hero.webm" type="video/webm" />
               <source src="/videos/astramark-laser-hero.mp4" type="video/mp4" />
             </video>
             <button
