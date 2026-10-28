@@ -35,6 +35,9 @@ function BrandLogo() {
 }
 
 function Home() {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() =>
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  );
   useEffect(() => {
     const targets = document.querySelectorAll('.hero-copy, .hero-art, .section-heading, .product-toolbar, .product-card, .catalog-trust, .approach-heading, .step-row, .materials-intro, .materials-browser, .material-tab, .quote-copy, .quote-form-wrap, .contact-copy, .contact-card, .faq-list, .faq-item');
     if (!('IntersectionObserver' in window)) {
@@ -51,6 +54,12 @@ function Home() {
     }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
     targets.forEach((target) => observer.observe(target));
     return () => observer.disconnect();
+  }, []);
+  useEffect(() => {
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const updatePreference = () => setPrefersReducedMotion(motionPreference.matches);
+    motionPreference.addEventListener('change', updatePreference);
+    return () => motionPreference.removeEventListener('change', updatePreference);
   }, []);
   const [menuOpen, setMenuOpen] = useState(false);
   const [filter, setFilter] = useState('All machines');
@@ -209,10 +218,21 @@ function Home() {
             <a className="scroll-cue" href="#support" aria-label="Scroll to learn why manufacturers choose Astramark"><span>SCROLL TO EXPLORE</span><i><ArrowDown size={15} /></i></a>
           </div>
           <div className="hero-art">
-            <img src="/images/fiber-sheet-cutting-astramark.jpeg" alt="Industrial fiber laser sheet cutting machine" />
-            <div className="art-label"><span>SUPPLIER-REFERENCE IMAGE · ILLUSTRATIVE</span><span>LASER SYSTEMS</span></div>
+            <video
+              className="hero-video"
+              autoPlay={!prefersReducedMotion}
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              poster="/images/fiber-sheet-cutting-astramark.jpeg"
+              aria-label="Illustrative laser cutting concept video"
+            >
+              <source src="/videos/astramark-laser-hero.mp4" type="video/mp4" />
+            </video>
+            <div className="art-label"><span>ILLUSTRATIVE LASER MOTION · CONCEPT</span><span>LASER SYSTEMS</span></div>
             <div className="art-index">01<span> / </span>15</div>
-            <div className="art-caption">Illustrative machine image.<br />Configuration may vary.</div>
+            <div className="art-caption">Laser processing concept.<br />Final configuration may vary.</div>
           </div>
           <div className="hero-side-note eyebrow">MACHINE SELECTION<br />SALES / SUPPORT</div>
         </section>
