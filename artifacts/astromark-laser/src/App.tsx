@@ -250,17 +250,14 @@ function Home() {
       <main className="main-story">
         <section className="hero page-width" aria-labelledby="hero-heading">
           <div className="hero-copy">
-            <div className="eyebrow hero-kicker"><span className="kicker-dot" /> 01 — ABOUT ASTRAMARK / SALES & SUPPORT</div>
-            <h1 id="hero-heading" className="display hero-title hero-title-long">Laser systems<br />for the work<br /><em>you do.</em></h1>
-            <p className="hero-lede">ASTRAMARK helps Indian manufacturers choose laser marking, cutting, welding and engraving systems, then supports customers through the process.</p>
-            <p className="hero-lede">We help clarify materials, working areas, output needs and machine configurations—and provide support as you make the right choice for your business.</p>
-            <p className="hero-tagline"><strong>Your Vision. Our Technology. Better Possibilities.</strong></p>
+            <div className="eyebrow hero-kicker">PRECISION MEETS POSSIBILITIES</div>
+            <h1 id="hero-heading" className="display hero-title">The Right Laser Technology.<br /><em>The Right Partner.</em></h1>
+            <p className="hero-lede">Powering Indian businesses with laser marking, cutting, welding and engraving solutions — backed by genuine guidance, competitive pricing and customer-focused support.</p>
             <div className="hero-actions">
-              <a className="button button-dark button-arrow" href="#catalogue">Explore Our Products <ArrowRight size={16} /></a>
-              <button className="text-link text-link-button" type="button" onClick={() => startEnquiry()}>Request a Quote <ArrowRight size={14} /></button>
+              <a className="button button-arrow hero-action-primary" href="#catalogue">Explore Our Machines <ArrowRight size={16} /></a>
+              <button className="button button-arrow hero-action-secondary" type="button" onClick={() => startEnquiry()}>Talk to Our Team <ArrowRight size={16} /></button>
             </div>
-            <div className="hero-footnote"><span className="footnote-rule" /> Machine sales, application guidance, and reliable support</div>
-            <a className="scroll-cue" href="#support" aria-label="Scroll to learn why manufacturers choose Astramark"><span>SCROLL TO EXPLORE</span><i><ArrowDown size={15} /></i></a>
+            <div className="hero-trustline">TRUST FIRST <span>·</span> CUSTOMER ALWAYS <span>·</span> QUALITY IN EVERY DETAIL</div>
           </div>
           <div className="hero-art">
             <video
@@ -295,7 +292,6 @@ function Home() {
             <div className="art-index">3D<span> / </span>GOLD</div>
             <div className="art-caption">Gold sparks in motion.<br />Illustrative laser visualization.</div>
           </div>
-          <div className="hero-side-note eyebrow">MACHINE SELECTION<br />SALES / SUPPORT</div>
         </section>
 
         <section className="approach-section why-section" id="support" aria-labelledby="why-title">
