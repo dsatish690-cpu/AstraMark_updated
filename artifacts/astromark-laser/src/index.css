@@ -303,7 +303,11 @@
 .form-row-three input,.form-row-three select { font-size:11px; }
 .optional { color:#9aa097; font:9px var(--app-font-sans); margin-left:4px; }
 .form-submit { width:100%; justify-content:space-between; margin-top:3px; }
+.form-submit:disabled { cursor:wait; opacity:.72; }
 .form-note { margin:0; color:#89958a; font-size:9px; line-height:1.5; }
+.enquiry-trap { position:absolute !important; left:-10000px !important; width:1px !important; height:1px !important; overflow:hidden !important; }
+.enquiry-feedback { margin:0; font-size:11px; line-height:1.6; }
+.enquiry-feedback-error { color:#a43f32; background:#fff0ec; border-left:3px solid #c85e48; padding:11px 13px; }
 .brief-confirmation { min-height:435px; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; }
 .confirm-icon { display:grid; place-items:center; width:38px; height:38px; border:1px solid #b9c9bc; border-radius:50%; color:#d96e4b; margin-bottom:20px; }
 .brief-confirmation .eyebrow { color:#a35f48; }

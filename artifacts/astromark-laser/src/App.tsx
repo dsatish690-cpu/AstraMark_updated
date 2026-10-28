@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import { ArrowDown, ArrowRight, Check, ChevronDown, CircleHelp, Menu, Search, X } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
@@ -27,7 +27,7 @@ const questions = [
   { q: 'Can Astramark help choose a suitable machine?', a: 'Share your material, process, working dimensions, throughput and any existing line requirements. Astramark can discuss the options and clarify the configuration.' },
   { q: 'Are the listed specifications fixed?', a: 'No. Catalogue highlights are for reference. Exact model, configuration, availability and specifications should be confirmed with Astramark.' },
   { q: 'Can I request support for an existing machine?', a: 'Yes. Choose “Service or technical support” in the enquiry form and include your machine model, issue, and any useful context. Do not include sensitive information.' },
-  { q: 'Does this website send the enquiry?', a: 'The form prepares an email for you to review and send. The website does not store your details.' },
+  { q: 'Does this website send the enquiry?', a: 'Yes. Machine and configuration enquiries go to our sales inbox, and service or technical support requests go to our support inbox. Enquiry details are used only to deliver your message.' },
 ];
 
 function BrandLogo() {
@@ -66,10 +66,9 @@ function Home() {
   const [search, setSearch] = useState('');
   const [expanded, setExpanded] = useState<string | null>(null);
   const [openQuestion, setOpenQuestion] = useState<number | null>(0);
-  const [briefReady, setBriefReady] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const [submission, setSubmission] = useState<{ state: 'idle' | 'sending' | 'success' | 'error'; message?: string }>({ state: 'idle' });
   const [enquiryOpen, setEnquiryOpen] = useState(false);
-  const [form, setForm] = useState({ name: '', email: '', requestType: 'Machine enquiry', machine: '', details: '' });
+  const [form, setForm] = useState({ name: '', email: '', requestType: 'Machine enquiry', machine: '', details: '', website: '' });
 
   const visibleProducts = useMemo(() => products.filter((product) =>
     (filter === 'All machines' || product.category === filter)
@@ -96,44 +95,37 @@ function Home() {
 
   const updateForm = (field: keyof typeof form, value: string) => {
     setForm((previous) => ({ ...previous, [field]: value }));
-    setBriefReady(false);
-    setCopied(false);
   };
 
-  const briefText = [
-    'ASTRAMARK LASER MACHINE — ENQUIRY',
-    `Name: ${form.name}`,
-    `Email: ${form.email}`,
-    `Request type: ${form.requestType}`,
-    `Machine / model: ${form.machine || 'Not specified'}`,
-    `Requirements / issue: ${form.details}`,
-  ].join('\n');
-  const enquiryRecipient = form.requestType === 'Service or technical support'
-    ? 'support@astramarklaser.com'
-    : 'info@astramarklaser.com';
-  const emailEnquiryHref = `mailto:${enquiryRecipient}?subject=${encodeURIComponent(`${form.requestType} — Astramark Laser Machine`)}&body=${encodeURIComponent(briefText)}`;
-
-  const copyBrief = async () => {
+  const submitEnquiry = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setSubmission({ state: 'sending' });
     try {
-      await navigator.clipboard.writeText(briefText);
-      setCopied(true);
+      const response = await fetch('/api/enquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+      const result = await response.json().catch(() => null) as { error?: string; message?: string } | null;
+      if (!response.ok) {
+        setSubmission({
+          state: 'error',
+          message: result?.error ?? 'We could not send your enquiry. Your details are still here—please try again.',
+        });
+        return;
+      }
+      setSubmission({ state: 'success', message: result?.message ?? 'Your enquiry has been sent.' });
     } catch {
-      const textArea = document.createElement('textarea');
-      textArea.value = briefText;
-      textArea.style.position = 'fixed';
-      textArea.style.opacity = '0';
-      document.body.appendChild(textArea);
-      textArea.select();
-      const success = document.execCommand('copy');
-      document.body.removeChild(textArea);
-      setCopied(success);
+      setSubmission({
+        state: 'error',
+        message: 'We could not reach the enquiry service. Your details are still here—please try again.',
+      });
     }
   };
 
   const startEnquiry = (product?: string) => {
     setForm((previous) => ({ ...previous, requestType: 'Machine enquiry', machine: product ?? previous.machine }));
-    setBriefReady(false);
-    setCopied(false);
+    setSubmission({ state: 'idle' });
     setEnquiryOpen(true);
   };
 
@@ -146,33 +138,42 @@ function Home() {
     { href: '#faq', label: 'FAQs' },
   ];
 
-  const renderEnquiryForm = (prefix: string) => !briefReady ? (
-    <form className="quote-form" onSubmit={(event) => { event.preventDefault(); setBriefReady(true); }} data-testid={prefix === 'page' ? 'form-machine-enquiry' : 'form-quick-machine-enquiry'}>
+  const renderEnquiryForm = (prefix: string) => submission.state === 'success' ? (
+    <div className="brief-confirmation" role="status" data-testid="status-enquiry-sent">
+      <div className="confirm-icon"><Check size={20} /></div>
+      <div className="eyebrow">ENQUIRY SENT</div>
+      <h3>Thank you for contacting us.</h3>
+      <p>{submission.message} Our team will follow up using the email address you provided.</p>
+      <button
+        className="button button-orange button-arrow"
+        type="button"
+        onClick={() => {
+          setForm({ name: '', email: '', requestType: 'Machine enquiry', machine: '', details: '', website: '' });
+          setSubmission({ state: 'idle' });
+        }}
+        data-testid="button-new-enquiry"
+      >
+        Send another enquiry <ArrowRight size={15} />
+      </button>
+    </div>
+  ) : (
+    <form className="quote-form" onSubmit={submitEnquiry} data-testid={prefix === 'page' ? 'form-machine-enquiry' : 'form-quick-machine-enquiry'}>
       <div className="form-row">
-        <label>Your name<input id={prefix === 'page' ? 'enquiry-name' : 'quick-enquiry-name'} required value={form.name} onChange={(event) => updateForm('name', event.target.value)} placeholder="Name" autoComplete="name" data-testid={prefix === 'page' ? 'input-name' : 'input-quick-name'} /></label>
-        <label>Email address<input required type="email" value={form.email} onChange={(event) => updateForm('email', event.target.value)} placeholder="name@example.com" autoComplete="email" data-testid={prefix === 'page' ? 'input-email' : 'input-quick-email'} /></label>
+        <label>Your name<input id={prefix === 'page' ? 'enquiry-name' : 'quick-enquiry-name'} required minLength={2} maxLength={120} value={form.name} onChange={(event) => updateForm('name', event.target.value)} placeholder="Name" autoComplete="name" data-testid={prefix === 'page' ? 'input-name' : 'input-quick-name'} /></label>
+        <label>Email address<input required type="email" maxLength={254} value={form.email} onChange={(event) => updateForm('email', event.target.value)} placeholder="name@example.com" autoComplete="email" data-testid={prefix === 'page' ? 'input-email' : 'input-quick-email'} /></label>
       </div>
       <div className="form-row">
         <label>What do you need?<select value={form.requestType} onChange={(event) => updateForm('requestType', event.target.value)}><option>Machine enquiry</option><option>Service or technical support</option><option>Configuration question</option></select></label>
-        <label>Machine / model <span className="optional">optional</span><input value={form.machine} onChange={(event) => updateForm('machine', event.target.value)} placeholder="Machine or model" /></label>
+        <label>Machine / model <span className="optional">optional</span><input maxLength={120} value={form.machine} onChange={(event) => updateForm('machine', event.target.value)} placeholder="Machine or model" /></label>
       </div>
-      <label>Application or support details<textarea required rows={4} value={form.details} onChange={(event) => updateForm('details', event.target.value)} placeholder="Material, dimensions, process, or the issue you need help with…" data-testid={prefix === 'page' ? 'input-details' : 'input-quick-details'} /></label>
-      <button type="submit" className="button button-orange button-arrow form-submit" data-testid={prefix === 'page' ? 'button-prepare-enquiry' : 'button-prepare-quick-enquiry'}>Prepare copyable enquiry <ArrowRight size={16} /></button>
-      <p className="form-note">Your email app opens with the enquiry ready for you to review. This website does not store submissions.</p>
+      <label>Application or support details<textarea required minLength={10} maxLength={3000} rows={4} value={form.details} onChange={(event) => updateForm('details', event.target.value)} placeholder="Material, dimensions, process, or the issue you need help with…" data-testid={prefix === 'page' ? 'input-details' : 'input-quick-details'} /></label>
+      <label className="enquiry-trap" aria-hidden="true">Leave this field empty<input tabIndex={-1} autoComplete="off" value={form.website} onChange={(event) => updateForm('website', event.target.value)} /></label>
+      {submission.state === 'error' && <p className="enquiry-feedback enquiry-feedback-error" role="alert" data-testid="status-enquiry-error">{submission.message}</p>}
+      <button type="submit" className="button button-orange button-arrow form-submit" disabled={submission.state === 'sending'} data-testid={prefix === 'page' ? 'button-submit-enquiry' : 'button-submit-quick-enquiry'}>
+        {submission.state === 'sending' ? 'Sending enquiry…' : 'Send enquiry'} <ArrowRight size={16} />
+      </button>
+      <p className="form-note">Your details are used only to deliver this enquiry and are not stored by this website.</p>
     </form>
-  ) : (
-    <div className="brief-confirmation" data-testid="status-enquiry-ready">
-      <div className="confirm-icon"><Check size={20} /></div>
-      <div className="eyebrow">ENQUIRY PREPARED</div>
-      <h3>Ready for you to share.</h3>
-      <p>Review the details, then open the email draft to send your enquiry. Nothing is stored by this website.</p>
-      <pre>{briefText}</pre>
-      <div className="confirm-actions">
-        <a className="button button-orange button-arrow" href={emailEnquiryHref} data-testid="link-email-enquiry">Open email draft <ArrowRight size={15} /></a>
-        <button className="button button-orange button-arrow" type="button" onClick={copyBrief} data-testid="button-copy-enquiry">{copied ? 'Copied to clipboard' : 'Copy enquiry'} {copied ? <Check size={15} /> : <ArrowRight size={15} />}</button>
-        <button className="edit-brief" type="button" onClick={() => { setBriefReady(false); setCopied(false); }}>Edit details</button>
-      </div>
-    </div>
   );
 
   return (
@@ -196,7 +197,7 @@ function Home() {
           <DialogHeader className="quick-enquiry-heading">
             <div className="eyebrow">SALES / SUPPORT — ASTRAMARK</div>
             <DialogTitle className="display">Let’s talk <em>machine details.</em></DialogTitle>
-            <DialogDescription id="quick-enquiry-description">Tell us what you are working on. Your details stay in this browser until you choose to prepare an email draft.</DialogDescription>
+            <DialogDescription id="quick-enquiry-description">Send your question directly to our sales or support team. We only use your details to deliver the enquiry.</DialogDescription>
           </DialogHeader>
           <div className="quick-enquiry-body">{renderEnquiryForm('quick')}</div>
         </DialogContent>
@@ -320,8 +321,8 @@ function Home() {
             <div className="quote-copy">
               <div className="eyebrow light-eyebrow">05 — SALES OR SUPPORT ENQUIRY</div>
               <h2 className="display">Let’s talk<br /><em>machine details.</em></h2>
-              <p>Tell us about a machine you are considering or an existing equipment support question. Prepare an enquiry and open it in your email app.</p>
-              <div className="quote-aside"><span className="quote-aside-mark"><Check size={20} /></span><span>The form opens a draft for you to review and send.<br />This website does not store your information.</span></div>
+              <p>Tell us about a machine you are considering or an existing equipment support question. Your enquiry goes directly to the right Astramark team.</p>
+              <div className="quote-aside"><span className="quote-aside-mark"><Check size={20} /></span><span>Machine and configuration enquiries go to sales.<br />Service requests go to customer support.</span></div>
             </div>
             <div className="quote-form-wrap">
               {renderEnquiryForm('page')}
@@ -335,7 +336,7 @@ function Home() {
               <div className="eyebrow section-index">06 — CONTACT ASTRAMARK</div>
               <h2 className="display section-title" id="contact-heading">Laser machines.<br /><em>Sales & support.</em></h2>
               <p>Astramark Laser Machine Pvt. Ltd. sells laser machines and provides customer support. Contact our team in Visakhapatnam for machine enquiries and assistance.</p>
-              <button className="button button-dark button-arrow" type="button" onClick={() => startEnquiry()}>Email our team <ArrowRight size={16} /></button>
+              <button className="button button-dark button-arrow" type="button" onClick={() => startEnquiry()}>Talk to our team <ArrowRight size={16} /></button>
             </div>
             <div className="contact-grid">
               <div className="contact-card">
