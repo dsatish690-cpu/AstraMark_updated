@@ -1,0 +1,1 @@
+- [Astramark positioning](astramark-positioning.md) — Astramark sells laser machines and provides support; current machine visuals are illustrative until real product photos are available.

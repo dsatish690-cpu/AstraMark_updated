@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { ArrowDown, ArrowRight, Check, ChevronDown, CircleHelp, Menu, Search, X } from 'lucide-react';
 
 type Product = { name: string; category: string; image: string; highlights: [string, string][]; details: string };
@@ -34,6 +34,23 @@ function BrandLogo() {
 }
 
 function Home() {
+  useEffect(() => {
+    const targets = document.querySelectorAll('.hero-copy, .hero-art, .section-heading, .product-card, .approach-heading, .step-row, .materials-intro, .material-tab, .quote-copy, .quote-form-wrap, .contact-copy, .contact-card, .faq-item');
+    if (!('IntersectionObserver' in window)) {
+      targets.forEach((target) => target.classList.add('is-visible'));
+      return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -30px 0px' });
+    targets.forEach((target) => observer.observe(target));
+    return () => observer.disconnect();
+  }, []);
   const [menuOpen, setMenuOpen] = useState(false);
   const [filter, setFilter] = useState('All machines');
   const [search, setSearch] = useState('');
@@ -92,8 +109,9 @@ function Home() {
   };
 
   const navItems = [
-    { href: '#catalogue', label: 'Machines' },
+    { href: '#top', label: 'Overview' },
     { href: '#support', label: 'Why ASTRAMARK' },
+    { href: '#catalogue', label: 'Machines' },
     { href: '#enquiry', label: 'Enquire' },
     { href: '#contact', label: 'Contact' },
     { href: '#faq', label: 'FAQs' },
@@ -115,13 +133,13 @@ function Home() {
         {menuOpen && <nav className="mobile-nav mobile-menu" aria-label="Mobile navigation">{navItems.map((item) => <a href={item.href} key={item.href} onClick={() => setMenuOpen(false)}>{item.label}<ArrowRight size={15} /></a>)}</nav>}
       </header>
 
-      <main>
+      <main className="main-story">
         <section className="hero page-width" aria-labelledby="hero-heading">
           <div className="hero-copy">
-            <div className="eyebrow hero-kicker"><span className="kicker-dot" /> Precision. Innovation. Trust.</div>
-            <h1 id="hero-heading" className="display hero-title hero-title-long">Empowering<br />Industries with<br /><em>Advanced Laser</em><br /><em>Technology</em></h1>
-            <p className="hero-lede">At ASTRAMARK, we bring precision, innovation, and performance together to deliver smart laser solutions for modern industries.</p>
-            <p className="hero-lede">From laser marking and cutting to welding and engraving, our machines are designed to support accuracy, productivity, and consistent results across a wide range of applications.</p>
+            <div className="eyebrow hero-kicker"><span className="kicker-dot" /> 01 — ABOUT ASTRAMARK / SALES & SUPPORT</div>
+            <h1 id="hero-heading" className="display hero-title hero-title-long">Laser systems<br />for the work<br /><em>you do.</em></h1>
+            <p className="hero-lede">ASTRAMARK helps Indian manufacturers choose laser marking, cutting, welding and engraving systems, then supports customers through the process.</p>
+            <p className="hero-lede">We help clarify materials, working areas, output needs and machine configurations—and provide support as you make the right choice for your business.</p>
             <p className="hero-tagline"><strong>Your Vision. Our Technology. Better Possibilities.</strong></p>
             <div className="hero-actions">
               <a className="button button-dark button-arrow" href="#catalogue">Explore Our Products <ArrowRight size={16} /></a>
@@ -138,6 +156,25 @@ function Home() {
           <div className="hero-side-note eyebrow">MACHINE SELECTION<br />SALES / SUPPORT</div>
         </section>
 
+        <section className="approach-section" id="support">
+          <div className="page-width approach-layout">
+            <div className="approach-heading">
+              <div className="eyebrow light-eyebrow">02 — WHY CHOOSE ASTRAMARK</div>
+              <h2 className="display">Why choose<br /><em>ASTRAMARK?</em></h2>
+              <p>We believe that the right technology can transform the way businesses work. That is why we focus on understanding your requirements and helping you find the right laser solution for your application.</p>
+              <button type="button" className="button button-light button-arrow" onClick={() => startEnquiry()}>Request a Quote <ArrowRight size={16} /></button>
+            </div>
+            <div className="steps-list why-list">
+              <div className="step-row"><span className="step-number">01</span><div><h3>Precision Engineering</h3><p>Designed for accurate, consistent results.</p></div><span className="step-mark">↗</span></div>
+              <div className="step-row"><span className="step-number">02</span><div><h3>Smart Technology</h3><p>Modern laser solutions for evolving industrial needs.</p></div><span className="step-mark">↗</span></div>
+              <div className="step-row"><span className="step-number">03</span><div><h3>Application-Focused Solutions</h3><p>Machine options suited to different materials and applications.</p></div><span className="step-mark">↗</span></div>
+              <div className="step-row"><span className="step-number">04</span><div><h3>Customer-Centric Approach</h3><p>We listen, understand, and recommend solutions based on your requirements.</p></div><span className="step-mark">↗</span></div>
+              <div className="step-row"><span className="step-number">05</span><div><h3>Reliable Support</h3><p>Assistance to help you make informed decisions and get the most from your investment.</p></div><span className="step-mark">↗</span></div>
+            </div>
+          </div>
+          <div className="approach-coordinate eyebrow">ASTROMARK / MACHINE SALES / CUSTOMER SUPPORT</div>
+        </section>
+
         <section className="marquee-band" aria-label="Machine categories">
           <div className="marquee-inner"><span>Marking</span><i>◆</i><span>Cutting</span><i>◆</i><span>Welding</span><i>◆</i><span>Jewellery systems</span><i>◆</i><span>Sales & support</span><i>◆</i><span>Marking</span><i>◆</i></div>
         </section>
@@ -145,7 +182,7 @@ function Home() {
         <section className="work-section section-pad" id="catalogue" aria-labelledby="catalogue-heading">
           <div className="page-width">
             <div className="section-heading">
-              <div><div className="eyebrow section-index">01 — MACHINE CATALOGUE</div><h2 className="display section-title" id="catalogue-heading">Find your process.<br /><em>Then the machine.</em></h2></div>
+              <div><div className="eyebrow section-index">03 — MACHINE CATALOGUE</div><h2 className="display section-title" id="catalogue-heading">Find your process.<br /><em>Then the machine.</em></h2></div>
               <p className="section-intro">Browse machine families and scan the brochure highlights. Each configuration is application-specific, so use the enquiry path to confirm what fits.</p>
             </div>
             <div className="product-toolbar">
@@ -175,28 +212,9 @@ function Home() {
           </div>
         </section>
 
-        <section className="approach-section" id="support">
-          <div className="page-width approach-layout">
-            <div className="approach-heading">
-              <div className="eyebrow light-eyebrow">02 — WHY CHOOSE ASTRAMARK</div>
-              <h2 className="display">Why choose<br /><em>ASTRAMARK?</em></h2>
-              <p>We believe that the right technology can transform the way businesses work. That is why we focus on understanding your requirements and helping you find the right laser solution for your application.</p>
-              <button type="button" className="button button-light button-arrow" onClick={() => startEnquiry()}>Request a Quote <ArrowRight size={16} /></button>
-            </div>
-            <div className="steps-list why-list">
-              <div className="step-row"><span className="step-number">01</span><div><h3>Precision Engineering</h3><p>Designed for accurate, consistent results.</p></div><span className="step-mark">↗</span></div>
-              <div className="step-row"><span className="step-number">02</span><div><h3>Smart Technology</h3><p>Modern laser solutions for evolving industrial needs.</p></div><span className="step-mark">↗</span></div>
-              <div className="step-row"><span className="step-number">03</span><div><h3>Application-Focused Solutions</h3><p>Machine options suited to different materials and applications.</p></div><span className="step-mark">↗</span></div>
-              <div className="step-row"><span className="step-number">04</span><div><h3>Customer-Centric Approach</h3><p>We listen, understand, and recommend solutions based on your requirements.</p></div><span className="step-mark">↗</span></div>
-              <div className="step-row"><span className="step-number">05</span><div><h3>Reliable Support</h3><p>Assistance to help you make informed decisions and get the most from your investment.</p></div><span className="step-mark">↗</span></div>
-            </div>
-          </div>
-          <div className="approach-coordinate eyebrow">ASTROMARK / MACHINE SALES / CUSTOMER SUPPORT</div>
-        </section>
-
         <section className="materials-section section-pad" aria-labelledby="selection-heading">
           <div className="page-width materials-layout">
-            <div className="materials-intro"><div className="eyebrow section-index">03 — MAKE A GOOD SHORTLIST</div><h2 className="display section-title" id="selection-heading">A process-first<br /><em>conversation.</em></h2><p>Machine selection starts with the work: material, part size, throughput and the result you need. Get these details together before comparing configurations.</p></div>
+            <div className="materials-intro"><div className="eyebrow section-index">04 — MAKE A GOOD SHORTLIST</div><h2 className="display section-title" id="selection-heading">A process-first<br /><em>conversation.</em></h2><p>Machine selection starts with the work: material, part size, throughput and the result you need. Get these details together before comparing configurations.</p></div>
             <div className="materials-browser">
               {[['01', 'Material & process', 'What are you cutting, marking or welding? Include the material grade if known.'], ['02', 'Working envelope', 'Share the part dimensions, required bed size or marking field.'], ['03', 'Production needs', 'Note volume, shift pattern, line speed and any automation requirements.'], ['04', 'Support context', 'For existing equipment, include the machine model and describe the issue.']].map(([number, title, detail]) => <div className="material-tab" key={number}><span className="material-number">{number}</span><span>{title}</span><ArrowRight size={15} /></div>)}
             </div>
@@ -206,7 +224,7 @@ function Home() {
         <section className="quote-section" id="enquiry">
           <div className="page-width quote-layout">
             <div className="quote-copy">
-              <div className="eyebrow light-eyebrow">04 — SALES OR SUPPORT ENQUIRY</div>
+              <div className="eyebrow light-eyebrow">05 — SALES OR SUPPORT ENQUIRY</div>
               <h2 className="display">Let’s talk<br /><em>machine details.</em></h2>
               <p>Tell us about a machine you are considering or an existing equipment support question. Prepare an enquiry and open it in your email app.</p>
               <div className="quote-aside"><span className="quote-aside-mark"><Check size={20} /></span><span>The form opens a draft for you to review and send.<br />This website does not store your information.</span></div>
@@ -247,7 +265,7 @@ function Home() {
         <section className="contact-section section-pad" id="contact" aria-labelledby="contact-heading">
           <div className="page-width contact-layout">
             <div className="contact-copy">
-              <div className="eyebrow section-index">ABOUT ASTRAMARK</div>
+              <div className="eyebrow section-index">06 — CONTACT ASTRAMARK</div>
               <h2 className="display section-title" id="contact-heading">Laser machines.<br /><em>Sales & support.</em></h2>
               <p>Astramark Laser Machine Pvt. Ltd. sells laser machines and provides customer support. Contact our team in Visakhapatnam for machine enquiries and assistance.</p>
               <a className="button button-dark button-arrow" href="mailto:info@astramarklaser.com">Email our team <ArrowRight size={16} /></a>
@@ -277,7 +295,7 @@ function Home() {
 
         <section className="faq-section section-pad" id="faq">
           <div className="page-width faq-layout">
-            <div><div className="eyebrow section-index">05 — GOOD TO KNOW</div><h2 className="display section-title">Before you<br /><em>get in touch.</em></h2><p className="faq-subtitle">Need to compare machine options? Start an enquiry with your process details.</p></div>
+            <div><div className="eyebrow section-index">07 — GOOD TO KNOW</div><h2 className="display section-title">Before you<br /><em>get in touch.</em></h2><p className="faq-subtitle">Need to compare machine options? Start an enquiry with your process details.</p></div>
             <div className="faq-list">
               {questions.map((item, index) => <div className={`faq-item ${openQuestion === index ? 'faq-open' : ''}`} key={item.q}>
                 <button type="button" className="faq-question" aria-expanded={openQuestion === index} onClick={() => setOpenQuestion(openQuestion === index ? null : index)}><span><i>0{index + 1}</i>{item.q}</span><ChevronDown size={18} /></button>
