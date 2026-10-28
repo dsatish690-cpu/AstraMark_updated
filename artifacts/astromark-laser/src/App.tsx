@@ -7,30 +7,30 @@ const products: Product[] = [
   { name: 'Fiber laser marking', category: 'Marking', image: '/images/fiber-marking.jpeg', highlights: [['Marking area', '100×100 to 300×300 mm'], ['Power options', '30, 50, 60, 100, 200 W'], ['Laser types', 'Fiber, CO₂ and UV']], details: 'Available in 100×100, 175×175, 220×220 and 300×300 mm fields, or customized. Confirm laser source and configuration for the intended material.' },
   { name: 'Customized fiber marking', category: 'Marking', image: '/images/custom-fiber-marking.jpeg', highlights: [['Working area', '600×600 to 1500×3000 mm'], ['Power options', '30, 50, 100, 200 W'], ['Continuous marking', 'Encoder-synced for large graphics']], details: 'Brochure ranges also list 900×900, 1200×1200 and 1300×2500 mm fields. Pulse repetition 1–1000 kHz, pulse width 2–500 ns, air cooling.' },
   { name: 'Fiber sheet cutting', category: 'Cutting', image: '/images/fiber-sheet-cutting.jpeg', highlights: [['Working area', '1500×3000 to 2500×13000 mm'], ['Power options', '1500–20000 W'], ['Motion', 'Up to 120 m/min travel']], details: 'Listed formats include 1500×3000, 1500×4000, 2500×6500 and 2500×13000 mm, plus customized sizes. Autofocus cutting head.' },
-  { name: 'Pipe cutting', category: 'Cutting', image: '/images/pipe-cutting.jpeg', highlights: [['Machine size', '6000×200 mm length × width'], ['Chuck', '220 mm; 110 / 350 mm optional'], ['Position accuracy', '0.03 mm/m']], details: 'For round, rectangular, square, I-channel and C-channel tubes. Ask Astromark to confirm suitable chuck and tube profile.' },
+  { name: 'Pipe cutting', category: 'Cutting', image: '/images/pipe-cutting.jpeg', highlights: [['Machine size', '6000×200 mm length × width'], ['Chuck', '220 mm; 110 / 350 mm optional'], ['Position accuracy', '0.03 mm/m']], details: 'For round, rectangular, square, I-channel and C-channel tubes. Ask Astramark to confirm suitable chuck and tube profile.' },
   { name: 'Sheet + pipe cutting', category: 'Cutting', image: '/images/sheet-pipe-cutting.jpeg', highlights: [['Sheet area', '1500×3000 to 2500×6500 mm'], ['Pipe diameter', '20–220 mm chuck'], ['Travel speed', 'Up to 120 m/min']], details: 'Sheet formats listed: 1500×3000, 2000×4000, 2000×6000, 2500×6500 mm or customized. Position accuracy 0.03 mm/m; repeat positioning accuracy 0.02 mm/m. Listed powers 1500–20000 W.' },
   { name: 'Fiber welding', category: 'Welding', image: '/images/fiber-welding.jpeg', highlights: [['Power options', '1500, 2000, 3000, 6000 W'], ['Material thickness', '0.5–10 mm'], ['Cooling', 'Water-cooled']], details: 'Wobble width 0.5–5 mm; 10 mm optional. Suitability depends on material and joint requirements.' },
   { name: 'Battery welding', category: 'Welding', image: '/images/battery-welding.jpeg', highlights: [['Power options', '3000 / 6000 W'], ['Working field', '600×600 to 1200×1200 mm'], ['Scan speed', 'Up to 8 m/s']], details: 'Brochure lists 600×600, 900×900 and 1200×1200 mm fields or customized. Water-cooled.' },
   { name: 'Online marking', category: 'Marking', image: '/images/online-marking.jpeg', highlights: [['Laser options', 'Fiber, CO₂ or UV'], ['Standard power', '30 W; higher options'], ['Power supply', '220–230 V single-phase']], details: 'Inline marking configurations depend on production line speed, material and integration needs. Higher-power configurations are optional.' },
   { name: 'CO₂ cutting & engraving', category: 'Cutting', image: '/images/co2-cutting.jpeg', highlights: [['Working area', '600×900 to 1300×2500 mm'], ['Power options', '80–200 W'], ['Cooling', 'Water-cooled']], details: 'Multiple bed sizes are listed from 600×900 mm through 1300×2500 mm, with customized sizes available.' },
-  { name: 'CO₂ engraving', category: 'Marking', image: '/images/co2-engraving.jpeg', highlights: [['Working area', '150×150 or 300×300 mm'], ['Power options', '30 / 60 / 100 W'], ['Cooling', 'Air-cooled metal tube']], details: 'Custom marking field options are listed. Verify the appropriate laser tube and configuration with Astromark.' },
+  { name: 'CO₂ engraving', category: 'Marking', image: '/images/co2-engraving.jpeg', highlights: [['Working area', '150×150 or 300×300 mm'], ['Power options', '30 / 60 / 100 W'], ['Cooling', 'Air-cooled metal tube']], details: 'Custom marking field options are listed. Verify the appropriate laser tube and configuration with Astramark.' },
   { name: 'UV marking', category: 'Marking', image: '/images/uv-marking.jpeg', highlights: [['Power options', '5 / 10 / 15 W'], ['Field options', '100×100, 175×175, 300×300 mm'], ['Field', 'Custom configurations listed']], details: 'UV marking field options include 100×100, 175×175 and 300×300 mm or customized.' },
   { name: '3D engraving', category: 'Marking', image: '/images/3d-engraving.jpeg', highlights: [['Laser source', 'Fiber'], ['Power', '60 W; 80 / 100 W options'], ['Working field', '100×100 mm']], details: 'Brochure-listed 3D engraving configuration. Confirm workpiece dimensions and required 3D depth before selection.' },
   { name: 'Die mould welding', category: 'Welding', image: '/images/die-mould-welding.jpeg', highlights: [['Power', '400 W'], ['Wavelength', '1064 nm'], ['Power adjustment', '1–200 A']], details: 'Table size 600×600 mm or customized. Confirm the working envelope and application fit.' },
-  { name: 'Jewellery cutting', category: 'Jewellery', image: '/images/jewellery-cutting.jpeg', highlights: [['Laser source', 'German laser source listed'], ['Cutting size', '100×100 mm / custom'], ['Cutting depth', '0.01 micron–1.5 mm listed']], details: 'The cutting depth range is transcribed from the supplied brochure; confirm the required material and specification with Astromark.' },
+  { name: 'Jewellery cutting', category: 'Jewellery', image: '/images/jewellery-cutting.jpeg', highlights: [['Laser source', 'German laser source listed'], ['Cutting size', '100×100 mm / custom'], ['Cutting depth', '0.01 micron–1.5 mm listed']], details: 'The cutting depth range is transcribed from the supplied brochure; confirm the required material and specification with Astramark.' },
   { name: 'Jewellery soldering', category: 'Jewellery', image: '/images/jewellery-soldering.jpeg', highlights: [['Laser source', 'ND:YAG pump lamp'], ['Power options', '200 W; 100 / 400 W options'], ['Solder joint', '0.2–2 mm']], details: 'Confirm the appropriate power configuration and joint size for the intended jewellery work.' },
 ];
 
 const categories = ['All machines', 'Marking', 'Cutting', 'Welding', 'Jewellery'];
 const questions = [
-  { q: 'Can Astromark help choose a suitable machine?', a: 'Share your material, process, working dimensions, throughput and any existing line requirements. Astromark can discuss the options and clarify the configuration.' },
-  { q: 'Are the listed specifications fixed?', a: 'No. These highlights are taken from the supplied Dolphin 2026 catalogue. Exact model, configuration, availability and specifications should be confirmed with Astromark.' },
+  { q: 'Can Astramark help choose a suitable machine?', a: 'Share your material, process, working dimensions, throughput and any existing line requirements. Astramark can discuss the options and clarify the configuration.' },
+  { q: 'Are the listed specifications fixed?', a: 'No. Catalogue highlights are for reference. Exact model, configuration, availability and specifications should be confirmed with Astramark.' },
   { q: 'Can I request support for an existing machine?', a: 'Yes. Choose “Service or technical support” in the enquiry form and include your machine model, issue, and any useful context. Do not include sensitive information.' },
-  { q: 'Does this website send the enquiry?', a: 'No. The local form prepares a copyable enquiry only. It does not send or store your details.' },
+  { q: 'Does this website send the enquiry?', a: 'The form prepares an email for you to review and send. The website does not store your details.' },
 ];
 
 function BrandLogo() {
-  return <a href="#top" className="brand-mark" aria-label="Astromark Laser Machine, home"><img src="/images/astromark-logo.png" alt="Astromark Laser Machine Pvt. Ltd." /></a>;
+  return <a href="#top" className="brand-mark" aria-label="Astramark Laser Machine, home"><img src="/images/astromark-logo.png" alt="Astramark Laser Machine Pvt. Ltd." /></a>;
 }
 
 function Home() {
@@ -55,13 +55,17 @@ function Home() {
   };
 
   const briefText = [
-    'ASTROMARK LASER MACHINE — ENQUIRY',
+    'ASTRAMARK LASER MACHINE — ENQUIRY',
     `Name: ${form.name}`,
     `Email: ${form.email}`,
     `Request type: ${form.requestType}`,
     `Machine / model: ${form.machine || 'Not specified'}`,
     `Requirements / issue: ${form.details}`,
   ].join('\n');
+  const enquiryRecipient = form.requestType === 'Service or technical support'
+    ? 'support@astramarklaser.com'
+    : 'info@astramarklaser.com';
+  const emailEnquiryHref = `mailto:${enquiryRecipient}?subject=${encodeURIComponent(`${form.requestType} — Astramark Laser Machine`)}&body=${encodeURIComponent(briefText)}`;
 
   const copyBrief = async () => {
     try {
@@ -91,6 +95,7 @@ function Home() {
     { href: '#catalogue', label: 'Machines' },
     { href: '#support', label: 'Sales & support' },
     { href: '#enquiry', label: 'Enquire' },
+    { href: '#contact', label: 'Contact' },
     { href: '#faq', label: 'FAQs' },
   ];
 
@@ -164,7 +169,7 @@ function Home() {
                 </article>
               )) : <div className="empty-results"><h3>No machines match that search.</h3><p>Try another machine name or choose a different category.</p><button type="button" className="details-toggle" onClick={() => { setSearch(''); setFilter('All machines'); }}>Clear filters <ArrowRight size={14} /></button></div>}
             </div>
-            <div className="catalog-note"><CircleHelp size={17} aria-hidden="true" /><div><strong>About these machine details.</strong> Model imagery and specification highlights are based on the supplied Dolphin 2026 catalogue. Astromark sells machines and provides customer support; it is not represented here as the manufacturer. Confirm exact model and configuration with Astromark.</div></div>
+            <div className="catalog-note"><CircleHelp size={17} aria-hidden="true" /><div><strong>About these machine details.</strong> The machine imagery and specification highlights are shown for reference. Confirm the exact model, options and configuration with Astramark before purchase.</div></div>
           </div>
         </section>
 
@@ -199,8 +204,8 @@ function Home() {
             <div className="quote-copy">
               <div className="eyebrow light-eyebrow">04 — SALES OR SUPPORT ENQUIRY</div>
               <h2 className="display">Let’s talk<br /><em>machine details.</em></h2>
-              <p>Tell us about a machine you are considering or an existing equipment support question. Prepare an enquiry copy to share through your preferred channel.</p>
-              <div className="quote-aside"><span className="quote-aside-mark"><Check size={20} /></span><span>This local form prepares a copyable enquiry.<br />It does not send or store your information.</span></div>
+              <p>Tell us about a machine you are considering or an existing equipment support question. Prepare an enquiry and open it in your email app.</p>
+              <div className="quote-aside"><span className="quote-aside-mark"><Check size={20} /></span><span>The form opens a draft for you to review and send.<br />This website does not store your information.</span></div>
             </div>
             <div className="quote-form-wrap">
               {!briefReady ? (
@@ -215,21 +220,53 @@ function Home() {
                   </div>
                   <label>Application or support details<textarea required rows={4} value={form.details} onChange={(event) => updateForm('details', event.target.value)} placeholder="Material, dimensions, process, or the issue you need help with…" data-testid="input-details" /></label>
                   <button type="submit" className="button button-orange button-arrow form-submit" data-testid="button-prepare-enquiry">Prepare copyable enquiry <ArrowRight size={16} /></button>
-                  <p className="form-note">Your information remains in this browser page. This form does not send or store submissions.</p>
+                  <p className="form-note">Your email app opens with the enquiry ready for you to review. This website does not store submissions.</p>
                 </form>
               ) : (
                 <div className="brief-confirmation" data-testid="status-enquiry-ready">
                   <div className="confirm-icon"><Check size={20} /></div>
                   <div className="eyebrow">ENQUIRY PREPARED</div>
                   <h3>Ready for you to share.</h3>
-                  <p>Copy the enquiry below and send it through a contact channel you already have for Astromark. Nothing was sent or stored by this website.</p>
+                  <p>Review the details, then open the email draft to send your enquiry. Nothing is stored by this website.</p>
                   <pre>{briefText}</pre>
                   <div className="confirm-actions">
+                    <a className="button button-orange button-arrow" href={emailEnquiryHref} data-testid="link-email-enquiry">Open email draft <ArrowRight size={15} /></a>
                     <button className="button button-orange button-arrow" type="button" onClick={copyBrief} data-testid="button-copy-enquiry">{copied ? 'Copied to clipboard' : 'Copy enquiry'} {copied ? <Check size={15} /> : <ArrowRight size={15} />}</button>
                     <button className="edit-brief" type="button" onClick={() => { setBriefReady(false); setCopied(false); }}>Edit details</button>
                   </div>
                 </div>
               )}
+            </div>
+          </div>
+        </section>
+
+        <section className="contact-section section-pad" id="contact" aria-labelledby="contact-heading">
+          <div className="page-width contact-layout">
+            <div className="contact-copy">
+              <div className="eyebrow section-index">ABOUT ASTRAMARK</div>
+              <h2 className="display section-title" id="contact-heading">Laser machines.<br /><em>Sales & support.</em></h2>
+              <p>Astramark Laser Machine Pvt. Ltd. sells laser machines and provides customer support. Contact our team in Visakhapatnam for machine enquiries and assistance.</p>
+              <a className="button button-dark button-arrow" href="mailto:info@astramarklaser.com">Email our team <ArrowRight size={16} /></a>
+            </div>
+            <div className="contact-grid">
+              <div className="contact-card">
+                <span className="eyebrow">PHONE</span>
+                <a href="tel:9177709681">9177709681</a>
+                <a href="tel:9177709682">9177709682</a>
+              </div>
+              <div className="contact-card">
+                <span className="eyebrow">EMAIL</span>
+                <a href="mailto:info@astramarklaser.com">info@astramarklaser.com</a>
+                <a href="mailto:support@astramarklaser.com">support@astramarklaser.com</a>
+              </div>
+              <div className="contact-card">
+                <span className="eyebrow">WEBSITE</span>
+                <a href="https://astramarklaser.com" target="_blank" rel="noreferrer">astramarklaser.com</a>
+              </div>
+              <div className="contact-card contact-address">
+                <span className="eyebrow">ADDRESS</span>
+                <address>49-19-14, FF2, Sri Sai Sampath Enclave,<br />Lalithanagar, Akkayapalem,<br />Visakhapatnam 530 016,<br />Andhra Pradesh</address>
+              </div>
             </div>
           </div>
         </section>
@@ -251,10 +288,11 @@ function Home() {
         <div className="page-width footer-main">
           <div><BrandLogo /><p>Laser machine sales and customer support.</p></div>
           <div className="footer-nav"><span className="eyebrow">CATALOGUE</span><a href="#catalogue">Browse all machines</a><a href="#catalogue">Marking & cutting</a><a href="#catalogue">Welding & jewellery</a></div>
+          <div className="footer-nav"><span className="eyebrow">CONTACT</span><a href="tel:9177709681">9177709681</a><a href="mailto:info@astramarklaser.com">info@astramarklaser.com</a><a href="mailto:support@astramarklaser.com">support@astramarklaser.com</a><a href="#contact">Address & website</a></div>
           <div className="footer-nav"><span className="eyebrow">NEXT STEP</span><a href="#enquiry">Machine enquiry <ArrowRight size={14} /></a><a href="#support">Sales & customer support</a><a href="#faq">Frequently asked questions</a></div>
           <a className="back-top" href="#top" aria-label="Back to top"><ArrowDown size={16} /></a>
         </div>
-        <div className="page-width footer-bottom"><span>© Astromark Laser Machine Pvt. Ltd.</span><span>Machine specifications based on supplied Dolphin 2026 catalogue.</span><span>SALES / SUPPORT / LASER SYSTEMS</span></div>
+        <div className="page-width footer-bottom"><span>© Astramark Laser Machine Pvt. Ltd.</span><span>Machine details are for reference; confirm final specifications with our team.</span><span>SALES / SUPPORT / LASER SYSTEMS</span></div>
       </footer>
     </div>
   );
