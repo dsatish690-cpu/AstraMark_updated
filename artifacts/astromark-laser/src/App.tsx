@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
-import { ArrowDown, ArrowRight, Check, ChevronDown, CircleHelp, Menu, Pause, Play, Search, X } from 'lucide-react';
+import { ArrowDown, ArrowRight, BadgeCheck, Check, ChevronDown, CircleDollarSign, CircleHelp, Handshake, Headphones, Heart, LifeBuoy, Menu, MessageCircle, Pause, Play, Search, ShieldCheck, TrendingUp, X, type LucideIcon } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 type Product = { name: string; category: string; image: string; highlights: [string, string][]; details: string };
+type WhyBenefit = { number: string; title: string; body: string; icon: LucideIcon };
+type WhyHighlight = { title: string; icon: LucideIcon };
 
 const products: Product[] = [
   { name: 'Fiber laser marking', category: 'Marking', image: '/images/fiber-marking-clean.jpeg', highlights: [['Marking area', '100×100 to 300×300 mm'], ['Power options', '30, 50, 60, 100, 200 W'], ['Laser types', 'Fiber, CO₂ and UV']], details: 'Available in 100×100, 175×175, 220×220 and 300×300 mm fields, or customized. Confirm laser source and configuration for the intended material.' },
@@ -32,6 +34,22 @@ const questions = [
   { q: 'Does this website send the enquiry?', a: 'Yes. Machine and configuration enquiries go to our sales inbox, and service or technical support requests go to our support inbox. Enquiry details are used only to deliver your message.' },
 ];
 
+const whyBenefits: WhyBenefit[] = [
+  { number: '01', icon: Heart, title: 'Customer Comes First', body: 'Your needs matter to us. We listen, understand your requirements, and help you explore the right laser solution for your business. Your satisfaction is our priority.' },
+  { number: '02', icon: Handshake, title: 'Trust That Builds Relationships', body: 'We believe in genuine products, transparent communication, and honest business practices. We aim to build long-term relationships, not just complete a sale.' },
+  { number: '03', icon: Headphones, title: 'Responsive Service & Support', body: 'We are committed to prompt communication and dependable service assistance.' },
+  { number: '04', icon: CircleDollarSign, title: 'Competitive Pricing, Better Value', body: 'We focus on competitive prices and helping customers balance performance, affordability, and long-term value.' },
+  { number: '05', icon: MessageCircle, title: 'Quick Response, Clear Communication', body: 'We value your time and aim to make enquiries, machine selection, and service communication simple and clear.' },
+  { number: '06', icon: TrendingUp, title: 'Growing Together', body: 'Whether customers are starting a new business or expanding production, we want to support their journey with suitable laser solutions.' },
+];
+
+const whyHighlights: WhyHighlight[] = [
+  { icon: ShieldCheck, title: 'Genuine & Trusted' },
+  { icon: CircleDollarSign, title: 'Competitive Pricing' },
+  { icon: BadgeCheck, title: 'Customer First' },
+  { icon: LifeBuoy, title: 'Dedicated Support' },
+];
+
 function BrandLogo() {
   return <a href="#top" className="brand-mark" aria-label="Astramark Laser Machine, home"><img src="/images/astromark-logo.png" alt="Astramark Laser Machine Pvt. Ltd." /></a>;
 }
@@ -45,7 +63,7 @@ function Home() {
   const [heroVideoError, setHeroVideoError] = useState(false);
 
   useEffect(() => {
-    const targets = document.querySelectorAll('.hero-copy, .hero-art, .section-heading, .product-toolbar, .product-card, .catalog-trust, .approach-heading, .step-row, .materials-intro, .materials-browser, .material-tab, .quote-copy, .quote-form-wrap, .contact-copy, .contact-card, .faq-list, .faq-item');
+    const targets = document.querySelectorAll('.hero-copy, .hero-art, .section-heading, .product-toolbar, .product-card, .catalog-trust, .approach-heading, .step-row, .why-intro, .why-card, .why-highlight, .promise-panel, .materials-intro, .materials-browser, .material-tab, .quote-copy, .quote-form-wrap, .contact-copy, .contact-card, .faq-list, .faq-item');
     if (!('IntersectionObserver' in window)) {
       targets.forEach((target) => target.classList.add('is-visible'));
       return;
@@ -281,22 +299,61 @@ function Home() {
           <div className="hero-side-note eyebrow">MACHINE SELECTION<br />SALES / SUPPORT</div>
         </section>
 
-        <section className="approach-section" id="support">
-          <div className="page-width approach-layout">
-            <div className="approach-heading">
-              <div className="eyebrow light-eyebrow">02 — WHY CHOOSE ASTRAMARK</div>
-              <h2 className="display">Guidance for<br /><em>your process.</em></h2>
-              <p>Astramark sells laser machines and helps Indian manufacturers compare options for their materials, working dimensions and production needs.</p>
-              <button type="button" className="button button-light button-arrow" onClick={() => startEnquiry()}>Request a Quote <ArrowRight size={16} /></button>
+        <section className="approach-section why-section" id="support" aria-labelledby="why-title">
+          <div className="page-width why-section-inner">
+            <div className="why-intro">
+              <div className="eyebrow why-eyebrow">WHY ASTRAMARK?</div>
+              <h2 className="display" id="why-title">More Than Machines.<br /><em>A Promise of Trust.</em></h2>
+              <div className="why-intro-bottom">
+                <p>At Astramark, we believe every great business relationship begins with trust and grows through genuine service. We offer laser machine solutions, competitive pricing, responsive support, and customer-focused guidance — because your success is our priority.</p>
+                <div className="why-actions">
+                  <a className="why-button why-button-primary" href="#catalogue">Explore Our Machines <ArrowRight size={16} /></a>
+                  <button className="why-button why-button-secondary" type="button" onClick={() => startEnquiry()}>Talk to Our Team <ArrowRight size={16} /></button>
+                </div>
+              </div>
             </div>
-            <div className="steps-list why-list">
-              <div className="step-row"><span className="step-number">01</span><div><h3>Start with the application</h3><p>Discuss the material, process and result you need.</p></div><span className="step-mark">↗</span></div>
-              <div className="step-row"><span className="step-number">02</span><div><h3>Compare machine options</h3><p>Review catalogue configurations against your working area and output.</p></div><span className="step-mark">↗</span></div>
-              <div className="step-row"><span className="step-number">03</span><div><h3>Clarify the specification</h3><p>Confirm the model, configuration and requirements with the team.</p></div><span className="step-mark">↗</span></div>
-              <div className="step-row"><span className="step-number">04</span><div><h3>Installation & repair support</h3><p>Our team provides machine installation and can assist with repair needs.</p></div><span className="step-mark">↗</span></div>
+
+            <div className="why-benefits-heading">
+              <div className="eyebrow">WHY CHOOSE ASTRAMARK</div>
+              <span>Support built around your business and your process.</span>
+            </div>
+            <div className="why-benefit-grid">
+              {whyBenefits.map((benefit) => {
+                const Icon = benefit.icon;
+                return (
+                  <article className="why-card" key={benefit.number}>
+                    <div className="why-card-top">
+                      <span className="why-card-number">{benefit.number}</span>
+                      <span className="why-card-icon"><Icon size={19} strokeWidth={1.7} aria-hidden="true" /></span>
+                    </div>
+                    <h3>{benefit.title}</h3>
+                    <p>{benefit.body}</p>
+                  </article>
+                );
+              })}
+            </div>
+
+            <ul className="why-highlights" aria-label="Astramark highlights">
+              {whyHighlights.map((highlight) => {
+                const Icon = highlight.icon;
+                return (
+                  <li className="why-highlight" key={highlight.title}>
+                    <Icon size={20} strokeWidth={1.8} aria-hidden="true" />
+                    <span>{highlight.title}</span>
+                  </li>
+                );
+              })}
+            </ul>
+
+            <div className="promise-panel">
+              <div className="promise-heading">
+                <div className="eyebrow">OUR PROMISE</div>
+                <h3>At Astramark, You Are Never Just a Customer.</h3>
+                <p className="promise-tagline">Precision in Every Mark.<br />Trust in Every Relationship.</p>
+              </div>
+              <p className="promise-copy">You are a valued business partner. We strive to earn your trust through genuine products, fair pricing, responsive service, and a commitment to your satisfaction. We don't just want to sell you a machine. We want to build a relationship you can rely on.</p>
             </div>
           </div>
-          <div className="approach-coordinate eyebrow">ASTRAMARK / MACHINE SALES / CUSTOMER SUPPORT</div>
         </section>
 
         <section className="marquee-band" aria-label="Machine categories">
