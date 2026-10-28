@@ -1,0 +1,16 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "sXaoDb3WUKoR1P4gtSkMr"
+uri = "file://artifacts/astromark-laser/public/videos/astramark-laser-hero.mp4"
+type = "video"
+title = "Astramark gold laser animation"
+description = "Original 720p 3D-style laser concept video with a moving gold beam and sparks. Embedded in the website hero as an illustrative scene."
+logical_id = "bc2a7b7f-e6a0-41eb-98d4-6ed484f9a94b"
+content_hash = "sha256:6dda9b93f1ac51f7801d446938f8bd752a1a14823f5848c73eca03fd4437bab4"
+size = 987337
+mtime_ms = 1793202124351
+storage_uri = "gcs://replit-rams-assets-sisko/rams/assets/repl:67a6a691-aa68-4e29-8023-9b125ec71b4d/bc2a7b7f-e6a0-41eb-98d4-6ed484f9a94b/2a8226b7-5f28-49a4-9f42-9b1a8b33abda"
+storage_version_token = "1793202340825559"
+content_type = "video/mp4"

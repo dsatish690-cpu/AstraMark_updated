@@ -1360,10 +1360,69 @@ body,.site-shell { background:var(--paper); color:var(--ink); }
 .hero-footnote { color:#bdb6a7; }
 .text-link { color:#e8e0d0; }
 .text-link:hover { color:#e5bc58; }
-.hero-art { background:#9d772b; box-shadow:16px 17px 0 rgba(184,132,32,.42); }
-.hero-art .hero-image { display:block; width:100%; height:100%; object-fit:cover; object-position:center; background:#e8e2d6; }
+.hero-art { background:#080b11; box-shadow:16px 17px 0 rgba(184,132,32,.42); }
+.hero-art .hero-video { display:block; width:100%; height:100%; object-fit:cover; object-position:center; background:#080b11; }
 .hero-art::after { background:linear-gradient(180deg,rgba(25,24,19,.05),transparent 54%,rgba(25,24,19,.52)); }
 .hero-art::before { border-color:rgba(255,249,232,.55); }
+.hero-video-control {
+  position:absolute;
+  z-index:7;
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  border:1px solid rgba(255,249,232,.58);
+  background:rgba(8,11,17,.86);
+  color:#fff8e8;
+  box-shadow:0 7px 24px rgba(0,0,0,.35);
+  cursor:pointer;
+  transition:background .2s ease,color .2s ease,transform .2s ease;
+}
+.hero-video-control.is-playing {
+  bottom:16px;
+  left:16px;
+  width:38px;
+  height:38px;
+  justify-content:center;
+  padding:0;
+  border-radius:50%;
+}
+.hero-video-control.is-paused {
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  padding:10px 15px 10px 10px;
+  border-radius:3px;
+  font:600 11px/1 var(--app-font-sans);
+}
+.hero-video-control:hover { background:#d3a43c; color:#191813; }
+.hero-video-control.is-paused:hover { transform:translate(-50%,-50%) scale(1.035); }
+.hero-video-control:focus-visible { outline:2px solid #f2c247; outline-offset:4px; }
+.hero-video-control-icon {
+  display:grid;
+  width:30px;
+  height:30px;
+  flex:none;
+  place-items:center;
+  border-radius:50%;
+  background:#d3a43c;
+  color:#191813;
+}
+.hero-video-control:hover .hero-video-control-icon { background:#191813; color:#fff8e8; }
+.hero-video-control-label { white-space:nowrap; }
+.hero-video-error {
+  position:absolute;
+  z-index:8;
+  left:50%;
+  bottom:62px;
+  transform:translateX(-50%);
+  max-width:calc(100% - 32px);
+  padding:6px 9px;
+  background:rgba(8,11,17,.92);
+  color:#fff8e8;
+  font:10px/1.4 var(--app-font-sans);
+  text-align:center;
+}
+.art-index { left:64px; }
 .art-label { color:#fff8e8; }
 .art-label span { color:#191813; background:rgba(245,241,232,.95); padding:6px 8px; text-shadow:none; }
 .art-index span { color:#e3bb55; }

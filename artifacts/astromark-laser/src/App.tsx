@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState, type FormEvent } from 'react';
-import { ArrowDown, ArrowRight, Check, ChevronDown, CircleHelp, Menu, Search, X } from 'lucide-react';
+import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
+import { ArrowDown, ArrowRight, Check, ChevronDown, CircleHelp, Menu, Pause, Play, Search, X } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 type Product = { name: string; category: string; image: string; highlights: [string, string][]; details: string };
@@ -37,6 +37,13 @@ function BrandLogo() {
 }
 
 function Home() {
+  const heroVideoRef = useRef<HTMLVideoElement>(null);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(() =>
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  );
+  const [heroVideoPlaying, setHeroVideoPlaying] = useState(false);
+  const [heroVideoError, setHeroVideoError] = useState(false);
+
   useEffect(() => {
     const targets = document.querySelectorAll('.hero-copy, .hero-art, .section-heading, .product-toolbar, .product-card, .catalog-trust, .approach-heading, .step-row, .materials-intro, .materials-browser, .material-tab, .quote-copy, .quote-form-wrap, .contact-copy, .contact-card, .faq-list, .faq-item');
     if (!('IntersectionObserver' in window)) {
@@ -54,6 +61,18 @@ function Home() {
     targets.forEach((target) => observer.observe(target));
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const updatePreference = () => setPrefersReducedMotion(motionPreference.matches);
+    motionPreference.addEventListener('change', updatePreference);
+    return () => motionPreference.removeEventListener('change', updatePreference);
+  }, []);
+
+  useEffect(() => {
+    if (prefersReducedMotion) heroVideoRef.current?.pause();
+  }, [prefersReducedMotion]);
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [filter, setFilter] = useState('All machines');
   const [search, setSearch] = useState('');
@@ -120,6 +139,22 @@ function Home() {
     setForm((previous) => ({ ...previous, requestType: 'Machine enquiry', machine: product ?? previous.machine }));
     setSubmission({ state: 'idle' });
     setEnquiryOpen(true);
+  };
+  const toggleHeroVideo = async () => {
+    const video = heroVideoRef.current;
+    if (!video) return;
+    setHeroVideoError(false);
+    if (!video.paused) {
+      video.pause();
+      return;
+    }
+    video.muted = true;
+    try {
+      await video.play();
+    } catch {
+      setHeroVideoPlaying(false);
+      setHeroVideoError(true);
+    }
   };
   const navItems = [
     { href: '#top', label: 'Overview' },
@@ -211,10 +246,37 @@ function Home() {
             <a className="scroll-cue" href="#support" aria-label="Scroll to learn why manufacturers choose Astramark"><span>SCROLL TO EXPLORE</span><i><ArrowDown size={15} /></i></a>
           </div>
           <div className="hero-art">
-            <img className="hero-image" src="/images/fiber-sheet-cutting-clean.jpeg" alt="Illustrative supplier-reference image of a fiber sheet cutting machine" />
-            <div className="art-label"><span>SUPPLIER REFERENCE · ILLUSTRATIVE</span><span>LASER SYSTEMS</span></div>
-            <div className="art-index">01<span> / </span>15</div>
-            <div className="art-caption">Reference image only.<br />Appearance and configuration vary.</div>
+            <video
+              ref={heroVideoRef}
+              className="hero-video"
+              autoPlay={!prefersReducedMotion}
+              muted
+              loop
+              playsInline
+              preload="auto"
+              poster="/images/astramark-gold-laser-poster.jpg"
+              aria-label="Illustrative 3D laser-cutting animation with a gold beam and sparks"
+              onPlay={() => { setHeroVideoPlaying(true); setHeroVideoError(false); }}
+              onPause={() => setHeroVideoPlaying(false)}
+              onError={() => { setHeroVideoPlaying(false); setHeroVideoError(true); }}
+            >
+              <source src="/videos/astramark-laser-hero.webm" type="video/webm" />
+              <source src="/videos/astramark-laser-hero.mp4" type="video/mp4" />
+            </video>
+            <button
+              className={`hero-video-control ${heroVideoPlaying ? 'is-playing' : 'is-paused'}`}
+              type="button"
+              onClick={toggleHeroVideo}
+              aria-label={heroVideoPlaying ? 'Pause laser animation' : 'Play gold laser animation'}
+              aria-pressed={heroVideoPlaying}
+            >
+              <span className="hero-video-control-icon">{heroVideoPlaying ? <Pause size={15} /> : <Play size={16} fill="currentColor" />}</span>
+              {!heroVideoPlaying && <span className="hero-video-control-label">Play gold laser video</span>}
+            </button>
+            {heroVideoError && <span className="hero-video-error" role="status">Video could not start. Tap play to try again.</span>}
+            <div className="art-label"><span>3D CONCEPT VISUALIZATION</span><span>GOLD LASER MOTION</span></div>
+            <div className="art-index">3D<span> / </span>GOLD</div>
+            <div className="art-caption">Gold sparks in motion.<br />Illustrative laser visualization.</div>
           </div>
           <div className="hero-side-note eyebrow">MACHINE SELECTION<br />SALES / SUPPORT</div>
         </section>
