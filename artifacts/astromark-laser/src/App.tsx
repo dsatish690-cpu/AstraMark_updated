@@ -31,7 +31,7 @@ const questions = [
 ];
 
 function BrandLogo() {
-  return <a href="#top" className="brand-mark" aria-label="Astramark Laser Machine, home"><img src="/images/astramark-logo-new.png" alt="Astramark Laser Machine Pvt. Ltd." /></a>;
+  return <a href="#top" className="brand-mark" aria-label="Astramark Laser Machine, home"><img src="/images/astromark-logo.png" alt="Astramark Laser Machine Pvt. Ltd." /></a>;
 }
 
 function Home() {
