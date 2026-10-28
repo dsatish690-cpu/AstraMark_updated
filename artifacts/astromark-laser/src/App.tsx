@@ -26,6 +26,8 @@ const categories = ['All machines', 'Marking', 'Cutting', 'Welding', 'Jewellery'
 const questions = [
   { q: 'Can Astramark help choose a suitable machine?', a: 'Share your material, process, working dimensions, throughput and any existing line requirements. Astramark can discuss the options and clarify the configuration.' },
   { q: 'Are the listed specifications fixed?', a: 'No. Catalogue highlights are for reference. Exact model, configuration, availability and specifications should be confirmed with Astramark.' },
+  { q: 'Does Astramark supply machines throughout India?', a: 'Yes. Astramark supplies laser machines throughout India. Contact us to confirm delivery arrangements for your location and machine.' },
+  { q: 'What installation and repair support is available?', a: 'Astramark provides machine installation and support for repair needs. Contact us with your machine model and issue to discuss the assistance required.' },
   { q: 'Can I request support for an existing machine?', a: 'Yes. Choose “Service or technical support” in the enquiry form and include your machine model, issue, and any useful context. Do not include sensitive information.' },
   { q: 'Does this website send the enquiry?', a: 'Yes. Machine and configuration enquiries go to our sales inbox, and service or technical support requests go to our support inbox. Enquiry details are used only to deliver your message.' },
 ];
@@ -288,7 +290,7 @@ function Home() {
               <div className="step-row"><span className="step-number">01</span><div><h3>Start with the application</h3><p>Discuss the material, process and result you need.</p></div><span className="step-mark">↗</span></div>
               <div className="step-row"><span className="step-number">02</span><div><h3>Compare machine options</h3><p>Review catalogue configurations against your working area and output.</p></div><span className="step-mark">↗</span></div>
               <div className="step-row"><span className="step-number">03</span><div><h3>Clarify the specification</h3><p>Confirm the model, configuration and requirements with the team.</p></div><span className="step-mark">↗</span></div>
-              <div className="step-row"><span className="step-number">04</span><div><h3>Get technical guidance</h3><p>A skilled support team can help with selection and machine questions.</p></div><span className="step-mark">↗</span></div>
+              <div className="step-row"><span className="step-number">04</span><div><h3>Installation & repair support</h3><p>Our team provides machine installation and can assist with repair needs.</p></div><span className="step-mark">↗</span></div>
             </div>
           </div>
           <div className="approach-coordinate eyebrow">ASTRAMARK / MACHINE SALES / CUSTOMER SUPPORT</div>
@@ -334,16 +336,16 @@ function Home() {
               <div className="catalog-trust-intro">
                 <div className="eyebrow">PEOPLE / EXPERTISE / SUPPORT</div>
                 <h3>More than a machine supplier.</h3>
-                <p>Our skilled team pairs machine options with practical guidance and responsive support, shaped around your process.</p>
+                <p>Our skilled team pairs machine options with practical guidance, installation and repair support.</p>
               </div>
               <div className="catalog-trust-proof">
                 <div className="customer-count"><strong>100<span>+</span></strong><span>customers served</span></div>
                 <div className="trust-point"><span className="trust-index">01</span><h4>Skilled people</h4><p>Get application-focused guidance from a capable team.</p></div>
-                <div className="trust-point"><span className="trust-index">02</span><h4>Delivery & support</h4><p>Support for customers from machine delivery through equipment questions.</p></div>
+                <div className="trust-point"><span className="trust-index">02</span><h4>Across India</h4><p>Laser machine supply throughout India.</p></div>
               </div>
               <div className="customer-care-note">
-                <span className="eyebrow">CUSTOMER SUPPORT / WHAT TO EXPECT</span>
-                <p>Across 100+ customers served, Astramark helps manufacturers discuss material, process, and output needs when selecting a machine. After delivery, the team can help with configuration and equipment questions. Recommendations depend on the application and are confirmed case by case.</p>
+                <span className="eyebrow">DELIVERY / INSTALLATION / CUSTOMER SUPPORT</span>
+                <p>Astramark supplies machines throughout India. Our team provides machine installation and can assist with repair and configuration questions after delivery. Contact us to confirm delivery and service arrangements for your machine. For selection, we discuss your material, process and output needs; recommendations are confirmed case by case.</p>
               </div>
             </aside>
           </div>
