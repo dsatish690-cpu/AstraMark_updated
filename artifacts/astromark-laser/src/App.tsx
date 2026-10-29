@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
-import { ArrowDown, ArrowRight, BadgeCheck, Check, ChevronDown, CircleDollarSign, CircleHelp, Handshake, Headphones, Heart, LifeBuoy, Menu, MessageCircle, Pause, Play, Search, ShieldCheck, TrendingUp, X, type LucideIcon } from 'lucide-react';
+import { ArrowDown, ArrowRight, BadgeCheck, Check, ChevronDown, CircleDollarSign, CircleHelp, Handshake, Headphones, Heart, LifeBuoy, MapPin, Menu, MessageCircle, Pause, Play, Search, ShieldCheck, TrendingUp, X, type LucideIcon } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 type Product = { name: string; category: string; image: string; highlights: [string, string][]; details: string };
@@ -32,6 +32,18 @@ const questions = [
   { q: 'What installation and repair support is available?', a: 'Astramark provides machine installation and support for repair needs. Contact us with your machine model and issue to discuss the assistance required.' },
   { q: 'Can I request support for an existing machine?', a: 'Yes. Choose “Service or technical support” in the enquiry form and include your machine model, issue, and any useful context. Do not include sensitive information.' },
   { q: 'Does this website send the enquiry?', a: 'Yes. Machine and configuration enquiries go to our sales inbox, and service or technical support requests go to our support inbox. Enquiry details are used only to deliver your message.' },
+];
+const officeLocations = [
+  {
+    type: 'HOME OFFICE',
+    city: 'VISAKHAPATNAM',
+    address: '49-19-14, FF2, Sri Sai Sampath Enclave, Lalitha Nagar, Visakhapatnam, Andhra Pradesh, India.',
+  },
+  {
+    type: 'BRANCH OFFICE',
+    city: 'HYDERABAD',
+    address: 'Sri Jaya Bharathi Ashirwad, Flat No. 402, Golden Tulip Estate, Kondapur, Hyderabad – 500084, Telangana, India.',
+  },
 ];
 
 const whyBenefits: WhyBenefit[] = [
@@ -447,6 +459,34 @@ function Home() {
                 <span className="eyebrow">ADDRESS</span>
                 <address>49-19-14, FF2, Sri Sai Sampath Enclave,<br />Lalithanagar, Akkayapalem,<br />Visakhapatnam 530 016,<br />Andhra Pradesh</address>
               </div>
+            </div>
+          </div>
+          <div className="page-width office-locations" aria-labelledby="office-locations-heading">
+            <div className="office-locations-heading">
+              <div className="eyebrow section-index">OUR OFFICE LOCATIONS</div>
+              <h3 className="display" id="office-locations-heading">Connect with AstraMark</h3>
+              <p>Connect with AstraMark for industrial laser marking, cutting, welding and engraving solutions.</p>
+            </div>
+            <div className="office-location-grid">
+              {officeLocations.map((office) => (
+                <article className="office-location-card" key={office.city}>
+                  <div className="office-location-card-heading">
+                    <MapPin size={19} aria-hidden="true" />
+                    <span className="eyebrow">{office.type} <span aria-hidden="true">|</span> {office.city}</span>
+                  </div>
+                  <h4>AstraMark Laser Machine Pvt. Ltd.</h4>
+                  <address>{office.address}</address>
+                  <a
+                    className="office-directions-link"
+                    href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(office.address)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Get directions to the ${office.type.toLowerCase()} in ${office.city}`}
+                  >
+                    Get Directions <ArrowRight size={15} aria-hidden="true" />
+                  </a>
+                </article>
+              ))}
             </div>
           </div>
         </section>

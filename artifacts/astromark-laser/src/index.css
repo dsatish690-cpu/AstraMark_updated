@@ -1864,3 +1864,75 @@ body,.site-shell { background:var(--paper); color:var(--ink); }
   .hero-art { min-height:0; height:280px; margin:0; border-radius:13px; box-shadow:10px 11px 0 rgba(184,132,32,.34); }
 }
 
+.office-locations {
+  margin-top:56px;
+  padding:32px;
+  background:#fff;
+  border:1px solid #e2dacb;
+}
+.office-locations-heading { max-width:640px; margin-bottom:24px; }
+.office-locations-heading .section-index { color:#8d651c; }
+.office-locations-heading h3 {
+  margin:10px 0 8px;
+  color:#211f19;
+  font-size:clamp(24px,3vw,34px);
+  line-height:1.15;
+  letter-spacing:-.04em;
+}
+.office-locations-heading p {
+  margin:0;
+  color:#625d52;
+  font-size:15px;
+  line-height:1.7;
+}
+.office-location-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+.office-location-card {
+  min-width:0;
+  padding:22px;
+  background:#fff;
+  border:1px solid #e2dacb;
+  box-shadow:0 4px 14px rgba(25,24,19,.035);
+}
+.office-location-card-heading { display:flex; align-items:center; gap:9px; color:#9a711f; }
+.office-location-card-heading .eyebrow {
+  color:#75664a;
+  font:10px var(--app-font-mono);
+  letter-spacing:.1em;
+  line-height:1.5;
+}
+.office-location-card h4 {
+  margin:17px 0 8px;
+  color:#211f19;
+  font-family:var(--app-font-sans);
+  font-size:16px;
+  font-weight:600;
+  line-height:1.45;
+}
+.office-location-card address {
+  max-width:430px;
+  color:#514b40;
+  font-family:var(--app-font-sans);
+  font-size:14px;
+  font-style:normal;
+  line-height:1.7;
+}
+.office-directions-link {
+  display:inline-flex;
+  width:fit-content;
+  align-items:center;
+  gap:8px;
+  margin-top:19px;
+  color:#89641d;
+  font-family:var(--app-font-sans);
+  font-size:14px;
+  font-weight:600;
+  text-decoration:none;
+}
+.office-directions-link:hover { color:#5f4513; text-decoration:underline; text-underline-offset:3px; }
+.office-directions-link:focus-visible { outline:2px solid #9a711f; outline-offset:4px; }
+@media(max-width:767px) {
+  .office-locations { margin-top:38px; padding:22px 18px; }
+  .office-location-grid { grid-template-columns:1fr; gap:12px; }
+  .office-location-card { padding:19px; }
+}
+
