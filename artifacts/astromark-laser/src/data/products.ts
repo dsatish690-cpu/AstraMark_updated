@@ -8,7 +8,6 @@ import fiberWeldingImage from '@assets/astramark-product-images/fiber-welding.pn
 import jewelleryCuttingImage from '@assets/astramark-product-images/jewellery-cutting-engraving.png';
 import jewellerySolderingImage from '@assets/astramark-product-images/jewellery-soldering.png';
 import onlineMarkingImage from '@assets/astramark-product-images/online-flying-marking.png';
-import pipeCuttingImage from '@assets/astramark-product-images/pipe-cutting.png';
 import uvMarkingImage from '@assets/astramark-product-images/uv-marking.png';
 
 export type Product = {
@@ -141,7 +140,7 @@ const productDefinitions: Product[] = [
     slug: 'co2-laser-marking-machine',
     name: 'CO₂ Laser Marking Machine',
     category: 'Marking',
-    image: '/images/co2-engraving-clean.jpeg',
+    image: fiberMarkingImage,
     summary: 'Non-metal marking and engraving for industrial and packaging applications.',
     description: 'Co2 Laser Marking Machine is specially designed for marking and engraving on non-metal materials. It provides clean, high-speed, and permanent marking for industrial and packaging applications.',
     highlights: [['Laser power', '30 W / 60 W / 100 W'], ['Working area', '100×100 / 175×175 / 300×300 mm'], ['Voltage', 'Single phase']],
@@ -258,7 +257,7 @@ const productDefinitions: Product[] = [
     slug: 'pipe-laser-cutting-machine',
     name: 'Pipe Laser Cutting Machine',
     category: 'Cutting',
-    image: pipeCuttingImage,
+    image: fiberMarkingImage,
     summary: 'High-precision, high-speed cutting of round, square, and rectangular pipes.',
     description: 'Laser Pipe Cutting Machine is specially designed for high-precision and high-speed cutting of round, square, and rectangular pipes with smooth edge finish and accurate results.',
     highlights: [['Laser power', '1.5 kW / 2 kW / 3 kW'], ['Pipe length', 'Up to 6 m; optional customization'], ['Control system', 'CNC based']],
