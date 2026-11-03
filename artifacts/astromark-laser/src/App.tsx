@@ -1,28 +1,37 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import { ArrowDown, ArrowRight, BadgeCheck, Check, ChevronDown, CircleDollarSign, CircleHelp, Handshake, Headphones, Heart, LifeBuoy, MapPin, Menu, MessageCircle, Pause, Play, Search, ShieldCheck, TrendingUp, X, type LucideIcon } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Link, Route, Switch } from 'wouter';
+import { products } from '@/data/products';
+import NotFound from '@/pages/not-found';
+import ProductDetailPage from '@/pages/product-detail';
 
-type Product = { name: string; category: string; image: string; highlights: [string, string][]; details: string };
 type WhyBenefit = { number: string; title: string; body: string; icon: LucideIcon };
 type WhyHighlight = { title: string; icon: LucideIcon };
 
-const products: Product[] = [
-  { name: 'Fiber laser marking', category: 'Marking', image: '/images/fiber-marking-clean.jpeg', highlights: [['Marking area', '100×100 to 300×300 mm'], ['Power options', '30, 50, 60, 100, 200 W'], ['Laser types', 'Fiber, CO₂ and UV']], details: 'Available in 100×100, 175×175, 220×220 and 300×300 mm fields, or customized. Confirm laser source and configuration for the intended material.' },
-  { name: 'Customized fiber marking', category: 'Marking', image: '/images/custom-fiber-marking-clean.jpeg', highlights: [['Working area', '600×600 to 1500×3000 mm'], ['Power options', '30, 50, 100, 200 W'], ['Continuous marking', 'Encoder-synced for large graphics']], details: 'Brochure ranges also list 900×900, 1200×1200 and 1300×2500 mm fields. Pulse repetition 1–1000 kHz, pulse width 2–500 ns, air cooling.' },
-  { name: 'Fiber sheet cutting', category: 'Cutting', image: '/images/fiber-sheet-cutting-clean.jpeg', highlights: [['Working area', '1500×3000 to 2500×13000 mm'], ['Power options', '1500–20000 W'], ['Motion', 'Up to 120 m/min travel']], details: 'Listed formats include 1500×3000, 1500×4000, 2500×6500 and 2500×13000 mm, plus customized sizes. Autofocus cutting head.' },
-  { name: 'Pipe cutting', category: 'Cutting', image: '/images/pipe-cutting-clean.jpeg', highlights: [['Machine size', '6000×200 mm length × width'], ['Chuck', '220 mm; 110 / 350 mm optional'], ['Position accuracy', '0.03 mm/m']], details: 'For round, rectangular, square, I-channel and C-channel tubes. Ask Astramark to confirm suitable chuck and tube profile.' },
-  { name: 'Sheet + pipe cutting', category: 'Cutting', image: '/images/sheet-pipe-cutting-clean.jpeg', highlights: [['Sheet area', '1500×3000 to 2500×6500 mm'], ['Pipe diameter', '20–220 mm chuck'], ['Travel speed', 'Up to 120 m/min']], details: 'Sheet formats listed: 1500×3000, 2000×4000, 2000×6000, 2500×6500 mm or customized. Position accuracy 0.03 mm/m; repeat positioning accuracy 0.02 mm/m. Listed powers 1500–20000 W.' },
-  { name: 'Fiber welding', category: 'Welding', image: '/images/fiber-welding-clean.jpeg', highlights: [['Power options', '1500, 2000, 3000, 6000 W'], ['Material thickness', '0.5–10 mm'], ['Cooling', 'Water-cooled']], details: 'Wobble width 0.5–5 mm; 10 mm optional. Suitability depends on material and joint requirements.' },
-  { name: 'Battery welding', category: 'Welding', image: '/images/battery-welding-clean.jpeg', highlights: [['Power options', '3000 / 6000 W'], ['Working field', '600×600 to 1200×1200 mm'], ['Scan speed', 'Up to 8 m/s']], details: 'Brochure lists 600×600, 900×900 and 1200×1200 mm fields or customized. Water-cooled.' },
-  { name: 'Online marking', category: 'Marking', image: '/images/online-marking-clean.jpeg', highlights: [['Laser options', 'Fiber, CO₂ or UV'], ['Standard power', '30 W; higher options'], ['Power supply', '220–230 V single-phase']], details: 'Inline marking configurations depend on production line speed, material and integration needs. Higher-power configurations are optional.' },
-  { name: 'CO₂ cutting & engraving', category: 'Cutting', image: '/images/co2-cutting-clean.jpeg', highlights: [['Working area', '600×900 to 1300×2500 mm'], ['Power options', '80–200 W'], ['Cooling', 'Water-cooled']], details: 'Multiple bed sizes are listed from 600×900 mm through 1300×2500 mm, with customized sizes available.' },
-  { name: 'CO₂ engraving', category: 'Marking', image: '/images/co2-engraving-clean.jpeg', highlights: [['Working area', '150×150 or 300×300 mm'], ['Power options', '30 / 60 / 100 W'], ['Cooling', 'Air-cooled metal tube']], details: 'Custom marking field options are listed. Verify the appropriate laser tube and configuration with Astramark.' },
-  { name: 'UV marking', category: 'Marking', image: '/images/uv-marking-clean.jpeg', highlights: [['Power options', '5 / 10 / 15 W'], ['Field options', '100×100, 175×175, 300×300 mm'], ['Field', 'Custom configurations listed']], details: 'UV marking field options include 100×100, 175×175 and 300×300 mm or customized.' },
-  { name: '3D engraving', category: 'Marking', image: '/images/3d-engraving-clean.jpeg', highlights: [['Laser source', 'Fiber'], ['Power', '60 W; 80 / 100 W options'], ['Working field', '100×100 mm']], details: 'Brochure-listed 3D engraving configuration. Confirm workpiece dimensions and required 3D depth before selection.' },
-  { name: 'Die mould welding', category: 'Welding', image: '/images/die-mould-welding-clean.jpeg', highlights: [['Power', '400 W'], ['Wavelength', '1064 nm'], ['Power adjustment', '1–200 A']], details: 'Table size 600×600 mm or customized. Confirm the working envelope and application fit.' },
-  { name: 'Jewellery cutting', category: 'Jewellery', image: '/images/jewellery-cutting-clean.jpeg', highlights: [['Laser source', 'German laser source listed'], ['Cutting size', '100×100 mm / custom'], ['Cutting depth', '0.01 micron–1.5 mm listed']], details: 'The cutting depth range is transcribed from the supplied brochure; confirm the required material and specification with Astramark.' },
-  { name: 'Jewellery soldering', category: 'Jewellery', image: '/images/jewellery-soldering-clean.jpeg', highlights: [['Laser source', 'ND:YAG pump lamp'], ['Power options', '200 W; 100 / 400 W options'], ['Solder joint', '0.2–2 mm']], details: 'Confirm the appropriate power configuration and joint size for the intended jewellery work.' },
-];
+function setPageMetadata(title: string, description: string, canonicalPath: string) {
+  document.title = title;
+
+  const setMeta = (selector: string, attribute: string, value: string) => {
+    const element = document.querySelector<HTMLMetaElement>(selector);
+    element?.setAttribute(attribute, value);
+  };
+
+  setMeta('meta[name="description"]', 'content', description);
+  setMeta('meta[property="og:title"]', 'content', title);
+  setMeta('meta[property="og:description"]', 'content', description);
+  setMeta('meta[name="twitter:title"]', 'content', title);
+  setMeta('meta[name="twitter:description"]', 'content', description);
+  setMeta('meta[property="og:url"]', 'content', `${window.location.origin}${canonicalPath}`);
+
+  let canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+  if (!canonical) {
+    canonical = document.createElement('link');
+    canonical.rel = 'canonical';
+    document.head.append(canonical);
+  }
+  canonical.href = `${window.location.origin}${canonicalPath}`;
+}
 
 const categories = ['All machines', 'Marking', 'Cutting', 'Welding', 'Jewellery'];
 const questions = [
@@ -75,6 +84,14 @@ function Home() {
   const [heroVideoError, setHeroVideoError] = useState(false);
 
   useEffect(() => {
+    setPageMetadata(
+      'Laser Machines, Sales & Support | Astramark Laser Machine Pvt. Ltd.',
+      'Explore laser marking, cutting, welding and jewellery machines from Astramark Laser Machine Pvt. Ltd. Get help with machine selection, configuration and customer support.',
+      '/',
+    );
+  }, []);
+
+  useEffect(() => {
     const targets = document.querySelectorAll('.hero-copy, .hero-art, .section-heading, .product-toolbar, .product-card, .catalog-trust, .approach-heading, .step-row, .why-intro, .why-card, .why-highlight, .promise-panel, .quote-copy, .quote-form-wrap, .contact-copy, .contact-card, .faq-list, .faq-item');
     if (!('IntersectionObserver' in window)) {
       targets.forEach((target) => target.classList.add('is-visible'));
@@ -110,7 +127,20 @@ function Home() {
   const [openQuestion, setOpenQuestion] = useState<number | null>(0);
   const [submission, setSubmission] = useState<{ state: 'idle' | 'sending' | 'success' | 'error'; message?: string }>({ state: 'idle' });
   const [enquiryOpen, setEnquiryOpen] = useState(false);
-  const [form, setForm] = useState({ name: '', email: '', requestType: 'Machine enquiry', machine: '', details: '', website: '' });
+  const [form, setForm] = useState(() => ({
+    name: '',
+    email: '',
+    requestType: 'Machine enquiry',
+    machine: new URLSearchParams(window.location.search).get('machine') ?? '',
+    details: '',
+    website: '',
+  }));
+
+  useEffect(() => {
+    if (!new URLSearchParams(window.location.search).has('machine')) return;
+    setEnquiryOpen(true);
+    window.history.replaceState(window.history.state, '', `${window.location.pathname}${window.location.hash}`);
+  }, []);
 
   const visibleProducts = useMemo(() => products.filter((product) =>
     (filter === 'All machines' || product.category === filter)
@@ -373,7 +403,7 @@ function Home() {
               <div><div className="eyebrow section-index">03 — MACHINE CATALOGUE</div><h2 className="display section-title" id="catalogue-heading">Find your process.<br /><em>Then the machine.</em></h2></div>
               <div className="catalogue-sidecopy">
                 <p className="section-intro">Browse machine families and scan the brochure highlights. Each configuration is application-specific, so use the enquiry path to confirm what fits.</p>
-                <p className="visual-disclosure">Catalogue images are unbranded supplier references for illustration—not photos of Astramark machines. Confirm the delivered model, appearance and configuration with our team.</p>
+                <p className="visual-disclosure">Catalogue images are illustrative supplier references—not photos of machines currently held by Astramark. Confirm the delivered model, appearance and configuration with our team.</p>
               </div>
             </div>
             <div className="product-toolbar">
@@ -384,16 +414,18 @@ function Home() {
             </div>
             <div className="product-grid" aria-live="polite">
               {visibleProducts.length ? visibleProducts.map((product, index) => (
-                <article className="product-card" key={product.name} data-testid={`card-product-${index}`}>
-                  <div className="product-photo"><span className="product-number">0{products.indexOf(product) + 1}</span><img src={product.image} alt={`Illustrative supplier reference image of a ${product.name} machine`} loading={index > 2 ? 'lazy' : 'eager'} /><span className="illustrative-label">ILLUSTRATIVE · SUPPLIER REFERENCE</span></div>
+                <article className="product-card" key={product.slug} data-testid={`card-product-${product.slug}`}>
+                  <div className="product-photo"><span className="product-number">{String(products.indexOf(product) + 1).padStart(2, '0')}</span><img src={product.image} alt={`Illustrative supplier reference image of a ${product.name} machine`} loading={index > 2 ? 'lazy' : 'eager'} /><span className="illustrative-label">ILLUSTRATIVE · SUPPLIER REFERENCE</span></div>
                   <div className="product-content">
                     <div className="product-category">{product.category} systems</div>
                     <h3>{product.name}</h3>
+                    <p className="product-summary">{product.summary}</p>
                     <ul className="spec-list">{product.highlights.map(([label, value]) => <li key={label}><strong>{label}</strong><span>{value}</span></li>)}</ul>
-                    {expanded === product.name && <div className="extra-specs" id={`details-${products.indexOf(product)}`}>{product.details}</div>}
+                    {expanded === product.name && <div className="extra-specs" id={`details-${products.indexOf(product)}`}>{product.description}</div>}
                     <div className="product-actions">
-                      <button type="button" className="details-toggle" aria-expanded={expanded === product.name} aria-controls={`details-${products.indexOf(product)}`} onClick={() => setExpanded(expanded === product.name ? null : product.name)}>{expanded === product.name ? 'Less detail' : 'More specifications'} <ChevronDown size={15} /></button>
-                      <button type="button" className="enquire-link" onClick={() => startEnquiry(product.name)}>Enquire <ArrowRight size={14} /></button>
+                      <button type="button" className="details-toggle" aria-expanded={expanded === product.name} aria-controls={`details-${products.indexOf(product)}`} onClick={() => setExpanded(expanded === product.name ? null : product.name)} data-testid={`button-more-details-${product.slug}`}>{expanded === product.name ? 'Less detail' : 'More details'} <ChevronDown size={15} /></button>
+                      <Link href={`/products/${product.slug}`} className="product-view-link" data-testid={`link-product-details-${product.slug}`}>View details <ArrowRight size={14} /></Link>
+                      <button type="button" className="enquire-link" onClick={() => startEnquiry(product.name)} data-testid={`button-enquire-${product.slug}`}>Enquire <ArrowRight size={14} /></button>
                     </div>
                   </div>
                 </article>
@@ -512,14 +544,45 @@ function Home() {
           <div className="footer-nav"><span className="eyebrow">NEXT STEP</span><button type="button" className="footer-enquiry-link" onClick={() => startEnquiry()}>Machine enquiry <ArrowRight size={14} /></button><a href="#support">Sales & customer support</a><a href="#faq">Frequently asked questions</a></div>
           <a className="back-top" href="#top" aria-label="Back to top"><ArrowDown size={16} /></a>
         </div>
-          <div className="page-width footer-bottom"><span>© Astramark Laser Machine Pvt. Ltd.</span><span>Machine visuals are unbranded supplier references for illustration, not photos of Astramark machines. Confirm model and configuration with our team.</span><span>SALES / SUPPORT / LASER SYSTEMS</span></div>
+          <div className="page-width footer-bottom"><span>© Astramark Laser Machine Pvt. Ltd.</span><span>Machine visuals are illustrative supplier references, not photos of machines currently held by Astramark. Confirm model and configuration with our team.</span><span>SALES / SUPPORT / LASER SYSTEMS</span></div>
       </footer>
     </div>
   );
 }
 
+function ProductRoute({ slug }: { slug: string }) {
+  const product = products.find((item) => item.slug === slug);
+
+  useEffect(() => {
+    if (!product) {
+      setPageMetadata(
+        'Machine Not Found | Astramark Laser Machine Pvt. Ltd.',
+        'This machine page is unavailable. Browse Astramark’s laser machine catalogue.',
+        '/products',
+      );
+      return;
+    }
+
+    setPageMetadata(
+      `${product.name} | Astramark Laser Machine Pvt. Ltd.`,
+      `${product.summary} View catalogue-listed specifications and applications from Astramark Laser Machine Pvt. Ltd.`,
+      `/products/${product.slug}`,
+    );
+  }, [product]);
+
+  return <ProductDetailPage slug={slug} />;
+}
+
 function App() {
-  return <Home />;
+  return (
+    <Switch>
+      <Route path="/products/:slug">
+        {(params) => <ProductRoute slug={params.slug} />}
+      </Route>
+      <Route path="/" component={Home} />
+      <Route component={NotFound} />
+    </Switch>
+  );
 }
 
 export default App;
