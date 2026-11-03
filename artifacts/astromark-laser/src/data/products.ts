@@ -8,6 +8,7 @@ import fiberWeldingImage from '@assets/astramark-product-images/fiber-welding.pn
 import jewelleryCuttingImage from '@assets/astramark-product-images/jewellery-cutting-engraving.png';
 import jewellerySolderingImage from '@assets/astramark-product-images/jewellery-soldering.png';
 import onlineMarkingImage from '@assets/astramark-product-images/online-flying-marking.png';
+import pipeCuttingImage from '@assets/astramark-product-images/pipe-cutting.png';
 import uvMarkingImage from '@assets/astramark-product-images/uv-marking.png';
 
 export type Product = {
@@ -257,7 +258,7 @@ const productDefinitions: Product[] = [
     slug: 'pipe-laser-cutting-machine',
     name: 'Pipe Laser Cutting Machine',
     category: 'Cutting',
-    image: fiberMarkingImage,
+    image: pipeCuttingImage,
     summary: 'High-precision, high-speed cutting of round, square, and rectangular pipes.',
     description: 'Laser Pipe Cutting Machine is specially designed for high-precision and high-speed cutting of round, square, and rectangular pipes with smooth edge finish and accurate results.',
     highlights: [['Laser power', '1.5 kW / 2 kW / 3 kW'], ['Pipe length', 'Up to 6 m; optional customization'], ['Control system', 'CNC based']],
@@ -277,7 +278,7 @@ const productDefinitions: Product[] = [
     slug: '3d-fiber-laser-engraving-machine',
     name: '3D Fiber Laser Engraving Machine',
     category: 'Marking',
-    image: '/images/3d-engraving-clean.jpeg',
+    image: fiberMarkingImage,
     summary: '3D dynamic-focus fiber laser system for deep and curved-surface engraving.',
     description: 'The catalogue lists a 3D dynamic-focus fiber laser system for deep engraving, embossing, mould engraving, curved-surface marking, and 3D logo engraving.',
     highlights: [['Laser type', '3D dynamic focus fiber laser'], ['Laser power', '30 W / 50 W / 60 W / 100 W'], ['Working area', '150×150 / 300×300 mm']],
