@@ -25,6 +25,13 @@ export const sendEnquiryBodyNameMax = 120;
 
 export const sendEnquiryBodyEmailMax = 254;
 
+export const sendEnquiryBodyCompanyNameMax = 120;
+
+export const sendEnquiryBodyMobileMin = 10;
+export const sendEnquiryBodyMobileMax = 13;
+
+
+export const sendEnquiryBodyMobileRegExp = new RegExp('^(?:\\+?91)?[6-9][0-9]{9}$');
 export const sendEnquiryBodyMachineMax = 120;
 
 export const sendEnquiryBodyDetailsMin = 10;
@@ -37,6 +44,8 @@ export const sendEnquiryBodyWebsiteMax = 200;
 export const SendEnquiryBody = zod.object({
   "name": zod.string().min(sendEnquiryBodyNameMin).max(sendEnquiryBodyNameMax),
   "email": zod.string().email().max(sendEnquiryBodyEmailMax),
+  "companyName": zod.string().max(sendEnquiryBodyCompanyNameMax).optional(),
+  "mobile": zod.string().min(sendEnquiryBodyMobileMin).max(sendEnquiryBodyMobileMax).regex(sendEnquiryBodyMobileRegExp).optional(),
   "requestType": zod.enum(['Machine enquiry', 'Service or technical support', 'Configuration question']),
   "machine": zod.string().max(sendEnquiryBodyMachineMax),
   "details": zod.string().min(sendEnquiryBodyDetailsMin).max(sendEnquiryBodyDetailsMax),

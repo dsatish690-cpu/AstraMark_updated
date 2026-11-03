@@ -3,6 +3,7 @@ import { ArrowDown, ArrowRight, BadgeCheck, Check, ChevronDown, CircleDollarSign
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Link, Route, Switch } from 'wouter';
 import { products } from '@/data/products';
+import { buildEnquiryWhatsAppMessage, buildGeneralWhatsAppUrl, buildWhatsAppUrl } from '@/lib/whatsapp';
 import NotFound from '@/pages/not-found';
 import ProductDetailPage from '@/pages/product-detail';
 
@@ -127,14 +128,19 @@ function Home() {
   const [openQuestion, setOpenQuestion] = useState<number | null>(0);
   const [submission, setSubmission] = useState<{ state: 'idle' | 'sending' | 'success' | 'error'; message?: string }>({ state: 'idle' });
   const [enquiryOpen, setEnquiryOpen] = useState(false);
-  const [form, setForm] = useState(() => ({
-    name: '',
-    email: '',
-    requestType: 'Machine enquiry',
-    machine: new URLSearchParams(window.location.search).get('machine') ?? '',
-    details: '',
-    website: '',
-  }));
+  const [form, setForm] = useState(() => {
+    const requestedMachine = new URLSearchParams(window.location.search).get('machine') ?? '';
+    return {
+      name: '',
+      companyName: '',
+      mobile: '',
+      email: '',
+      requestType: 'Machine enquiry',
+      machine: products.some((product) => product.name === requestedMachine) ? requestedMachine : '',
+      details: '',
+      website: '',
+    };
+  });
 
   useEffect(() => {
     if (!new URLSearchParams(window.location.search).has('machine')) return;
@@ -171,6 +177,15 @@ function Home() {
 
   const submitEnquiry = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (form.website.trim()) {
+      setSubmission({ state: 'error', message: 'Could not accept this request.' });
+      return;
+    }
+    if (!/^(?:\+?91)?[6-9]\d{9}$/.test(form.mobile.trim())) {
+      setSubmission({ state: 'error', message: 'Enter a valid 10-digit mobile number, with an optional +91 prefix.' });
+      return;
+    }
+    window.open(buildWhatsAppUrl(buildEnquiryWhatsAppMessage(form)), '_blank', 'noopener,noreferrer');
     setSubmission({ state: 'sending' });
     try {
       const response = await fetch('/api/enquiries', {
@@ -182,21 +197,21 @@ function Home() {
       if (!response.ok) {
         setSubmission({
           state: 'error',
-          message: result?.error ?? 'We could not send your enquiry. Your details are still here—please try again.',
+          message: `${result?.error ?? 'We could not send your enquiry.'} A WhatsApp draft was opened; press Send there, or use the link below.`,
         });
         return;
       }
-      setSubmission({ state: 'success', message: result?.message ?? 'Your enquiry has been sent.' });
+      setSubmission({ state: 'success', message: `${result?.message ?? 'Your enquiry has been sent.'} A WhatsApp draft is also open; press Send there to complete it.` });
     } catch {
       setSubmission({
         state: 'error',
-        message: 'We could not reach the enquiry service. Your details are still here—please try again.',
+        message: 'We could not reach the enquiry service. A WhatsApp draft was opened; press Send there, or use the link below.',
       });
     }
   };
 
   const startEnquiry = (product?: string) => {
-    setForm((previous) => ({ ...previous, requestType: 'Machine enquiry', machine: product ?? previous.machine }));
+    setForm((previous) => ({ ...previous, requestType: 'Machine enquiry', machine: product ?? '' }));
     setSubmission({ state: 'idle' });
     setEnquiryOpen(true);
   };
@@ -230,11 +245,14 @@ function Home() {
       <div className="eyebrow">ENQUIRY SENT</div>
       <h3>Thank you for contacting us.</h3>
       <p>{submission.message} Our team will follow up using the email address you provided.</p>
+      <a className="enquiry-whatsapp-fallback" href={buildWhatsAppUrl(buildEnquiryWhatsAppMessage(form))} target="_blank" rel="noopener noreferrer">
+        Reopen your WhatsApp draft <ArrowRight size={14} />
+      </a>
       <button
         className="button button-orange button-arrow"
         type="button"
         onClick={() => {
-          setForm({ name: '', email: '', requestType: 'Machine enquiry', machine: '', details: '', website: '' });
+          setForm({ name: '', companyName: '', mobile: '', email: '', requestType: 'Machine enquiry', machine: '', details: '', website: '' });
           setSubmission({ state: 'idle' });
         }}
         data-testid="button-new-enquiry"
@@ -245,20 +263,33 @@ function Home() {
   ) : (
     <form className="quote-form" onSubmit={submitEnquiry} data-testid={prefix === 'page' ? 'form-machine-enquiry' : 'form-quick-machine-enquiry'}>
       <div className="form-row">
-        <label>Your name<input id={prefix === 'page' ? 'enquiry-name' : 'quick-enquiry-name'} required minLength={2} maxLength={120} value={form.name} onChange={(event) => updateForm('name', event.target.value)} placeholder="Name" autoComplete="name" data-testid={prefix === 'page' ? 'input-name' : 'input-quick-name'} /></label>
+        <label>Customer name<input id={prefix === 'page' ? 'enquiry-name' : 'quick-enquiry-name'} required minLength={2} maxLength={120} value={form.name} onChange={(event) => updateForm('name', event.target.value)} placeholder="Name" autoComplete="name" data-testid={prefix === 'page' ? 'input-name' : 'input-quick-name'} /></label>
+        <label>Company name <span className="optional">optional</span><input maxLength={120} value={form.companyName} onChange={(event) => updateForm('companyName', event.target.value)} placeholder="Company" autoComplete="organization" data-testid={prefix === 'page' ? 'input-company' : 'input-quick-company'} /></label>
+      </div>
+      <div className="form-row">
+        <label>Mobile number<input type="tel" inputMode="tel" required pattern="(?:\+?91)?[6-9][0-9]{9}" maxLength={13} value={form.mobile} onChange={(event) => updateForm('mobile', event.target.value.replace(/[^0-9+]/g, ''))} placeholder="9876543210" autoComplete="tel" title="Enter a valid 10-digit Indian mobile number, with an optional +91 prefix." data-testid={prefix === 'page' ? 'input-mobile' : 'input-quick-mobile'} /></label>
         <label>Email address<input required type="email" maxLength={254} value={form.email} onChange={(event) => updateForm('email', event.target.value)} placeholder="name@example.com" autoComplete="email" data-testid={prefix === 'page' ? 'input-email' : 'input-quick-email'} /></label>
       </div>
       <div className="form-row">
-        <label>What do you need?<select value={form.requestType} onChange={(event) => updateForm('requestType', event.target.value)}><option>Machine enquiry</option><option>Service or technical support</option><option>Configuration question</option></select></label>
-        <label>Machine / model <span className="optional">optional</span><input maxLength={120} value={form.machine} onChange={(event) => updateForm('machine', event.target.value)} placeholder="Machine or model" /></label>
+        <label>What do you need?<select required value={form.requestType} onChange={(event) => updateForm('requestType', event.target.value)}><option>Machine enquiry</option><option>Service or technical support</option><option>Configuration question</option></select></label>
+        <label>Product selection<select required value={form.machine} onChange={(event) => updateForm('machine', event.target.value)} data-testid={prefix === 'page' ? 'select-product' : 'select-quick-product'}>
+          <option value="">Choose a product</option>
+          <option value="General enquiry / not sure yet">General enquiry / not sure yet</option>
+          {products.map((product) => <option key={product.slug} value={product.name}>{product.name}</option>)}
+        </select></label>
       </div>
-      <label>Application or support details<textarea required minLength={10} maxLength={3000} rows={4} value={form.details} onChange={(event) => updateForm('details', event.target.value)} placeholder="Material, dimensions, process, or the issue you need help with…" data-testid={prefix === 'page' ? 'input-details' : 'input-quick-details'} /></label>
+      <label>Enquiry message<textarea required minLength={10} maxLength={3000} rows={4} value={form.details} onChange={(event) => updateForm('details', event.target.value)} placeholder="Tell us about your material, process, or support needs…" data-testid={prefix === 'page' ? 'input-details' : 'input-quick-details'} /></label>
       <label className="enquiry-trap" aria-hidden="true">Leave this field empty<input tabIndex={-1} autoComplete="off" value={form.website} onChange={(event) => updateForm('website', event.target.value)} /></label>
-      {submission.state === 'error' && <p className="enquiry-feedback enquiry-feedback-error" role="alert" data-testid="status-enquiry-error">{submission.message}</p>}
+      {submission.state === 'error' && <>
+        <p className="enquiry-feedback enquiry-feedback-error" role="alert" data-testid="status-enquiry-error">{submission.message}</p>
+        <a className="enquiry-whatsapp-fallback" href={buildWhatsAppUrl(buildEnquiryWhatsAppMessage(form))} target="_blank" rel="noopener noreferrer">
+          Open your enquiry in WhatsApp <ArrowRight size={14} />
+        </a>
+      </>}
       <button type="submit" className="button button-orange button-arrow form-submit" disabled={submission.state === 'sending'} data-testid={prefix === 'page' ? 'button-submit-enquiry' : 'button-submit-quick-enquiry'}>
         {submission.state === 'sending' ? 'Sending enquiry…' : 'Send enquiry'} <ArrowRight size={16} />
       </button>
-      <p className="form-note">Your details are used only to deliver this enquiry and are not stored by this website.</p>
+      <p className="form-note">Submitting attempts website email delivery and opens a WhatsApp draft. Press Send in WhatsApp to complete your enquiry.</p>
     </form>
   );
 
@@ -270,12 +301,17 @@ function Home() {
           <nav className="desktop-nav" aria-label="Main navigation">
             {navItems.map((item) => <a className="nav-link" href={item.href} key={item.href}>{item.label}</a>)}
           </nav>
+          <a className="header-whatsapp-link" href={buildGeneralWhatsAppUrl()} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp enquiry">
+            <MessageCircle size={15} /><span>WhatsApp</span>
+          </a>
           <button className="header-cta" type="button" onClick={() => startEnquiry()}>Talk to our team <ArrowRight size={15} /></button>
           <button className="menu-toggle" type="button" onClick={() => setMenuOpen((open) => !open)} aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={menuOpen}>
             {menuOpen ? <X size={21} /> : <Menu size={21} />}
           </button>
         </div>
-        {menuOpen && <nav className="mobile-nav mobile-menu" aria-label="Mobile navigation">{navItems.map((item) => <a href={item.href} key={item.href} onClick={() => setMenuOpen(false)}>{item.label}<ArrowRight size={15} /></a>)}</nav>}
+        {menuOpen && <nav className="mobile-nav mobile-menu" aria-label="Mobile navigation">
+          {navItems.map((item) => <a href={item.href} key={item.href} onClick={() => setMenuOpen(false)}>{item.label}<ArrowRight size={15} /></a>)}
+        </nav>}
       </header>
 
       <Dialog open={enquiryOpen} onOpenChange={setEnquiryOpen}>
@@ -425,7 +461,7 @@ function Home() {
                     <div className="product-actions">
                       <button type="button" className="details-toggle" aria-expanded={expanded === product.name} aria-controls={`details-${products.indexOf(product)}`} onClick={() => setExpanded(expanded === product.name ? null : product.name)} data-testid={`button-more-details-${product.slug}`}>{expanded === product.name ? 'Less detail' : 'More details'} <ChevronDown size={15} /></button>
                       <Link href={`/products/${product.slug}`} className="product-view-link" data-testid={`link-product-details-${product.slug}`}>View details <ArrowRight size={14} /></Link>
-                      <button type="button" className="enquire-link" onClick={() => startEnquiry(product.name)} data-testid={`button-enquire-${product.slug}`}>Enquire <ArrowRight size={14} /></button>
+                      <button type="button" className="enquire-link" onClick={() => startEnquiry(product.name)} data-testid={`button-enquire-${product.slug}`}>Enquire Now <ArrowRight size={14} /></button>
                     </div>
                   </div>
                 </article>
@@ -470,7 +506,10 @@ function Home() {
               <div className="eyebrow section-index">05 — CONTACT ASTRAMARK</div>
               <h2 className="display section-title" id="contact-heading">Laser machines.<br /><em>Sales & support.</em></h2>
               <p>Astramark Laser Machine Pvt. Ltd. sells laser machines and provides customer support. Contact our team in Visakhapatnam for machine enquiries and assistance.</p>
-              <button className="button button-dark button-arrow" type="button" onClick={() => startEnquiry()}>Talk to our team <ArrowRight size={16} /></button>
+              <div className="contact-actions">
+                <button className="button button-dark button-arrow" type="button" onClick={() => startEnquiry()}>Talk to our team <ArrowRight size={16} /></button>
+                <a className="button button-arrow contact-whatsapp" href={buildGeneralWhatsAppUrl()} target="_blank" rel="noopener noreferrer"><MessageCircle size={16} /> WhatsApp our team</a>
+              </div>
             </div>
             <div className="contact-grid">
               <div className="contact-card">
@@ -540,7 +579,7 @@ function Home() {
         <div className="page-width footer-main">
           <div><BrandLogo /><p>ASTRAMARK — Bringing Precision to Every Possibility.</p></div>
           <div className="footer-nav"><span className="eyebrow">CATALOGUE</span><a href="#catalogue">Browse all machines</a><a href="#catalogue">Marking & cutting</a><a href="#catalogue">Welding & jewellery</a></div>
-          <div className="footer-nav"><span className="eyebrow">CONTACT</span><a href="tel:+919177709681">+91 9177709681</a><a href="mailto:info@astramarklaser.com">info@astramarklaser.com</a><a href="mailto:support@astramarklaser.com">support@astramarklaser.com</a><a href="#contact">Address & website</a></div>
+          <div className="footer-nav"><span className="eyebrow">CONTACT</span><a href="tel:+919177709681">+91 9177709681</a><a href="mailto:info@astramarklaser.com">info@astramarklaser.com</a><a href="mailto:support@astramarklaser.com">support@astramarklaser.com</a><a href={buildGeneralWhatsAppUrl()} target="_blank" rel="noopener noreferrer"><MessageCircle size={14} /> WhatsApp enquiries</a><a href="#contact">Address & website</a></div>
           <div className="footer-nav"><span className="eyebrow">NEXT STEP</span><button type="button" className="footer-enquiry-link" onClick={() => startEnquiry()}>Machine enquiry <ArrowRight size={14} /></button><a href="#support">Sales & customer support</a><a href="#faq">Frequently asked questions</a></div>
           <a className="back-top" href="#top" aria-label="Back to top"><ArrowDown size={16} /></a>
         </div>

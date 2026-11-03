@@ -15,6 +15,14 @@ export interface EnquiryInput {
   name: string;
   /** @maxLength 254 */
   email: string;
+  /** @maxLength 120 */
+  companyName?: string;
+  /**
+     * @minLength 10
+     * @maxLength 13
+     * @pattern ^(?:\+?91)?[6-9][0-9]{9}$
+     */
+  mobile?: string;
   requestType: EnquiryInputRequestType;
   /** @maxLength 120 */
   machine: string;

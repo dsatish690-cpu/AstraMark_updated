@@ -309,3 +309,24 @@
   .pd-next-actions { grid-template-columns: 1fr; }
   .pd-phone-note { grid-column: auto; }
 }
+
+.pd-mobile-actions { display: none; }
+.pd-footer-column a[data-testid="link-footer-whatsapp"] { display: inline-flex; align-items: center; gap: 7px; }
+@media (max-width: 767px) {
+  .pd-mobile-actions { display: flex; align-items: center; gap: 8px; }
+  .pd-mobile-catalogue, .pd-mobile-whatsapp {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 38px;
+    padding: 0 10px;
+    border: 1px solid #bacbd4;
+    color: var(--pd-blue) !important;
+    text-decoration: none;
+    font-size: 10px;
+    font-weight: 650;
+    white-space: nowrap;
+  }
+  .pd-mobile-whatsapp { background: #103b61; border-color: #103b61; color: #fff !important; }
+}

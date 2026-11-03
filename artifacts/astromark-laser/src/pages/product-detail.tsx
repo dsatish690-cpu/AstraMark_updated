@@ -1,5 +1,6 @@
 import { ArrowLeft, ArrowRight, Check, MessageCircle, MoveUpRight } from 'lucide-react';
 import { products, type Product } from '@/data/products';
+import { buildGeneralWhatsAppUrl, buildProductWhatsAppMessage, buildWhatsAppUrl } from '@/lib/whatsapp';
 import './product-detail.css';
 
 type ProductDetailPageProps = {
@@ -56,6 +57,7 @@ function ProductFooter() {
           <a href="tel:+919177709682" data-testid="link-footer-phone-support">+91 9177709682</a>
           <a href="mailto:info@astramarklaser.com" data-testid="link-footer-email">info@astramarklaser.com</a>
           <a href="mailto:support@astramarklaser.com" data-testid="link-footer-support-email">support@astramarklaser.com</a>
+          <a href={buildGeneralWhatsAppUrl()} target="_blank" rel="noopener noreferrer" data-testid="link-footer-whatsapp"><MessageCircle size={14} /> WhatsApp enquiries</a>
         </div>
       </div>
       <div className="pd-footer-bottom">
@@ -67,8 +69,7 @@ function ProductFooter() {
 }
 
 function getWhatsAppHref(product: Product): string {
-  const message = `Hello Astramark, I would like to know more about the ${product.name}.`;
-  return `https://wa.me/919177709681?text=${encodeURIComponent(message)}`;
+  return buildWhatsAppUrl(buildProductWhatsAppMessage(product.name));
 }
 
 export function ProductDetailPage({ slug }: ProductDetailPageProps) {
@@ -88,11 +89,14 @@ export function ProductDetailPage({ slug }: ProductDetailPageProps) {
             <a href="/#support" data-testid="link-nav-why-astramark">Why Astramark</a>
             <a href="/#catalogue" data-testid="link-nav-machines">Machines</a>
             <a href="/#contact" data-testid="link-nav-contact">Contact</a>
-            <a className="pd-header-cta" href={`/?machine=${encodeURIComponent(product.name)}`} data-testid="link-header-enquire">
-              Talk to our team <ArrowRight size={15} />
+            <a className="pd-header-cta" href={buildGeneralWhatsAppUrl()} target="_blank" rel="noopener noreferrer" data-testid="link-header-whatsapp">
+              <MessageCircle size={15} /> WhatsApp enquiries <MoveUpRight size={14} />
             </a>
           </nav>
-          <a className="pd-mobile-catalogue" href={catalogueHref} data-testid="link-mobile-catalogue">All machines</a>
+          <div className="pd-mobile-actions">
+            <a className="pd-mobile-catalogue" href={catalogueHref} data-testid="link-mobile-catalogue">All machines</a>
+            <a className="pd-mobile-whatsapp" href={buildGeneralWhatsAppUrl()} target="_blank" rel="noopener noreferrer" data-testid="link-mobile-whatsapp"><MessageCircle size={14} /> WhatsApp</a>
+          </div>
         </div>
       </header>
 
@@ -114,7 +118,7 @@ export function ProductDetailPage({ slug }: ProductDetailPageProps) {
                 <p className="pd-description">{product.description}</p>
                 <div className="pd-hero-actions">
                   <a className="pd-button pd-button-primary" href={`/?machine=${encodeURIComponent(product.name)}`} data-testid="link-enquire-now">
-                    Enquire Now <ArrowRight size={16} />
+                    Get a Quote <ArrowRight size={16} />
                   </a>
                   <a className="pd-button pd-button-secondary" href={catalogueHref} data-testid="link-back-to-catalogue">
                     <ArrowLeft size={15} /> Back to catalogue
@@ -229,12 +233,12 @@ export function ProductDetailPage({ slug }: ProductDetailPageProps) {
             </div>
             <div className="pd-next-actions">
               <a className="pd-button pd-button-light" href={`/?machine=${encodeURIComponent(product.name)}`} data-testid="link-bottom-enquire">
-                Enquire Now <ArrowRight size={16} />
+                Get a Quote <ArrowRight size={16} />
               </a>
               <a className="pd-button pd-button-whatsapp" href={getWhatsAppHref(product)} target="_blank" rel="noreferrer" data-testid="link-whatsapp-enquiry">
-                <MessageCircle size={17} /> WhatsApp our team <MoveUpRight size={14} />
+                <MessageCircle size={17} /> Enquire on WhatsApp <MoveUpRight size={14} />
               </a>
-              <span className="pd-phone-note">+91 9177709681 <span>·</span> Sales &amp; support</span>
+              <span className="pd-phone-note">WhatsApp · +91 9177709681</span>
             </div>
           </div>
           <div className="pd-next-watermark" aria-hidden="true">ASTRAMARK</div>

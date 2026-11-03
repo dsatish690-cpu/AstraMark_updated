@@ -88,6 +88,14 @@ components:
           type: string
           format: email
           maxLength: 254
+        companyName:
+          type: string
+          maxLength: 120
+        mobile:
+          type: string
+          minLength: 10
+          maxLength: 13
+          pattern: '^(?:\+?91)?[6-9][0-9]{9}$'
         requestType:
           type: string
           enum:
