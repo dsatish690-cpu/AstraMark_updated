@@ -1,15 +1,16 @@
-import batteryWeldingImage from '@assets/astramark-product-images/battery-welding.png';
-import customizedFiberMarkingImage from '@assets/astramark-product-images/customized-fiber-marking.png';
-import co2CuttingImage from '@assets/astramark-product-images/co2-cutting-engraving.png';
-import dieMouldWeldingImage from '@assets/astramark-product-images/die-mould-welding.png';
-import fiberMarkingImage from '@assets/astramark-product-images/fiber-marking.png';
-import fiberCuttingImage from '@assets/astramark-product-images/fiber-sheet-cutting.png';
-import fiberWeldingImage from '@assets/astramark-product-images/fiber-welding.png';
-import jewelleryCuttingImage from '@assets/astramark-product-images/jewellery-cutting-engraving.png';
-import jewellerySolderingImage from '@assets/astramark-product-images/jewellery-soldering.png';
-import onlineMarkingImage from '@assets/astramark-product-images/online-flying-marking.png';
-import pipeCuttingImage from '@assets/astramark-product-images/pipe-cutting.png';
-import uvMarkingImage from '@assets/astramark-product-images/uv-marking.png';
+// Direct static paths to files in public/images/ (bypasses Vite build-time crash)
+const batteryWeldingImage = '/images/battery-welding-astramark.jpeg';
+const customizedFiberMarkingImage = '/images/customized-fiber-marking.jpeg';
+const co2CuttingImage = '/images/co2-cutting-engraving.jpeg';
+const dieMouldWeldingImage = '/images/die-mould-welding.jpeg';
+const fiberMarkingImage = '/images/fiber-marking.jpeg';
+const fiberCuttingImage = '/images/fiber-sheet-cutting.jpeg';
+const fiberWeldingImage = '/images/fiber-welding.jpeg';
+const jewelleryCuttingImage = '/images/jewellery-cutting-engraving.jpeg';
+const jewellerySolderingImage = '/images/jewellery-soldering.jpeg';
+const onlineMarkingImage = '/images/online-flying-marking.jpeg';
+const pipeCuttingImage = '/images/pipe-cutting.jpeg';
+const uvMarkingImage = '/images/uv-marking.jpeg';
 
 export type Product = {
   slug: string;
